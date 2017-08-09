@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_cb4590b4",
+        "filename": "elasticstack/elasticsearch/conf/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 257
+      },
+      "writtenOn": "2017-08-09T07:30:23Z",
+      "side": 1,
+      "message": "mention this as \u0027canonical path\u0027",
+      "range": {
+        "startLine": 13,
+        "startChar": 10,
+        "endLine": 13,
+        "endChar": 14
+      },
+      "revId": "61088ec4731cfac452805fa90db91db1c81dd024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_ab1254b2",
+        "filename": "elasticstack/elasticsearch/conf/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 257
+      },
+      "writtenOn": "2017-08-09T07:30:23Z",
+      "side": 1,
+      "message": "mention this as \u0027canonical path\u0027",
+      "range": {
+        "startLine": 17,
+        "startChar": 10,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "61088ec4731cfac452805fa90db91db1c81dd024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_eb484cce",
+        "filename": "elasticstack/elasticsearch/conf/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 257
+      },
+      "writtenOn": "2017-08-09T07:30:23Z",
+      "side": 1,
+      "message": "should be \u0027once\u0027 or \u0027after\u0027 the values.",
+      "range": {
+        "startLine": 46,
+        "startChar": 53,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "61088ec4731cfac452805fa90db91db1c81dd024",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
