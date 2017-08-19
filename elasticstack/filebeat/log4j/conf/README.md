@@ -8,6 +8,7 @@ This filebeat configuration is for ONAP components which uses log4j 1.2.X. The c
 #File(s) provided for filebeat deployment
 -----------------------------------------
 1. filebeat.yml
+2. filebeat.properties
 
 #Instructions for Deployment
 ----------------------------
@@ -33,3 +34,4 @@ This filebeat configuration is for ONAP components which uses log4j 1.2.X. The c
                      Container path - /usr/share/filebeat/data
 
 9. The third volume mapping is specific to the particular filebeat on that host. This path i.e. (/usr/share/onap/filebeat/data/) should not be shared and its contents should be unique to that host.
+10. The filebeat.properties need not be deployed after the values from it are used.
