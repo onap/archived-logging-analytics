@@ -16,7 +16,7 @@ ONAP consists of many components and containers, and consequently writes
 to many logfiles. The volume of logger output may be enormous,
 especially when debugging. Large, disparate logfiles are difficult to
 monitor and analyze, and tracing requests across many files, file
-systems and containers is untenable without tooling. 
+systems and containers is untenable without tooling.
 
 The problem of decentralized logger output is addressed by analytics
 pipelines such as \ `*Elastic
@@ -36,7 +36,7 @@ with the handling and propagation of contextual information such as
 transaction identifiers (presently passed as \ **X-ECOMP-RequestID **-
 to be\ ** X-ONAP-RequestID**). This propagation is critical to tracing
 requests as they traverse ONAP and related systems, and is the basis for
-many analytics functions. 
+many analytics functions.
 
 Rationalized logger configuration and output also paves the way for
 other high-performance logger transports, including publishing directly
@@ -67,7 +67,7 @@ The purpose of ONAP logging is to capture information needed to operate,
 troubleshoot and report on the performance of the ONAP platform and its
 constituent components. Log records may be viewed and consumed directly
 by users and systems, indexed and loaded into a datastore, and used to
-compute metrics and generate reports. 
+compute metrics and generate reports.
 
 The processing of a single client request will often involve multiple
 ONAP components and/or subcomponents (interchangeably referred to as
@@ -80,7 +80,7 @@ components involved in its processing.
 A reference configuration of \ `*Elastic
 Stack * <https://www.elastic.co/products>`__\ can be deployed
 using \ `*ONAP Operations
-Manager* <https://wiki.onap.org/display/DW/ONAP+Operations+Manager+Project>`__. 
+Manager* <https://wiki.onap.org/display/DW/ONAP+Operations+Manager+Project>`__.
 
 This document gives conventions you can follow to generate conformant,
 indexable logging output from your component.
@@ -106,7 +106,7 @@ familiar Logger contracts with features like:
 
 -  Localization.
 
--  Error codes. 
+-  Error codes.
 
 -  Generated wiki documentation.
 
@@ -115,7 +115,7 @@ familiar Logger contracts with features like:
 EELF is a facade, so logging output is configured in two ways:
 
 1. By selection of a logging provider such as Logback or Log4j,
-   typically via the classpath. 
+   typically via the classpath.
 
 2. By way of a provider configuration document,
    typically \ **logback.xml** or **log4j.xml**.
@@ -129,7 +129,7 @@ SLF4J
 masterpiece. It combines what's common to all major, modern Java logging
 providers into a single interface. This decouples the caller from the
 provider, and encourages the use of what's universal, familiar and
-proven. 
+proven.
 
 EELF also logs via SLF4J's abstractions.
 
@@ -182,20 +182,20 @@ The purpose of logging is to capture diagnostic information.
 
 An important aspect of this is analytics, which requires tracing of
 requests between components. In a large, distributed system such as ONAP
-this is critical to understanding behavior and performance. 
+this is critical to understanding behavior and performance.
 
 Messages, Levels, Components and Categories
 --------------------------------------------
 
 It isn't the aim of this document to reiterate the basics, so advice
-here is general: 
+here is general:
 
--  Use a logger. Consider using EELF. 
+-  Use a logger. Consider using EELF.
 
 -  Write log messages in English.
 
 -  Write meaningful messages. Consider what will be useful to consumers
-   of logger output. 
+   of logger output.
 
 -  Use errorcodes to characterise exceptions.
 
@@ -206,7 +206,7 @@ here is general:
 
 -  Log for analytics as well as troubleshooting.
 
-Others have written extensively on this: 
+Others have written extensively on this:
 
 -  `*http://www.masterzen.fr/2013/01/13/the-10-commandments-of-logging/* <http://www.masterzen.fr/2013/01/13/the-10-commandments-of-logging/>`__
 
@@ -230,86 +230,58 @@ message is serialized as unordered name-value pairs (see `*Text
 Output* <https://wiki.onap.org/display/DW/ONAP+Application+Logging+Guidelines+v1.1#ONAPApplicationLoggingGuidelinesv1.1-TextOutput>`__).
 
 A good discussion of MDCs can be found
-at \ `*https://logback.qos.ch/manual/mdc.html* <https://logback.qos.ch/manual/mdc.html>`__. 
+at \ `*https://logback.qos.ch/manual/mdc.html* <https://logback.qos.ch/manual/mdc.html>`__.
 
 **MDCs:**
 
--  Must be set as early in invocation as possible. 
+-  Must be set as early in invocation as possible.
 
--  Must be unset on exit. 
+-  Must be unset on exit.
 
 Logging
 -------
 
 **Via SLF4J:**
 
-+------+-------------------------------------------------------------------------------------+
-| 1    | import java.util.UUID;                                                              |
-|      |                                                                                     |
-| 2    | import org.slf4j.Logger;                                                            |
-|      |                                                                                     |
-| 3    | import org.slf4j.LoggerFactory;                                                     |
-|      |                                                                                     |
-| 4    | import org.slf4j.MDC;                                                               |
-|      |                                                                                     |
-| 5    | // ...                                                                              |
-|      |                                                                                     |
-| 6    | final Logger logger = LoggerFactory.getLogger(this.getClass());                     |
-|      |                                                                                     |
-| 7    | MDC.put("SomeUUID", UUID.randomUUID().toString());                                  |
-|      |                                                                                     |
-| 8    | try {                                                                               |
-|      |                                                                                     |
-| 9    |     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");   |
-|      |                                                                                     |
-| 10   |     // ...                                                                          |
-|      |                                                                                     |
-| 11   | }                                                                                   |
-|      |                                                                                     |
-| 12   | finally {                                                                           |
-|      |                                                                                     |
-| 13   |     MDC.clear();                                                                    |
-|      |                                                                                     |
-| 14   | }                                                                                   |
-+------+-------------------------------------------------------------------------------------+
+.. code-block:: java
+
+ import java.util.UUID;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.slf4j.MDC;
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ MDC.put("SomeUUID", UUID.randomUUID().toString());
+ try {
+     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");
+ // ...
+ }
+ finally {
+     MDC.clear();
+ }
 
 EELF doesn't directly support MDCs, but SLF4J will receive any MDC that
 is set (where **com.att.eelf.configuration.SLF4jWrapper** is the
 configured EELF provider):
 
-+------+-------------------------------------------------------------------------------------+
-| 1    | import java.util.UUID;                                                              |
-|      |                                                                                     |
-| 2    | import org.slf4j.Logger;                                                            |
-|      |                                                                                     |
-| 3    | import org.slf4j.LoggerFactory;                                                     |
-|      |                                                                                     |
-| 4    | import org.slf4j.MDC;                                                               |
-|      |                                                                                     |
-| 5    | import com.att.eelf.configuration.EELFLogger;                                       |
-|      |                                                                                     |
-| 6    | import com.att.eelf.configuration.EELFManager;                                      |
-|      |                                                                                     |
-| 7    | // ...                                                                              |
-|      |                                                                                     |
-| 8    | final EELFLogger logger = EELFManager.getInstance().getLogger(this.getClass());     |
-|      |                                                                                     |
-| 9    | MDC.put("SomeUUID", UUID.randomUUID().toString());                                  |
-|      |                                                                                     |
-| 10   | try {                                                                               |
-|      |                                                                                     |
-| 11   |     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");   |
-|      |                                                                                     |
-| 12   |     // ...                                                                          |
-|      |                                                                                     |
-| 13   | }                                                                                   |
-|      |                                                                                     |
-| 14   | finally {                                                                           |
-|      |                                                                                     |
-| 15   |     MDC.clear();                                                                    |
-|      |                                                                                     |
-| 16   | }                                                                                   |
-+------+-------------------------------------------------------------------------------------+
+.. code-block:: java
+
+ import java.util.UUID;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.slf4j.MDC;
+ import com.att.eelf.configuration.EELFLogger;
+ import com.att.eelf.configuration.EELFManager;
+ // ...
+ final EELFLogger logger = EELFManager.getInstance().getLogger(this.getClass());
+ MDC.put("SomeUUID", UUID.randomUUID().toString());
+ try {
+     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");
+     // ...
+ }
+ finally {
+     MDC.clear();
+ }
 
 Serializing
 -----------
@@ -323,9 +295,9 @@ Output of MDCs must ensure that:
 
 Escaping in Logback configuration can be achieved with:
 
-+-----+------------------------------------------------------------------+
-| 1   | %replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}   |
-+-----+------------------------------------------------------------------+
+.. code-block:: bash
+
+ %replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
 
 MDC - RequestID
 ---------------
@@ -340,7 +312,7 @@ ONAP components involved in its processing.
 
 This value:
 
--  Is logged as a \ **RequestID** MDC. 
+-  Is logged as a \ **RequestID** MDC.
 
 -  Is propagated between components in REST calls as
    an \ **X-TransactionID** HTTP header.
@@ -348,37 +320,26 @@ This value:
 Receiving the \ **X-TransactionID** will vary by component according to
 APIs and frameworks. In general:
 
-+-----+--------------------------------------------------------------------------+
-| 1   | import javax.ws.rs.core.HttpHeaders;                                     |
-|     |                                                                          |
-| 2   | // ...                                                                   |
-|     |                                                                          |
-| 3   | final HttpHeaders headers = ...;                                         |
-|     |                                                                          |
-| 4   | // ...                                                                   |
-|     |                                                                          |
-| 5   | String txId = headers.getRequestHeaders().getFirst("X-TransactionID");   |
-|     |                                                                          |
-| 6   | if (StringUtils.isBlank(txId)) {                                         |
-|     |                                                                          |
-| 7   |     txId = UUID.randomUUID().toString();                                 |
-|     |                                                                          |
-| 8   | }                                                                        |
-|     |                                                                          |
-| 9   | MDC.put("RequestID", txID);                                              |
-+-----+--------------------------------------------------------------------------+
+.. code-block:: java
+
+  import javax.ws.rs.core.HttpHeaders;
+  // ...
+  final HttpHeaders headers = ...;
+  // ...
+  String txId = headers.getRequestHeaders().getFirst("X-TransactionID");
+  if (StringUtils.isBlank(txId)) {
+      txId = UUID.randomUUID().toString();
+  }
+  MDC.put("RequestID", txID);
 
 Setting the \ **X-TransactionID** likewise will vary. For example:
 
-+-----+---------------------------------------------------+
-| 1   | final String txID = MDC.get("RequestID");         |
-|     |                                                   |
-| 2   | HttpURLConnection cx = ...;                       |
-|     |                                                   |
-| 3   | // ...                                            |
-|     |                                                   |
-| 4   | cx.setRequestProperty("X-TransactionID", txID);   |
-+-----+---------------------------------------------------+
+.. code-block:: java
+
+ final String txID = MDC.get("RequestID");
+ HttpURLConnection cx = ...;
+ // ...
+ cx.setRequestProperty("X-TransactionID", txID);
 
 MDC - InvocationID
 ------------------
@@ -395,7 +356,7 @@ invocation, e.g. when a request is retried.
 derived. This requires that:
 
 -  The relationship between \ **RequestID** and **InvocationID** is
-   reported. 
+   reported.
 
 -  The relationship between caller and recipient is reported for each
    invocation.
@@ -405,7 +366,7 @@ The proposed approach is that:
 -  Callers:
 
    -  Issue a new, unique \ **InvocationID** UUID for each downstream
-      call they make. 
+      call they make.
 
    -  Log the new \ **InvocationID**, indicating the intent to invoke:
 
@@ -420,14 +381,14 @@ The proposed approach is that:
 -  Invoked components:
 
    -  Retrieve the \ **InvocationID** from REST headers upon invocation,
-      or generate a UUID default. 
+      or generate a UUID default.
 
    -  Set the \ **InvocationID** MDC.
 
    -  Write a log entry with the Marker \ **ENTRY**. (In EELF this will
       be to the AUDIT log).
 
-   -  Act as per Callers in all downstream requests. 
+   -  Act as per Callers in all downstream requests.
 
    -  Write a log entry with the Marker \ **EXIT** upon return. (In EELF
       this will be to the METRIC log).
@@ -436,7 +397,7 @@ The proposed approach is that:
 
 That seems onerous, but:
 
--  It's only a few calls. 
+-  It's only a few calls.
 
 -  It can be largely abstracted in the case of EELF logging.
 
@@ -537,11 +498,10 @@ SDC-BE
 
 20170907: audit.log
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| root@ip-172-31-93-160:/dockerdata-nfs/onap/sdc/logs/SDC/SDC-BE# tail -f audit.log                                                                                                                                             |
-|                                                                                                                                                                                                                               |
-| 2017-09-07T18:04:03.679Z\|\|\|\|\|qtp1013423070-72297\|\|ASDC\|SDC-BE\|\|\|\|\|\|\|N/A\|INFO\|\|\|\|10.42.88.30\|\|o.o.s.v.r.s.VendorLicenseModelsImpl\|\|ActivityType=<audit>, Desc=< --Audit-- Create VLM. VLM Name: lm4>   |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+.. code-block:: bash
+
+ root@ip-172-31-93-160:/dockerdata-nfs/onap/sdc/logs/SDC/SDC-BE# tail -f audit.log
+ 2017-09-07T18:04:03.679Z\|\|\|\|\|qtp1013423070-72297\|\|ASDC\|SDC-BE\|\|\|\|\|\|\|N/A\|INFO\|\|\|\|10.42.88.30\|\|o.o.s.v.r.s.VendorLicenseModelsImpl\|\|ActivityType=<audit>, Desc=< --Audit-- Create VLM. VLM Name: lm4>
 
 **TODO: this is the earlier output format. Let's find an example which matches the latest line format.**
 
@@ -550,11 +510,11 @@ Markers
 
 Markers differ from MDCs in two important ways:
 
-1. They have a name, but no value. They are a tag. 
+1. They have a name, but no value. They are a tag.
 
 2. Their scope is limited to logger calls which specifically reference
    them; they are
-   not \ `*ThreadLocal* <https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html>`__. 
+   not \ `*ThreadLocal* <https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html>`__.
 
 Logging
 -------
@@ -563,23 +523,16 @@ Logging
 Via SLF4J:
 **********
 
-+-----+-----------------------------------------------------------------------+
-| 1   | import org.slf4j.Logger;                                              |
-|     |                                                                       |
-| 2   | import org.slf4j.LoggerFactory;                                       |
-|     |                                                                       |
-| 3   | import org.slf4j.Marker;                                              |
-|     |                                                                       |
-| 4   | import org.slf4j.MarkerFactory;                                       |
-|     |                                                                       |
-| 5   | // ...                                                                |
-|     |                                                                       |
-| 6   | final Logger logger = LoggerFactory.getLogger(this.getClass());       |
-|     |                                                                       |
-| 7   | final Marker marker = MarkerFactory.getMarker("MY\_MARKER");          |
-|     |                                                                       |
-| 8   | logger.warn(marker, "This warning has a 'MY\_MARKER' annotation.");   |
-+-----+-----------------------------------------------------------------------+
+.. code-block:: java
+
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.slf4j.Marker;
+ import org.slf4j.MarkerFactory;
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ final Marker marker = MarkerFactory.getMarker("MY\_MARKER");
+ logger.warn(marker, "This warning has a 'MY\_MARKER' annotation.");
 
 EELF does not allow Markers to be set directly. See notes on
 the \ **InvocationID** MDC.
@@ -592,9 +545,9 @@ contain problematic characters than MDC values.
 
 Escaping in Logback configuration can be achieved with:
 
-+-----+---------------------------------------------------------------------+
-| 1   | %replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}   |
-+-----+---------------------------------------------------------------------+
+.. code-block:: bash
+
+ %replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
 
 Marker - ENTRY
 --------------
@@ -602,35 +555,25 @@ Marker - ENTRY
 This should be reported as early in invocation as possible, immediately
 after setting the \ **RequestID** and **InvocationID** MDCs.
 
-It can be automatically set by EELF, and written to the AUDIT log. 
+It can be automatically set by EELF, and written to the AUDIT log.
 
-It must be manually set otherwise. 
+It must be manually set otherwise.
 
 *****
 EELF
 *****
-
-**EELF**
-
-+-----+----------+
-| 1   | //TODO   |
-+-----+----------+
 
 *****
 SLF4J
 *****
 
 **SLF4J**
+.. code-block:: java
 
-+-----+------------------------------------------------------------------------+
-| 1   | public static final Marker ENTRY = MarkerFactory.getMarker("ENTRY");   |
-|     |                                                                        |
-| 2   | // ...                                                                 |
-|     |                                                                        |
-| 3   | final Logger logger = LoggerFactory.getLogger(this.getClass());        |
-|     |                                                                        |
-| 4   | logger.debug(ENTRY, "Entering.");                                      |
-+-----+------------------------------------------------------------------------+
+ public static final Marker ENTRY = MarkerFactory.getMarker("ENTRY");
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ logger.debug(ENTRY, "Entering.");
 
 Marker - EXIT
 -------------
@@ -639,7 +582,7 @@ This should be reported as late in invocation as possible, immediately
 before unsetting the \ **RequestID** and **InvocationID** MDCs.
 
 It can be automatically reported by EELF, and written to the METRIC
-log. 
+log.
 
 It must be manually set otherwise.
 
@@ -647,76 +590,43 @@ It must be manually set otherwise.
 EELF
 *****
 
-**EELF**
-
-+-----+----------+
-| 1   | //TODO   |
-+-----+----------+
-
 ******
 SLF4J
 ******
 
 **SLF4J**
 
-+-----+----------------------------------------------------------------------+
-| 1   | public static final Marker EXIT = MarkerFactory.getMarker("EXIT");   |
-|     |                                                                      |
-| 2   | // ...                                                               |
-|     |                                                                      |
-| 3   | final Logger logger = LoggerFactory.getLogger(this.getClass());      |
-|     |                                                                      |
-| 4   | logger.debug(EXIT, "Exiting.");                                      |
-+-----+----------------------------------------------------------------------+
+.. code-block:: java
+
+ public static final Marker EXIT = MarkerFactory.getMarker("EXIT");
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ logger.debug(EXIT, "Exiting.");
 
 Marker - INVOKE
 ---------------
 
 This should be reported by the caller of another ONAP component via
 REST, including a newly allocated \ **InvocationID**, which will be
-passed to the caller. 
-
-******
-SLF4J
-******
+passed to the caller.
 
 **SLF4J**
 
-+------+--------------------------------------------------------------------------+
-| 1    | public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");   |
-|      |                                                                          |
-| 2    | // ...                                                                   |
-|      |                                                                          |
-| 3    |                                                                          |
-|      |                                                                          |
-| 4    | // Generate and report invocation ID.                                    |
-|      |                                                                          |
-| 5    |                                                                          |
-|      |                                                                          |
-| 6    | final String invocationID = UUID.randomUUID().toString();                |
-|      |                                                                          |
-| 7    | MDC.put(MDC\_INVOCATION\_ID, invocationID);                              |
-|      |                                                                          |
-| 8    | try {                                                                    |
-|      |                                                                          |
-| 9    |     logger.debug(INVOKE\_SYNCHRONOUS, "Invoking synchronously ... ");    |
-|      |                                                                          |
-| 10   | }                                                                        |
-|      |                                                                          |
-| 11   | finally {                                                                |
-|      |                                                                          |
-| 12   |     MDC.remove(MDC\_INVOCATION\_ID);                                     |
-|      |                                                                          |
-| 13   | }                                                                        |
-|      |                                                                          |
-| 14   |                                                                          |
-|      |                                                                          |
-| 15   | // Pass invocationID as HTTP X-InvocationID header.                      |
-|      |                                                                          |
-| 16   |                                                                          |
-|      |                                                                          |
-| 17   | callDownstreamSystem(invocationID, ... );                                |
-+------+--------------------------------------------------------------------------+
+.. code-block:: java
+
+ public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
+ // ...
+ // Generate and report invocation ID.
+ final String invocationID = UUID.randomUUID().toString();
+ MDC.put(MDC_INVOCATION_ID, invocationID);
+ try {
+     logger.debug(INVOKE_SYNCHRONOUS, "Invoking synchronously ... ");
+ }
+ finally {
+     MDC.remove(MDC_INVOCATION_ID);
+ }
+ // Pass invocationID as HTTP X-InvocationID header.
+ callDownstreamSystem(invocationID, ... );
 
 **TODO: EELF, without changing published APIs.**
 
@@ -725,62 +635,34 @@ Marker - SYNCHRONOUS
 
 This should accompany \ **INVOKE** when the invocation is synchronous.
 
-******
-SLF4J
-******
-
 **SLF4J**
 
-+------+-------------------------------------------------------------------------+
-| 1    | public static final Marker INVOKE\_SYNCHRONOUS;                         |
-|      |                                                                         |
-| 2    | static {                                                                |
-|      |                                                                         |
-| 3    |     INVOKE\_SYNCHRONOUS = MarkerFactory.getMarker("INVOKE");            |
-|      |                                                                         |
-| 4    |     INVOKE\_SYNCHRONOUS.add(MarkerFactory.getMarker("SYNCHRONOUS"));    |
-|      |                                                                         |
-| 5    | }                                                                       |
-|      |                                                                         |
-| 6    | // ...                                                                  |
-|      |                                                                         |
-| 7    |                                                                         |
-|      |                                                                         |
-| 8    | // Generate and report invocation ID.                                   |
-|      |                                                                         |
-| 9    |                                                                         |
-|      |                                                                         |
-| 10   | final String invocationID = UUID.randomUUID().toString();               |
-|      |                                                                         |
-| 11   | MDC.put(MDC\_INVOCATION\_ID, invocationID);                             |
-|      |                                                                         |
-| 12   | try {                                                                   |
-|      |                                                                         |
-| 13   |     logger.debug(INVOKE\_SYNCHRONOUS, "Invoking synchronously ... ");   |
-|      |                                                                         |
-| 14   | }                                                                       |
-|      |                                                                         |
-| 15   | finally {                                                               |
-|      |                                                                         |
-| 16   |     MDC.remove(MDC\_INVOCATION\_ID);                                    |
-|      |                                                                         |
-| 17   | }                                                                       |
-|      |                                                                         |
-| 18   |                                                                         |
-|      |                                                                         |
-| 19   | // Pass invocationID as HTTP X-InvocationID header.                     |
-|      |                                                                         |
-| 20   |                                                                         |
-|      |                                                                         |
-| 21   | callDownstreamSystem(invocationID, ... );                               |
-+------+-------------------------------------------------------------------------+
+.. code-block:: java
+
+ public static final Marker INVOKE_SYNCHRONOUS;
+ static {
+     INVOKE_SYNCHRONOUS = MarkerFactory.getMarker("INVOKE");
+     INVOKE_SYNCHRONOUS.add(MarkerFactory.getMarker("SYNCHRONOUS"));
+ }
+ // ...
+ // Generate and report invocation ID.
+ final String invocationID = UUID.randomUUID().toString();
+ MDC.put(MDC_INVOCATION_ID, invocationID);
+ try {
+     logger.debug(INVOKE_SYNCHRONOUS, "Invoking synchronously ... ");
+ }
+ finally {
+     MDC.remove(MDC_INVOCATION_ID);
+ }
+ // Pass invocationID as HTTP X-InvocationID header.
+ callDownstreamSystem(invocationID, ... );
 
 **TODO: EELF, without changing published APIs.**
 
 Errorcodes
 ==========
 
-Errorcodes are reported as MDCs. 
+Errorcodes are reported as MDCs.
 
 Exceptions should be accompanied by an errrorcode. Typically this is
 achieved by incorporating errorcodes into your exception hierarchy and
@@ -790,7 +672,7 @@ methods) \ **EELFResolvableErrorEnum**.
 
 A common convention is for errorcodes to have two components:
 
-1. A \ **prefix**, which identifies the origin of the error. 
+1. A \ **prefix**, which identifies the origin of the error.
 
 2. A \ **suffix**, which identifies the kind of error.
 
@@ -799,16 +681,16 @@ one component.
 
 For example:
 
-+-----+-------------------------------+
-| 1   | COMPONENT\_X.STORAGE\_ERROR   |
-+-----+-------------------------------+
+::
+
+ COMPONENT\_X.STORAGE\_ERROR
 
 Output Format
 -------------
 
 Several considerations:
 
-1. Logs should be human-readable (within reason). 
+1. Logs should be human-readable (within reason).
 
 2. Shipper and indexing performance and durability depends on logs that
    can be parsed quickly and reliably.
@@ -828,57 +710,39 @@ machine-readable logs. This means:
    replace tabs in their content.
 
 -  Escaping all newlines with \ **\\n** so that each entry is on one
-   line. 
+   line.
 
 In logback, this looks like:
 
-+-----+-------------------------------------------------------------------------------+
-| 1   | <property name="defaultPattern" value="%nopexception%logger                   |
-|     |                                                                               |
-| 2   | \\t%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}                                    |
-|     |                                                                               |
-| 3   | \\t%level                                                                     |
-|     |                                                                               |
-| 4   | \\t%replace(%replace(%message){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}         |
-|     |                                                                               |
-| 5   | \\t%replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}             |
-|     |                                                                               |
-| 6   | \\t%replace(%replace(%rootException){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}   |
-|     |                                                                               |
-| 7   | \\t%replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}          |
-|     |                                                                               |
-| 8   | \\t%thread                                                                    |
-|     |                                                                               |
-| 9   | \\t%n"/>                                                                      |
-+-----+-------------------------------------------------------------------------------+
+::
+
+ <property name="defaultPattern" value="%nopexception%logger
+ %date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}
+ %level
+ %replace(%replace(%message){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %replace(%replace(%rootException){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %thread
+ %n"/>
 
 The output of which, with MDCs, a Marker and a nested exception, with newlines added for readability looks like:
 
 TODO: remove tab below
 
-+------+-----------------------------------------------------------------------------------------------------------------------------+
-| 1    | org.onap.example.component1.subcomponent1.LogbackTest                                                                       |
-|      |                                                                                                                             |
-| 2    | \\t2017-08-06T16:09:03.594Z                                                                                                 |
-|      |                                                                                                                             |
-| 3    | \\tERROR                                                                                                                    |
-|      |                                                                                                                             |
-| 4    | \\tHere's an error, that's usually bad                                                                                      |
-|      |                                                                                                                             |
-| 5    | \\tkey1=value1, key2=value2 with space, key5=value5"with"quotes, key3=value3\\nwith\\nnewlines, key4=value4\\twith\\ttabs   |
-|      |                                                                                                                             |
-| 6    | \\tjava.lang.RuntimeException: Here's Johnny                                                                                |
-|      |                                                                                                                             |
-| 7    | \\n\\tat org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:24)                                    |
-|      |                                                                                                                             |
-| 8    | \\nWrapped by: java.lang.RuntimeException: Little pigs, little pigs, let me come in                                         |
-|      |                                                                                                                             |
-| 9    | \\n\\tat org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:27)                                    |
-|      |                                                                                                                             |
-| 10   | \\tAMarker1                                                                                                                 |
-|      |                                                                                                                             |
-| 11   | \\tmain                                                                                                                     |
-+------+-----------------------------------------------------------------------------------------------------------------------------+
+::
+
+ org.onap.example.component1.subcomponent1.LogbackTest
+ 2017-08-06T16:09:03.594Z
+ ERROR
+ Here's an error, that's usually bad
+ key1=value1, key2=value2 with space, key5=value5"with"quotes, key3=value3 with newlines, key4=value4 with tabs
+ java.lang.RuntimeException: Here's Johnny
+ at org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:24)
+ Wrapped by: java.lang.RuntimeException: Little pigs, little pigs, let me come in
+ at org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:27)
+ AMarker1
+ main
 
 Default Logstash indexing rules understand output in this format.
 
@@ -887,10 +751,10 @@ XML Output
 **********
 
 For Log4j 1.X output, since escaping is not supported, the best
-alternative is to emit logs in XML format. 
+alternative is to emit logs in XML format.
 
 There may be other instances where XML (or JSON) output may be
-desirable. Default indexing rules support 
+desirable. Default indexing rules support.
 
 Default Logstash indexing rules understand the XML output of \ `*Log4J's
 XMLLayout* <https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/XMLLayout.html>`__.
@@ -899,14 +763,14 @@ Output Location
 ===============
 
 Standardization of output locations makes logs easier to locate and ship
-for indexing. 
+for indexing.
 
 Logfiles should default to beneath \ **/var/log**, and
 beneath \ **/var/log/ONAP** in the case of core ONAP components:
 
-+-----+-----------------------------------------------------+
-| 1   | /var/log/ONAP/<component>[/<subcomponent>]/\*.log   |
-+-----+-----------------------------------------------------+
+.. code-block:: bash
+
+ /var/log/ONAP/<component>[/<subcomponent>]/\*.log
 
 Configuration
 =============
@@ -922,9 +786,9 @@ Locations
 All logger provider configuration document locations namespaced by
 component and (if applicable) subcomponent by default:
 
-+-----+---------------------------------------------------------+
-| 1   | /etc/onap/<component>[/<subcomponent>]/<provider>.xml   |
-+-----+---------------------------------------------------------+
+.. code-block:: bash
+
+ /etc/onap/<component>[/<subcomponent>]/<provider>.xml
 
 Where \ **<provider>.xml**, will typically be one of:
 
@@ -939,16 +803,16 @@ Reconfiguration
 
 Logger providers should reconfigure themselves automatically when their
 configuration file is rewritten. All major providers should support
-this. 
+this.
 
-The default interval is 10s. 
+The default interval is 10s.
 
 Overrides
 =========
 
 The location of the configuration file MAY be overrideable, for example
 by an environment variable, but this is left for individual components
-to decide. 
+to decide.
 
 Archetypes
 ============
@@ -962,49 +826,38 @@ Retention
 =========
 
 Logfiles are often large. Logging providers allow retention policies to
-be configured. 
+be configured.
 
 Retention has to balance:
 
--  The need to index logs before they're removed. 
+-  The need to index logs before they're removed.
 
--  The need to retain logs for other (including regulatory) purposes. 
+-  The need to retain logs for other (including regulatory) purposes.
 
 Defaults are subject to change. Currently they are:
 
-1. Files <= 50MB before rollover. 
+1. Files <= 50MB before rollover.
 
-2. Files retain for 30 days. 
+2. Files retain for 30 days.
 
-3. Total files capped at 10GB. 
+3. Total files capped at 10GB.
 
 In Logback configuration XML:
 
-+------+-------------------------------------------------------------------------------------------------------------+
-| 1    | <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">                              |
-|      |                                                                                                             |
-| 2    |     <file>${outputDirectory}/${outputFilename}.log</file>                                                   |
-|      |                                                                                                             |
-| 3    |     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">                       |
-|      |                                                                                                             |
-| 4    |         <fileNamePattern>${outputDirectory}/${outputFilename}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>   |
-|      |                                                                                                             |
-| 5    |         <maxFileSize>50MB</maxFileSize>                                                                     |
-|      |                                                                                                             |
-| 6    |         <maxHistory>30</maxHistory>                                                                         |
-|      |                                                                                                             |
-| 7    |         <totalSizeCap>10GB</totalSizeCap>                                                                   |
-|      |                                                                                                             |
-| 8    |     </rollingPolicy>                                                                                        |
-|      |                                                                                                             |
-| 9    |     <encoder>                                                                                               |
-|      |                                                                                                             |
-| 10   |         <!-- ... -->                                                                                        |
-|      |                                                                                                             |
-| 11   |     </encoder>                                                                                              |
-|      |                                                                                                             |
-| 12   | </appender>                                                                                                 |
-+------+-------------------------------------------------------------------------------------------------------------+
+.. code-block:: xml
+
+ <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+     <file>${outputDirectory}/${outputFilename}.log</file>
+     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+         <fileNamePattern>${outputDirectory}/${outputFilename}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+         <maxFileSize>50MB</maxFileSize>
+         <maxHistory>30</maxHistory>
+         <totalSizeCap>10GB</totalSizeCap>
+     </rollingPolicy>
+     <encoder>
+         <!-- ... -->
+     </encoder>
+ </appender>
 
 Types of EELF Logs
 ==================
@@ -1021,7 +874,7 @@ to four separate files:
 4. debug
 
 This applies only to EELF logging. Components which log directly to a
-provider may choose to emit the same set of logs, but most do not. 
+provider may choose to emit the same set of logs, but most do not.
 
 Audit Log
 ---------
@@ -1090,15 +943,15 @@ New ONAP Component Checklist
 
 By following a few simple rules:
 
--  Your component's output will be indexed automatically. 
+-  Your component's output will be indexed automatically.
 
 -  Analytics will be able to trace invocation through your component.
 
 Obligations fall into two categories:
 
-1. Conventions regarding configuration, line format and output. 
+1. Conventions regarding configuration, line format and output.
 
-2. Ensuring the propagation of contextual information. 
+2. Ensuring the propagation of contextual information.
 
 You must:
 
@@ -1124,10 +977,10 @@ You must:
            Invocation
            ID* <https://wiki.onap.org/display/DW/ONAP+Application+Logging+Guidelines+v1.1#ONAPApplicationLoggingGuidelinesv1.1-MDC-InvocationID>`__.
 
-      ii.  Report \ **INVOKE** and **SYNCHRONOUS** markers in caller. 
+      ii.  Report \ **INVOKE** and **SYNCHRONOUS** markers in caller.
 
-      iii. Report \ **ENTRY** and **EXIT** markers in recipient. 
+      iii. Report \ **ENTRY** and **EXIT** markers in recipient.
 
 6. Write useful logs!
 
- They are unordered.
+ They are unordered.
