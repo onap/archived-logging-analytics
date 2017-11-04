@@ -223,73 +223,45 @@ MDCs:
 
 Via SLF4J:
 
-+------+-------------------------------------------------------------------------------------+
-| 1    | import java.util.UUID;                                                              |
-|      |                                                                                     |
-| 2    | import org.slf4j.Logger;                                                            |
-|      |                                                                                     |
-| 3    | import org.slf4j.LoggerFactory;                                                     |
-|      |                                                                                     |
-| 4    | import org.slf4j.MDC;                                                               |
-|      |                                                                                     |
-| 5    | // ...                                                                              |
-|      |                                                                                     |
-| 6    | final Logger logger = LoggerFactory.getLogger(this.getClass());                     |
-|      |                                                                                     |
-| 7    | MDC.put("SomeUUID", UUID.randomUUID().toString());                                  |
-|      |                                                                                     |
-| 8    | try {                                                                               |
-|      |                                                                                     |
-| 9    |     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");   |
-|      |                                                                                     |
-| 10   |     // ...                                                                          |
-|      |                                                                                     |
-| 11   | }                                                                                   |
-|      |                                                                                     |
-| 12   | finally {                                                                           |
-|      |                                                                                     |
-| 13   |     MDC.clear();                                                                    |
-|      |                                                                                     |
-| 14   | }                                                                                   |
-+------+-------------------------------------------------------------------------------------+
+.. code-block:: java
+
+ import java.util.UUID;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.slf4j.MDC;
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ MDC.put("SomeUUID", UUID.randomUUID().toString());
+ try {
+     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");
+ // ...
+ }
+ finally {
+     MDC.clear();
+ }
 
 EELF doesn't directly support MDCs, but SLF4J will receive any MDC that
 is set (where **com.att.eelf.configuration.SLF4jWrapper** is the
 configured EELF provider):
 
-+------+-------------------------------------------------------------------------------------+
-| 1    | import java.util.UUID;                                                              |
-|      |                                                                                     |
-| 2    | import org.slf4j.Logger;                                                            |
-|      |                                                                                     |
-| 3    | import org.slf4j.LoggerFactory;                                                     |
-|      |                                                                                     |
-| 4    | import org.slf4j.MDC;                                                               |
-|      |                                                                                     |
-| 5    | import com.att.eelf.configuration.EELFLogger;                                       |
-|      |                                                                                     |
-| 6    | import com.att.eelf.configuration.EELFManager;                                      |
-|      |                                                                                     |
-| 7    | // ...                                                                              |
-|      |                                                                                     |
-| 8    | final EELFLogger logger = EELFManager.getInstance().getLogger(this.getClass());     |
-|      |                                                                                     |
-| 9    | MDC.put("SomeUUID", UUID.randomUUID().toString());                                  |
-|      |                                                                                     |
-| 10   | try {                                                                               |
-|      |                                                                                     |
-| 11   |     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");   |
-|      |                                                                                     |
-| 12   |     // ...                                                                          |
-|      |                                                                                     |
-| 13   | }                                                                                   |
-|      |                                                                                     |
-| 14   | finally {                                                                           |
-|      |                                                                                     |
-| 15   |     MDC.clear();                                                                    |
-|      |                                                                                     |
-| 16   | }                                                                                   |
-+------+-------------------------------------------------------------------------------------+
+.. code-block:: java
+
+ import java.util.UUID;
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.slf4j.MDC;
+ import com.att.eelf.configuration.EELFLogger;
+ import com.att.eelf.configuration.EELFManager;
+ // ...
+ final EELFLogger logger = EELFManager.getInstance().getLogger(this.getClass());
+ MDC.put("SomeUUID", UUID.randomUUID().toString());
+ try {
+     logger.info("This message will have a UUID-valued 'SomeUUID' MDC attached.");
+     // ...
+ }
+ finally {
+     MDC.clear();
+ }
 
 **Serializing**
 
@@ -302,9 +274,9 @@ Output of MDCs must ensure that:
 
 Escaping in Logback configuration can be achieved with:
 
-+-----+------------------------------------------------------------------+
-| 1   | %replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}   |
-+-----+------------------------------------------------------------------+
+.. code-block:: bash
+
+ %replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
 
 **MDC - RequestID**
 
@@ -326,37 +298,26 @@ This value:
 Receiving the \ **X-TransactionID** will vary by component according to
 APIs and frameworks. In general:
 
-+-----+--------------------------------------------------------------------------+
-| 1   | import javax.ws.rs.core.HttpHeaders;                                     |
-|     |                                                                          |
-| 2   | // ...                                                                   |
-|     |                                                                          |
-| 3   | final HttpHeaders headers = ...;                                         |
-|     |                                                                          |
-| 4   | // ...                                                                   |
-|     |                                                                          |
-| 5   | String txId = headers.getRequestHeaders().getFirst("X-TransactionID");   |
-|     |                                                                          |
-| 6   | if (StringUtils.isBlank(txId)) {                                         |
-|     |                                                                          |
-| 7   |     txId = UUID.randomUUID().toString();                                 |
-|     |                                                                          |
-| 8   | }                                                                        |
-|     |                                                                          |
-| 9   | MDC.put("RequestID", txID);                                              |
-+-----+--------------------------------------------------------------------------+
+.. code-block:: java
+
+  import javax.ws.rs.core.HttpHeaders;
+  // ...
+  final HttpHeaders headers = ...;
+  // ...
+  String txId = headers.getRequestHeaders().getFirst("X-TransactionID");
+  if (StringUtils.isBlank(txId)) {
+      txId = UUID.randomUUID().toString();
+  }
+  MDC.put("RequestID", txID);
 
 Setting the \ **X-TransactionID** likewise will vary. For example:
 
-+-----+---------------------------------------------------+
-| 1   | final String txID = MDC.get("RequestID");         |
-|     |                                                   |
-| 2   | HttpURLConnection cx = ...;                       |
-|     |                                                   |
-| 3   | // ...                                            |
-|     |                                                   |
-| 4   | cx.setRequestProperty("X-TransactionID", txID);   |
-+-----+---------------------------------------------------+
+.. code-block:: java
+
+ final String txID = MDC.get("RequestID");
+ HttpURLConnection cx = ...;
+ // ...
+ cx.setRequestProperty("X-TransactionID", txID);
 
 **MDC - InvocationID**
 
@@ -510,11 +471,10 @@ Certain MDCs and their semantics may be specific to EELF log types.
 
 20170907: audit.log
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| root@ip-172-31-93-160:/dockerdata-nfs/onap/sdc/logs/SDC/SDC-BE# tail -f audit.log                                                                                                                                             |
-|                                                                                                                                                                                                                               |
-| 2017-09-07T18:04:03.679Z\|\|\|\|\|qtp1013423070-72297\|\|ASDC\|SDC-BE\|\|\|\|\|\|\|N/A\|INFO\|\|\|\|10.42.88.30\|\|o.o.s.v.r.s.VendorLicenseModelsImpl\|\|ActivityType=<audit>, Desc=< --Audit-- Create VLM. VLM Name: lm4>   |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+.. code-block:: bash
+
+ root@ip-172-31-93-160:/dockerdata-nfs/onap/sdc/logs/SDC/SDC-BE# tail -f audit.log
+ 2017-09-07T18:04:03.679Z\|\|\|\|\|qtp1013423070-72297\|\|ASDC\|SDC-BE\|\|\|\|\|\|\|N/A\|INFO\|\|\|\|10.42.88.30\|\|o.o.s.v.r.s.VendorLicenseModelsImpl\|\|ActivityType=<audit>, Desc=< --Audit-- Create VLM. VLM Name: lm4>
 
 **TODO: this is the earlier output format. Let's find an example which
 matches the latest line format.**
@@ -533,23 +493,16 @@ Markers differ from MDCs in two important ways:
 
 Via SLF4J:
 
-+-----+-----------------------------------------------------------------------+
-| 1   | import org.slf4j.Logger;                                              |
-|     |                                                                       |
-| 2   | import org.slf4j.LoggerFactory;                                       |
-|     |                                                                       |
-| 3   | import org.slf4j.Marker;                                              |
-|     |                                                                       |
-| 4   | import org.slf4j.MarkerFactory;                                       |
-|     |                                                                       |
-| 5   | // ...                                                                |
-|     |                                                                       |
-| 6   | final Logger logger = LoggerFactory.getLogger(this.getClass());       |
-|     |                                                                       |
-| 7   | final Marker marker = MarkerFactory.getMarker("MY\_MARKER");          |
-|     |                                                                       |
-| 8   | logger.warn(marker, "This warning has a 'MY\_MARKER' annotation.");   |
-+-----+-----------------------------------------------------------------------+
+.. code-block:: java
+
+ import org.slf4j.Logger;
+ import org.slf4j.LoggerFactory;
+ import org.slf4j.Marker;
+ import org.slf4j.MarkerFactory;
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ final Marker marker = MarkerFactory.getMarker("MY\_MARKER");
+ logger.warn(marker, "This warning has a 'MY\_MARKER' annotation.");
 
 EELF does not allow Markers to be set directly. See notes on
 the \ **InvocationID** MDC.
@@ -561,9 +514,9 @@ contain problematic characters than MDC values.
 
 Escaping in Logback configuration can be achieved with:
 
-+-----+---------------------------------------------------------------------+
-| 1   | %replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}   |
-+-----+---------------------------------------------------------------------+
+.. code-block:: bash
+
+ %replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
 
 **Marker - ENTRY**
 
@@ -574,27 +527,20 @@ It can be automatically set by EELF, and written to the AUDIT log. 
 
 It must be manually set otherwise. 
 
-EELF:
-
 **EELF**
 
 +-----+----------+
 | 1   | //TODO   |
 +-----+----------+
 
-SLF4J:
-
 **SLF4J**
 
-+-----+------------------------------------------------------------------------+
-| 1   | public static final Marker ENTRY = MarkerFactory.getMarker("ENTRY");   |
-|     |                                                                        |
-| 2   | // ...                                                                 |
-|     |                                                                        |
-| 3   | final Logger logger = LoggerFactory.getLogger(this.getClass());        |
-|     |                                                                        |
-| 4   | logger.debug(ENTRY, "Entering.");                                      |
-+-----+------------------------------------------------------------------------+
+.. code-block:: java
+
+ public static final Marker ENTRY = MarkerFactory.getMarker("ENTRY");
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ logger.debug(ENTRY, "Entering.");
 
 **Marker - EXIT**
 
@@ -606,27 +552,20 @@ log. 
 
 It must be manually set otherwise.
 
-EELF:
-
 **EELF**
 
 +-----+----------+
 | 1   | //TODO   |
 +-----+----------+
 
-SLF4J:
-
 **SLF4J**
 
-+-----+----------------------------------------------------------------------+
-| 1   | public static final Marker EXIT = MarkerFactory.getMarker("EXIT");   |
-|     |                                                                      |
-| 2   | // ...                                                               |
-|     |                                                                      |
-| 3   | final Logger logger = LoggerFactory.getLogger(this.getClass());      |
-|     |                                                                      |
-| 4   | logger.debug(EXIT, "Exiting.");                                      |
-+-----+----------------------------------------------------------------------+
+.. code-block:: java
+
+ public static final Marker EXIT = MarkerFactory.getMarker("EXIT");
+ // ...
+ final Logger logger = LoggerFactory.getLogger(this.getClass());
+ logger.debug(EXIT, "Exiting.");
 
 **Marker - INVOKE**
 
@@ -634,45 +573,23 @@ This should be reported by the caller of another ONAP component via
 REST, including a newly allocated \ **InvocationID**, which will be
 passed to the caller. 
 
-SLF4J:
-
 **SLF4J**
 
-+------+--------------------------------------------------------------------------+
-| 1    | public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");   |
-|      |                                                                          |
-| 2    | // ...                                                                   |
-|      |                                                                          |
-| 3    |                                                                          |
-|      |                                                                          |
-| 4    | // Generate and report invocation ID.                                    |
-|      |                                                                          |
-| 5    |                                                                          |
-|      |                                                                          |
-| 6    | final String invocationID = UUID.randomUUID().toString();                |
-|      |                                                                          |
-| 7    | MDC.put(MDC\_INVOCATION\_ID, invocationID);                              |
-|      |                                                                          |
-| 8    | try {                                                                    |
-|      |                                                                          |
-| 9    |     logger.debug(INVOKE\_SYNCHRONOUS, "Invoking synchronously ... ");    |
-|      |                                                                          |
-| 10   | }                                                                        |
-|      |                                                                          |
-| 11   | finally {                                                                |
-|      |                                                                          |
-| 12   |     MDC.remove(MDC\_INVOCATION\_ID);                                     |
-|      |                                                                          |
-| 13   | }                                                                        |
-|      |                                                                          |
-| 14   |                                                                          |
-|      |                                                                          |
-| 15   | // Pass invocationID as HTTP X-InvocationID header.                      |
-|      |                                                                          |
-| 16   |                                                                          |
-|      |                                                                          |
-| 17   | callDownstreamSystem(invocationID, ... );                                |
-+------+--------------------------------------------------------------------------+
+.. code-block:: java
+
+ public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
+ // ...
+ // Generate and report invocation ID.
+ final String invocationID = UUID.randomUUID().toString();
+ MDC.put(MDC_INVOCATION_ID, invocationID);
+ try {
+     logger.debug(INVOKE_SYNCHRONOUS, "Invoking synchronously ... ");
+ }
+ finally {
+     MDC.remove(MDC_INVOCATION_ID);
+ }
+ // Pass invocationID as HTTP X-InvocationID header.
+ callDownstreamSystem(invocationID, ... );
 
 **TODO: EELF, without changing published APIs.**
 
@@ -680,55 +597,29 @@ SLF4J:
 
 This should accompany \ **INVOKE** when the invocation is synchronous.
 
-SLF4J:
-
 **SLF4J**
 
-+------+-------------------------------------------------------------------------+
-| 1    | public static final Marker INVOKE\_SYNCHRONOUS;                         |
-|      |                                                                         |
-| 2    | static {                                                                |
-|      |                                                                         |
-| 3    |     INVOKE\_SYNCHRONOUS = MarkerFactory.getMarker("INVOKE");            |
-|      |                                                                         |
-| 4    |     INVOKE\_SYNCHRONOUS.add(MarkerFactory.getMarker("SYNCHRONOUS"));    |
-|      |                                                                         |
-| 5    | }                                                                       |
-|      |                                                                         |
-| 6    | // ...                                                                  |
-|      |                                                                         |
-| 7    |                                                                         |
-|      |                                                                         |
-| 8    | // Generate and report invocation ID.                                   |
-|      |                                                                         |
-| 9    |                                                                         |
-|      |                                                                         |
-| 10   | final String invocationID = UUID.randomUUID().toString();               |
-|      |                                                                         |
-| 11   | MDC.put(MDC\_INVOCATION\_ID, invocationID);                             |
-|      |                                                                         |
-| 12   | try {                                                                   |
-|      |                                                                         |
-| 13   |     logger.debug(INVOKE\_SYNCHRONOUS, "Invoking synchronously ... ");   |
-|      |                                                                         |
-| 14   | }                                                                       |
-|      |                                                                         |
-| 15   | finally {                                                               |
-|      |                                                                         |
-| 16   |     MDC.remove(MDC\_INVOCATION\_ID);                                    |
-|      |                                                                         |
-| 17   | }                                                                       |
-|      |                                                                         |
-| 18   |                                                                         |
-|      |                                                                         |
-| 19   | // Pass invocationID as HTTP X-InvocationID header.                     |
-|      |                                                                         |
-| 20   |                                                                         |
-|      |                                                                         |
-| 21   | callDownstreamSystem(invocationID, ... );                               |
-+------+-------------------------------------------------------------------------+
+.. code-block:: java
 
-**TODO: EELF, without changing published APIs. **
+ public static final Marker INVOKE_SYNCHRONOUS;
+ static {
+     INVOKE_SYNCHRONOUS = MarkerFactory.getMarker("INVOKE");
+     INVOKE_SYNCHRONOUS.add(MarkerFactory.getMarker("SYNCHRONOUS"));
+ }
+ // ...
+ // Generate and report invocation ID.
+ final String invocationID = UUID.randomUUID().toString();
+ MDC.put(MDC_INVOCATION_ID, invocationID);
+ try {
+     logger.debug(INVOKE_SYNCHRONOUS, "Invoking synchronously ... ");
+ }
+ finally {
+     MDC.remove(MDC_INVOCATION_ID);
+ }
+ // Pass invocationID as HTTP X-InvocationID header.
+ callDownstreamSystem(invocationID, ... );
+
+**TODO: EELF, without changing published APIs.**
 
 **Errorcodes**
 
@@ -751,9 +642,9 @@ one component.
 
 For example:
 
-+-----+-------------------------------+
-| 1   | COMPONENT\_X.STORAGE\_ERROR   |
-+-----+-------------------------------+
+::
+
+ COMPONENT\_X.STORAGE\_ERROR
 
 Output Format
 
@@ -781,54 +672,36 @@ machine-readable logs. This means:
 
 In logback, this looks like:
 
-+-----+-------------------------------------------------------------------------------+
-| 1   | <property name="defaultPattern" value="%nopexception%logger                   |
-|     |                                                                               |
-| 2   | \\t%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}                                    |
-|     |                                                                               |
-| 3   | \\t%level                                                                     |
-|     |                                                                               |
-| 4   | \\t%replace(%replace(%message){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}         |
-|     |                                                                               |
-| 5   | \\t%replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}             |
-|     |                                                                               |
-| 6   | \\t%replace(%replace(%rootException){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}   |
-|     |                                                                               |
-| 7   | \\t%replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}          |
-|     |                                                                               |
-| 8   | \\t%thread                                                                    |
-|     |                                                                               |
-| 9   | \\t%n"/>                                                                      |
-+-----+-------------------------------------------------------------------------------+
+::
+
+ <property name="defaultPattern" value="%nopexception%logger
+ %date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX,UTC}
+ %level
+ %replace(%replace(%message){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %replace(%replace(%mdc){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %replace(%replace(%rootException){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %replace(%replace(%marker){'\\t','\\\\\\\\t'}){'\\n','\\\\\\\\n'}
+ %thread
+ %n"/>
 
 The output of which, with MDCs, a Marker and a nested exception, with
 newlines added for readability looks like:
 
 TODO: remove tab below
 
-+------+-----------------------------------------------------------------------------------------------------------------------------+
-| 1    | org.onap.example.component1.subcomponent1.LogbackTest                                                                       |
-|      |                                                                                                                             |
-| 2    | \\t2017-08-06T16:09:03.594Z                                                                                                 |
-|      |                                                                                                                             |
-| 3    | \\tERROR                                                                                                                    |
-|      |                                                                                                                             |
-| 4    | \\tHere's an error, that's usually bad                                                                                      |
-|      |                                                                                                                             |
-| 5    | \\tkey1=value1, key2=value2 with space, key5=value5"with"quotes, key3=value3\\nwith\\nnewlines, key4=value4\\twith\\ttabs   |
-|      |                                                                                                                             |
-| 6    | \\tjava.lang.RuntimeException: Here's Johnny                                                                                |
-|      |                                                                                                                             |
-| 7    | \\n\\tat org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:24)                                    |
-|      |                                                                                                                             |
-| 8    | \\nWrapped by: java.lang.RuntimeException: Little pigs, little pigs, let me come in                                         |
-|      |                                                                                                                             |
-| 9    | \\n\\tat org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:27)                                    |
-|      |                                                                                                                             |
-| 10   | \\tAMarker1                                                                                                                 |
-|      |                                                                                                                             |
-| 11   | \\tmain                                                                                                                     |
-+------+-----------------------------------------------------------------------------------------------------------------------------+
+::
+
+ org.onap.example.component1.subcomponent1.LogbackTest
+ 2017-08-06T16:09:03.594Z
+ ERROR
+ Here's an error, that's usually bad
+ key1=value1, key2=value2 with space, key5=value5"with"quotes, key3=value3 with newlines, key4=value4 with tabs
+ java.lang.RuntimeException: Here's Johnny
+ at org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:24)
+ Wrapped by: java.lang.RuntimeException: Little pigs, little pigs, let me come in
+ at org.onap.example.component1.subcomponent1.LogbackTest.main(LogbackTest.java:27)
+ AMarker1
+ main
 
 Default Logstash indexing rules understand output in this format.
 
@@ -851,9 +724,9 @@ for indexing. 
 Logfiles should default to beneath \ **/var/log**, and
 beneath \ **/var/log/ONAP** in the case of core ONAP components:
 
-+-----+-----------------------------------------------------+
-| 1   | /var/log/ONAP/<component>[/<subcomponent>]/\*.log   |
-+-----+-----------------------------------------------------+
+.. code-block:: bash
+
+ /var/log/ONAP/<component>[/<subcomponent>]/\*.log
 
 Configuration
 
@@ -867,9 +740,9 @@ is low.
 All logger provider configuration document locations namespaced by
 component and (if applicable) subcomponent by default:
 
-+-----+---------------------------------------------------------+
-| 1   | /etc/onap/<component>[/<subcomponent>]/<provider>.xml   |
-+-----+---------------------------------------------------------+
+.. code-block:: bash
+
+ /etc/onap/<component>[/<subcomponent>]/<provider>.xml
 
 Where \ **<provider>.xml**, will typically be one of:
 
@@ -921,31 +794,20 @@ Defaults are subject to change. Currently they are:
 
 In Logback configuration XML:
 
-+------+-------------------------------------------------------------------------------------------------------------+
-| 1    | <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">                              |
-|      |                                                                                                             |
-| 2    |     <file>${outputDirectory}/${outputFilename}.log</file>                                                   |
-|      |                                                                                                             |
-| 3    |     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">                       |
-|      |                                                                                                             |
-| 4    |         <fileNamePattern>${outputDirectory}/${outputFilename}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>   |
-|      |                                                                                                             |
-| 5    |         <maxFileSize>50MB</maxFileSize>                                                                     |
-|      |                                                                                                             |
-| 6    |         <maxHistory>30</maxHistory>                                                                         |
-|      |                                                                                                             |
-| 7    |         <totalSizeCap>10GB</totalSizeCap>                                                                   |
-|      |                                                                                                             |
-| 8    |     </rollingPolicy>                                                                                        |
-|      |                                                                                                             |
-| 9    |     <encoder>                                                                                               |
-|      |                                                                                                             |
-| 10   |         <!-- ... -->                                                                                        |
-|      |                                                                                                             |
-| 11   |     </encoder>                                                                                              |
-|      |                                                                                                             |
-| 12   | </appender>                                                                                                 |
-+------+-------------------------------------------------------------------------------------------------------------+
+.. code-block:: xml
+
+ <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+     <file>${outputDirectory}/${outputFilename}.log</file>
+     <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+         <fileNamePattern>${outputDirectory}/${outputFilename}.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+         <maxFileSize>50MB</maxFileSize>
+         <maxHistory>30</maxHistory>
+         <totalSizeCap>10GB</totalSizeCap>
+     </rollingPolicy>
+     <encoder>
+         <!-- ... -->
+     </encoder>
+ </appender>
 
 Types of EELF Logs
 
