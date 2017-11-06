@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Michael O'Brien <frank.obrien@amdocs.com>
+Code-Review+1: Rich Bennett <rb2745@att.com>
+Code-Review+2: Avdhut Kholkar <avdhut.kholkar@amdocs.com>
+Submitted-by: Avdhut Kholkar <avdhut.kholkar@amdocs.com>
+Submitted-at: Mon, 06 Nov 2017 05:12:35 +0000
+Reviewed-on: http://gerrit.onap.org/r/22035
+Project: logging-analytics
+Branch: refs/heads/master
