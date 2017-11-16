@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Michael O'Brien <frank.obrien@amdocs.com>
+Code-Review+2: Lee Breslau <lb7179@att.com>
+Submitted-by: Lee Breslau <lb7179@att.com>
+Submitted-at: Thu, 16 Nov 2017 16:01:54 +0000
+Reviewed-on: http://gerrit.onap.org/r/23283
+Project: logging-analytics
+Branch: refs/heads/master
