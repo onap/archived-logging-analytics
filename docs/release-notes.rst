@@ -1,12 +1,12 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 
-Release Notes
-=============
+Log Enhancements Release Notes
+==============================
 
-Version: 1.0 (Amsterdam)
-------------------------
+Version: 1.0.0
+--------------
 
-:Release Date: 2017-11-XX
+:Release Date: 2017-11-16
 
 **New Features**
 
@@ -40,7 +40,7 @@ This release adds Elastic Stack analytics deployment to OOM, aligns logging prov
       SO log format error during Health Check - blocking tracking jira for SO-246.
 
 **Security Issues**
-      None.
+      None
 
 **Upgrade Notes**
       None
