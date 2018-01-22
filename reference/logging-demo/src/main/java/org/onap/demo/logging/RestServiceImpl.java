@@ -18,39 +18,32 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.logging;
+package org.onap.demo.logging;
 
-import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@Path("/health")
-public class RestHealthServiceImpl extends Application {
+import org.springframework.beans.factory.annotation.Qualifier;
+
+@Path("/read")
+public class RestServiceImpl extends Application {
 	@Inject
 	@Qualifier("daoFacade")
     private ApplicationServiceLocal applicationServiceLocal;
 	
 	@GET
-	@Path("/health")
+	@Path("/test")
 	@Produces(MediaType.TEXT_HTML)
-	public String getHealth() {
-		return applicationServiceLocal.health().toString();
+	public String getTest() {
+		return "testing: " + applicationServiceLocal;
 	}
-	
+
+   private ApplicationServiceLocal getApplicationService() {
+	   return applicationServiceLocal;
+   }
 }
 

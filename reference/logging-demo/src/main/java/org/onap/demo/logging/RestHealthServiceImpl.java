@@ -18,17 +18,29 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.logging;
+package org.onap.demo.logging;
 
-import org.springframework.stereotype.Service;
-@Service("daoFacade")
-public class ApplicationService implements ApplicationServiceLocal {
+import javax.inject.Inject;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
+
+import org.springframework.beans.factory.annotation.Qualifier;
+
+@Path("/health")
+public class RestHealthServiceImpl extends Application {
+	@Inject
+	@Qualifier("daoFacade")
+    private ApplicationServiceLocal applicationServiceLocal;
 	
-    @Override
-    public Boolean health() {
-    	Boolean health = true;
-    	// TODO: check database
-    	return health;
-    }
-  
+	@GET
+	@Path("/health")
+	@Produces(MediaType.TEXT_HTML)
+	public String getHealth() {
+		return applicationServiceLocal.health().toString();
+	}
+	
 }
+

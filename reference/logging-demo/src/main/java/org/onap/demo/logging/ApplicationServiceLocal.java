@@ -18,9 +18,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.logging;
-
-import java.util.List;
+package org.onap.demo.logging;
 
 public interface ApplicationServiceLocal {
 	Boolean health();
