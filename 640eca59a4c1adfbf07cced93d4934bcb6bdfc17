@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a8e3f731",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "Remove line 10. \n\nIssue-ID needs to be part of the footer",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c8de836d",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "Remove trailing spaces",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e8925f9e",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "This has to match the repo name \"logging-analytics\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e8d9ff83",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "Remove trailing spaces",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 2
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_28f847e4",
+        "filename": "reference/logging-docker-root/logging-docker-demo/DockerFile",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "Remove trailing spaces",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 1
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a88c5780",
+        "filename": "reference/logging-docker-root/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "This has to match the repo name \"logging-analytics\"",
+      "range": {
+        "startLine": 5,
+        "startChar": 24,
+        "endLine": 5,
+        "endChar": 31
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_08f54bed",
+        "filename": "reference/logging-docker-root/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "Remove trailing spaces",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_48eb5313",
+        "filename": "reference/logging-kubernetes/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "This has to match the repo name \"logging-analytics\"",
+      "range": {
+        "startLine": 5,
+        "startChar": 24,
+        "endLine": 5,
+        "endChar": 31
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_68ee4f24",
+        "filename": "reference/logging-kubernetes/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-01-29T17:45:49Z",
+      "side": 1,
+      "message": "Remove trailing spaces",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 2
+      },
+      "revId": "640eca59a4c1adfbf07cced93d4934bcb6bdfc17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
