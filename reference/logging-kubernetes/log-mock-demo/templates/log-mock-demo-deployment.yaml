@@ -1,0 +1,43 @@
+#{{ if not .Values.disableLogdemoLogdemo }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logdemo
+  namespace: "{{ .Values.nsPrefix }}-logdemo"
+spec:
+  selector:
+    matchLabels:
+      app: logdemo
+  template:
+    metadata:
+       labels:
+        app: logdemo
+       name: logdemo
+    spec:
+      containers:
+      - image: {{ .Values.image.logdemo }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+        name: logdemo
+        volumeMounts:
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: logdemo-eteshare
+          mountPath: /share
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+        - name: logdemo-eteshare
+          hostPath:
+            path: /dockerdata-nfs/{{ .Values.nsPrefix }}/logdemo/eteshare
+      imagePullSecrets:
+      - name: "{{ .Values.nsPrefix }}-docker-registry-key"
+#{{ end }}
