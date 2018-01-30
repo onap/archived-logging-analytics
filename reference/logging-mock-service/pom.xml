@@ -1,16 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-      <groupId>org.onap.logging</groupId>
+      <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
       <version>1.2.0-SNAPSHOT</version>
   </parent>
-  
   <artifactId>logging-mock-service</artifactId>
   <packaging>jar</packaging>
-  <version>1.2.0-SNAPSHOT</version>
-  <name>logging-mock-service</name>
-  
+  <name>logging-mock-service</name> 
   <build>
       <plugins>
       <plugin>
@@ -63,7 +60,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.onap.logging</groupId>
+            <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-library</artifactId>
             <version>1.2.0-SNAPSHOT</version>
         </dependency>
