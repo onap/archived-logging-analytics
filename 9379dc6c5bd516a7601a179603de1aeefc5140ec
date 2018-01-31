@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Michael O'Brien <frank.obrien@amdocs.com>
+Code-Review+1: Luke Parker <lparker@amdocs.com>
+Submitted-by: Michael O'Brien <frank.obrien@amdocs.com>
+Submitted-at: Wed, 31 Jan 2018 03:12:15 +0000
+Reviewed-on: https://gerrit.onap.org/r/29547
+Project: logging-analytics
+Branch: refs/heads/master
