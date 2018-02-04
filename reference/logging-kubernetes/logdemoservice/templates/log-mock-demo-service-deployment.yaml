@@ -1,0 +1,43 @@
+#{{ if not .Values.disableLogdemoserviceLogdemoservice }}
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: logdemoservice
+  namespace: "{{ .Values.nsPrefix }}-logdemoservice"
+spec:
+  selector:
+    matchLabels:
+      app: logdemoservice
+  template:
+    metadata:
+       labels:
+        app: logdemoservice
+       name: logdemoservice
+    spec:
+      containers:
+      - image: {{ .Values.image.logdemoservice }}
+        imagePullPolicy: {{ .Values.pullPolicy }}
+        name: logdemoservice
+        volumeMounts:
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        - name: logdemoservice-eteshare
+          mountPath: /share
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
+        - name: logdemoservice-eteshare
+          hostPath:
+            path: /dockerdata-nfs/{{ .Values.nsPrefix }}/logdemoservice/eteshare
+      imagePullSecrets:
+      - name: "{{ .Values.nsPrefix }}-docker-registry-key"
+#{{ end }}
