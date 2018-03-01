@@ -1,0 +1,42 @@
+---
+project: 'logging-analytics'
+project_creation_date: '2017-08-04'
+lifecycle_state: 'Incubation'
+project_lead: &onap_releng_ptl
+    name: 'Michael OBrien'
+    email: 'frank.obrien@amdocs.com'
+    id: 'michaelobrien'
+    company: 'Amdocs'
+    timezone: 'Canada/Ottawa'
+primary_contact: *onap_releng_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.onap.org/projects/LOG'
+    key: 'LOG'
+meetings:
+    - type: 'zoom'
+        agenda: 'https://wiki.onap.org/pages/viewpage.action?pageId=10784046'
+        url: 'https://wiki.onap.org/pages/viewpage.action?pageId=10784046'
+        server: 'n/a'
+        channel: 'n/a'
+        repeats: 'weekly'
+        time: '15:00 UTC'
+committers:
+    - <<: *onap_releng_ptl
+    - name: 'Avdhut Kholkar'
+        email: 'avdhut.kholkar@amdocs.com'
+        company: 'Amdocs'
+        id: 'avdhutk'
+        timezone: 'India/Pune'
+    - name: 'Lee Breslau'
+        email: 'lb7179@att.com'
+        company: 'ATT'
+        id: 'LeeB32'
+        timezone: 'America/New York'
+    - name: 'Luke Parker'
+        email: 'lparker@amdocs.com'
+        company: 'Amdocs'
+        id: 'lparker'
+        timezone: 'Australia/Melbourne'
+tsc:
+    approval: 'https://lists.onap.org/pipermail/onap-tsc'
