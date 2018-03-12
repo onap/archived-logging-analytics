@@ -14,5 +14,6 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>reference</module>
+    <module>pylog</module>
   </modules>
 </project>
