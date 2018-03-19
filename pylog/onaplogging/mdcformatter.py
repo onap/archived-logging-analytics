@@ -114,7 +114,7 @@ class MDCFormatter(logging.Formatter):
             return s
 
         except KeyError as e:
-            print ("The mdc key %s format is wrong" % e.message)
+            print("The mdc key %s format is wrong" % e.message)
         except Exception:
             raise
 
