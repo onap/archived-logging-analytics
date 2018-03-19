@@ -39,14 +39,14 @@ class FileEventHandlers(FileSystemEventHandler):
         try:
             if event.src_path == self.filepath:
                 newConfig = _yaml2Dict(self.filepath)
-                print ("reload logging configure file %s" % event.src_path)
+                print("reload logging configure file %s" % event.src_path)
                 config.dictConfig(newConfig)
                 self.currentConfig = newConfig
 
-        except Exception as e:
-            traceback.print_exc(e)
-            print ("Reuse the old configuration to avoid this "
-                   "exception terminate program")
+        except Exception:
+            traceback.print_exc()
+            print("Reuse the old configuration to avoid this"
+                  "exception terminate program")
             if self.currentConfig:
                 config.dictConfig(self.currentConfig)
 
@@ -84,8 +84,8 @@ def _yamlConfig(filepath=None, watchDog=None):
             # here we keep the correct configuration for reusing
             event_handler.currentConfig = dictConfig
 
-    except Exception as e:
-        traceback.print_exc(e)
+    except Exception:
+        traceback.print_exc()
 
 
 def patch_loggingYaml():

@@ -18,7 +18,9 @@ setup(
     name='onappylog',
     keywords=("yaml", "logging", "mdc", "onap"),
     description='onap python logging library',
-    long_description="python-package onappylog could be used in any python project to record MDC information and reload logging at runtime",
+    long_description="python-package onappylog could be used in any python"
+                     "project to record MDC information and reload logging"
+                     "at runtime",
     version="1.0.5",
     license="MIT Licence",
     author='ke liang',
