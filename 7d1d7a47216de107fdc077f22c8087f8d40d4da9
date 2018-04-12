@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Code-Review+2: Avdhut Kholkar <avdhut.kholkar@amdocs.com>
+Submitted-by: Avdhut Kholkar <avdhut.kholkar@amdocs.com>
+Submitted-at: Thu, 12 Apr 2018 06:43:18 +0000
+Reviewed-on: https://gerrit.onap.org/r/41939
+Project: logging-analytics
+Branch: refs/heads/master
