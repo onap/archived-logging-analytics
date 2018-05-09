@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2c60dfff",
+        "filename": "reference/slf4j-reference/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-09T00:29:03Z",
+      "side": 1,
+      "message": "this is ok, we can also reference oparent directly for now until we finalize the pom hierarchy",
+      "revId": "abbbaf088ace3917f6cd7839279bd07816e94f80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
