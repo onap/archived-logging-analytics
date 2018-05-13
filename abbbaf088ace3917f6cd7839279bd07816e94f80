@@ -16,6 +16,23 @@
       "revId": "abbbaf088ace3917f6cd7839279bd07816e94f80",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_064297aa",
+        "filename": "reference/slf4j-reference/src/test/java/org/onap/logging/ref/slf4j/analysis/CallGraphAnalyzer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-13T14:25:28Z",
+      "side": 1,
+      "message": "constants - ok in tests",
+      "revId": "abbbaf088ace3917f6cd7839279bd07816e94f80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
