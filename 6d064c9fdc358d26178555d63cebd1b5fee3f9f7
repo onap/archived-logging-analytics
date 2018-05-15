@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a0d86253",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "should we also delete the \u0027onap\u0027 namespace explicitly in case $ENVIRON isn\u0027t set to be \u0027onap\u0027 ?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_60b57aeb",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "The \u0027| grep 0/ is to avoid picking up the kube-system pods too right?  Wouldn\u0027t it be better to just grep them out explicitly?  using \u00270/\u0027 might inadvertently leave any onap 1/ or 2/ pod that\u0027s somehow locked up wouldn\u0027t it?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_00d0361d",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "Note for the future we\u0027ll need an else if for beijing hopefully soon",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_20cbf272",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "Note for the future we\u0027ll need an else if for beijing hopefully soon",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_40a95e8e",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "Should we also account for pods that are 1/2 ?  Does that matter?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a0a622bf",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "Should we also account for pods that are 1/2 ?  Does that matter?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_60ac9a9f",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-15T13:46:15Z",
+      "side": 1,
+      "message": "What about 1/2 for all these apps?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
