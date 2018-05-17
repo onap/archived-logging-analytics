@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_abf9234f",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "yes, will add",
+      "parentUuid": "5a93c517_a0d86253",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_60b57aeb",
         "filename": "deploy/cd.sh",
         "patchSetId": 1
@@ -30,6 +48,47 @@
       "writtenOn": "2018-05-15T13:46:15Z",
       "side": 1,
       "message": "The \u0027| grep 0/ is to avoid picking up the kube-system pods too right?  Wouldn\u0027t it be better to just grep them out explicitly?  using \u00270/\u0027 might inadvertently leave any onap 1/ or 2/ pod that\u0027s somehow locked up wouldn\u0027t it?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4ba09f41",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "yes, had an \"or\" fix I forgot to add here\nhttps://wiki.onap.org/display/DW/Cloud+Native+Deployment#CloudNativeDeployment-Getfailed/pendingcontainers\n\nfor 0/2 and 1/2\n\"0/|1/2\"",
+      "parentUuid": "5a93c517_60b57aeb",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6b655b1c",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "harcoded onap",
+      "range": {
+        "startLine": 93,
+        "startChar": 28,
+        "endLine": 93,
+        "endChar": 31
+      },
       "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -70,6 +129,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_eb8acbbd",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "yes, anticipating this - might as well retrofit ahead",
+      "parentUuid": "5a93c517_20cbf272",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_40a95e8e",
         "filename": "deploy/cd.sh",
         "patchSetId": 1
@@ -81,6 +158,24 @@
       "writtenOn": "2018-05-15T13:46:15Z",
       "side": 1,
       "message": "Should we also account for pods that are 1/2 ?  Does that matter?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0b8617b9",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "yes, \"0/|1/2\" retrofitting",
+      "parentUuid": "5a93c517_40a95e8e",
       "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -104,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_6bbebb66",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "\"0/|1/2\"",
+      "parentUuid": "5a93c517_a0a622bf",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_60ac9a9f",
         "filename": "deploy/cd.sh",
         "patchSetId": 1
@@ -115,6 +228,24 @@
       "writtenOn": "2018-05-15T13:46:15Z",
       "side": 1,
       "message": "What about 1/2 for all these apps?",
+      "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8bc1c7e5",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-05-17T12:04:02Z",
+      "side": 1,
+      "message": "retrofitting as above",
+      "parentUuid": "5a93c517_60ac9a9f",
       "revId": "6d064c9fdc358d26178555d63cebd1b5fee3f9f7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
