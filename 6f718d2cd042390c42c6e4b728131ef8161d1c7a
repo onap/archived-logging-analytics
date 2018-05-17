@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4fbe6266",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 659
+      },
+      "writtenOn": "2018-05-17T12:01:06Z",
+      "side": 1,
+      "message": "I still suggest we add an explicit delete for the onap namespace, but since $ENVIRON will most certainly be set to that, I\u0027m OK as it is.",
+      "revId": "6f718d2cd042390c42c6e4b728131ef8161d1c7a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
