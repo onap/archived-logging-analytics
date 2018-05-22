@@ -315,7 +315,7 @@ public class ONAPLogAdapter {
         // depending on where you need them to appear, OR extend the
         // ServiceDescriptor to add them.
 
-        MDC.put(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP, LocalDateTime.now().toString());
+        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP, LocalDateTime.now().toString());
         MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestID);
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationID);
         MDC.put(ONAPLogConstants.MDCs.PARTNER_NAME, partnerName);
@@ -495,7 +495,7 @@ public class ONAPLogAdapter {
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, defaultToEmpty(this.mCode));
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION, defaultToEmpty(this.mDescription));
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_SEVERITY, defaultToEmpty(this.mSeverity));
-            MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS, defaultToEmpty(this.mStatus));
+            MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, defaultToEmpty(this.mStatus));
         }
     }
 

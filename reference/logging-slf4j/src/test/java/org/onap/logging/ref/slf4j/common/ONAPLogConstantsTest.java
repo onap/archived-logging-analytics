@@ -62,9 +62,9 @@ public class ONAPLogConstantsTest {
 
     @Test
     public void testHeaders() {
-        assertThat(ONAPLogConstants.Headers.REQUEST_ID.toString(), is("X-ONAP-RequestID"));
-        assertThat(ONAPLogConstants.Headers.INVOCATION_ID.toString(), is("X-ONAP-InvocationID"));
-        assertThat(ONAPLogConstants.Headers.PARTNER_NAME.toString(), is("X-ONAP-PartnerName"));
+        assertThat(ONAPLogConstants.Headers.REQUEST_ID, is("X-ONAP-RequestID"));
+        assertThat(ONAPLogConstants.Headers.INVOCATION_ID, is("X-ONAP-InvocationID"));
+        assertThat(ONAPLogConstants.Headers.PARTNER_NAME, is("X-ONAP-PartnerName"));
     }
 
     @Test
@@ -83,4 +83,23 @@ public class ONAPLogConstantsTest {
         assertThat(ONAPLogConstants.InvocationMode.ASYNCHRONOUS.getMarker(),
                 is(ONAPLogConstants.Markers.INVOKE_ASYNCHRONOUS));
     }
+
+    @Test
+    public void testMDCs() {
+
+        assertThat(ONAPLogConstants.MDCs.CLIENT_IP_ADDRESS.toString(), is("ClientIPAddress"));
+        assertThat(ONAPLogConstants.MDCs.SERVER_FQDN.toString(), is("ServerFQDN"));
+
+        assertThat(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP.toString(), is("EntryTimestamp"));
+        assertThat(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP.toString(), is("InvokeTimestamp"));
+
+        assertThat(ONAPLogConstants.MDCs.REQUEST_ID.toString(), is("RequestID"));
+        assertThat(ONAPLogConstants.MDCs.INVOCATION_ID.toString(), is("InvocationID"));
+        assertThat(ONAPLogConstants.MDCs.PARTNER_NAME.toString(), is("PartnerName"));
+        assertThat(ONAPLogConstants.MDCs.INSTANCE_UUID.toString(), is("InstanceUUID"));
+        assertThat(ONAPLogConstants.MDCs.SERVICE_NAME.toString(), is("ServiceName"));
+        assertThat(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME.toString(), is("TargetServiceName"));
+
+    }
+
 }

@@ -16,6 +16,7 @@
     <module>logging-mock-service</module>
     <module>logging-docker-root</module>
     <module>logging-kubernetes</module>
+    <module>logging-slf4j</module>
   </modules>
   <build>
       <pluginManagement>

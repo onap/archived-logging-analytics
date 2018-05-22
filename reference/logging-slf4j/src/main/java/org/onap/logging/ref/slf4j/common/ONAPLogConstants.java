@@ -95,20 +95,27 @@ public final class ONAPLogConstants {
      */
     public static final class MDCs {
 
-        /** MDC correlating messages for a logical transaction. */
-        public static final String REQUEST_ID = "RequestID";
+        // Tracing. ////////////////////////////////////////////////////////////
 
         /** MDC correlating messages for an invocation. */
         public static final String INVOCATION_ID = "InvocationID";
 
-        /** MDC recording current service. */
-        public static final String SERVICE_NAME = "ServiceName";
+        /** MDC correlating messages for a logical transaction. */
+        public static final String REQUEST_ID = "RequestID";
 
         /** MDC recording calling service. */
         public static final String PARTNER_NAME = "PartnerName";
 
+        /** MDC recording current service. */
+        public static final String SERVICE_NAME = "ServiceName";
+
+        /** MDC recording target service. */
+        public static final String TARGET_SERVICE_NAME = "TargetServiceName";
+
         /** MDC recording current service instance. */
         public static final String INSTANCE_UUID = "InstanceUUID";
+
+        // Network. ////////////////////////////////////////////////////////////
 
         /** MDC recording caller address. */
         public static final String CLIENT_IP_ADDRESS = "ClientIPAddress";
@@ -116,8 +123,24 @@ public final class ONAPLogConstants {
         /** MDC recording server address. */
         public static final String SERVER_FQDN = "ServerFQDN";
 
-        /** MDC recording timestamp at the start of the current invocation. */
+        /**
+         * MDC recording timestamp at the start of the current request,
+         * with the same scope as {@link #REQUEST_ID}.
+         *
+         * <p>Open issues:
+         * <ul>
+         *     <ul>Easily confused with {@link #INVOKE_TIMESTAMP}.</ul>
+         *     <ul>No mechanism for propagation between components, e.g. via HTTP headers.</ul>
+         *     <ul>Whatever mechanism we define, it's going to be costly.</ul>
+         * </ul>
+         * </p>
+         * */
         public static final String ENTRY_TIMESTAMP = "EntryTimestamp";
+
+        /** MDC recording timestamp at the start of the current invocation. */
+        public static final String INVOKE_TIMESTAMP = "InvokeTimestamp";
+
+        // Outcomes. ///////////////////////////////////////////////////////////
 
         /** MDC reporting outcome code. */
         public static final String RESPONSE_CODE = "ResponseCode";
@@ -129,7 +152,9 @@ public final class ONAPLogConstants {
         public static final String RESPONSE_SEVERITY = "Severity";
 
         /** MDC reporting outcome error level. */
-        public static final String RESPONSE_STATUS = "StatusCode";
+        public static final String RESPONSE_STATUS_CODE = "StatusCode";
+
+        // Unsorted. ///////////////////////////////////////////////////////////
 
         /**
          * Hide and forbid construction.
@@ -188,7 +213,7 @@ public final class ONAPLogConstants {
         SYNCHRONOUS("SYNCHRONOUS", Markers.INVOKE_SYNCHRONOUS),
 
         /** Asynchronous, non-blocking. */
-        ASYNCHRONOUS("", Markers.INVOKE_ASYNCHRONOUS);
+        ASYNCHRONOUS("ASYNCHRONOUS", Markers.INVOKE_ASYNCHRONOUS);
 
         /** Enum value. */
         private String mString;
