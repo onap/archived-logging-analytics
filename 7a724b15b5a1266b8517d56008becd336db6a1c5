@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ce7ca1ee",
+        "filename": "reference/logging-slf4j/src/main/java/org/onap/logging/ref/slf4j/ONAPLogAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 681
+      },
+      "writtenOn": "2018-05-24T12:16:04Z",
+      "side": 1,
+      "message": "Ideally logs use GMT formatted ISO 8601 with milliseconds, not localtime, because who needs the confusion caused by a random cloud server location?  Suggest using this Java-8 construct:\n\nZonedDateTime.now( ZoneOffset.UTC ).format( DateTimeFormatter.ISO_INSTANT )",
+      "revId": "7a724b15b5a1266b8517d56008becd336db6a1c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

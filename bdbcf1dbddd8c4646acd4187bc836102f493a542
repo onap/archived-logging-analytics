@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_eec15d30",
+        "filename": "reference/logging-slf4j-demo/src/main/resources/logback.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 681
+      },
+      "writtenOn": "2018-05-24T12:16:04Z",
+      "side": 0,
+      "message": "Is this an environment variable? What\u0027s the default value when developing/testing locally?",
+      "revId": "bdbcf1dbddd8c4646acd4187bc836102f493a542",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
