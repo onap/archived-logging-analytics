@@ -40,13 +40,12 @@ EOF
 }
 
 install_rancher_and_onap() {
-  echo "Running rancher install first - 20 min"
-  # the curl commands are until OOM-710 is merged
-  wget https://jira.onap.org/secure/attachment/11558/oom_rancher_setup.sh
+  echo "Running rancher install first - 25 min"
+  wget https://git.onap.org/logging-analytics/plain/deploy/rancher/oom_rancher_setup.sh
   sudo chmod 777 oom_rancher_setup.sh
   sudo ./oom_rancher_setup.sh -b $BRANCH -s $SERVER -e $ENVIRON
-  echo "Running oom install - 45-90 min"
-  wget https://jira.onap.org/secure/attachment/11608/cd.sh
+  echo "Running oom install - 45-90 min - 120 pod limit per vm"
+  wget https://git.onap.org/logging-analytics/plain/deploy/cd.sh
   sudo chmod 777 cd.sh
   wget https://jira.onap.org/secure/attachment/11124/aaiapisimpledemoopenecomporg.cer
   if [ "$BRANCH" == "amsterdam" ]; then
