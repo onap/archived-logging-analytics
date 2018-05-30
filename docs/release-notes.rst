@@ -3,6 +3,41 @@
 Log Enhancements Release Notes
 ==============================
 
+
+Version: x.y.z
+--------------
+
+:Release Date: 2018-06-107
+
+**New Features**
+
+
+**Bug Fixes**
+
+
+**Known Issues**
+
+**Security Notes**
+
+LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_.
+
+Quick Links:
+ 	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
+ 	
+ 	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+ 	
+ 	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
 Version: 1.0.0
 --------------
 
