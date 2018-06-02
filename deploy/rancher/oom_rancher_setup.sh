@@ -19,26 +19,34 @@
 # This installation is for a rancher managed install of kubernetes
 # after this run the standard oom install
 # this installation can be run on amy ubuntu 16.04 VM or physical host
-# https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
-# source from https://jira.onap.org/browse/OOM-715
+# https://wiki.onap.org/display/DW/Cloud+Native+Deployment
+# source from https://jira.onap.org/browse/LOG-320
 # Michael O'Brien
 # Amsterdam
 #     Rancher 1.6.10, Kubernetes 1.7.7, Kubectl 1.7.7, Helm 2.3.0, Docker 1.12
 # master
 #     Rancher 1.6.14, Kubernetes 1.8.10, Kubectl 1.8.10, Helm 2.8.2, Docker 17.03
-# run as root - because of the logout that would be required after the docker user set
+
 
 usage() {
 cat <<EOF
 Usage: $0 [PARAMs]
+example
+sudo ./oom_rancher_setup.sh -b master -s cd.onap.cloud -e onap -c false -a 104.209.168.116 -v true
 -u                  : Display usage
 -b [branch]         : branch = master or amsterdam (required)
 -s [server]         : server = IP or DNS name (required)
 -e [environment]    : use the default (onap)
+-c [true/false]     : use computed client address (default true)
+-a [IP address]     : client address ip - no FQDN
 EOF
 }
 
 install_onap() {
+  #constants
+  USERNAME=ubuntu
+  PORT=8880
+
   if [ "$BRANCH" == "amsterdam" ]; then
     RANCHER_VERSION=1.6.10
     KUBECTL_VERSION=1.7.7
@@ -56,13 +64,12 @@ install_onap() {
 
   echo "If you must install as non-root - comment out the docker install below - run it separately, run the user mod, logout/login and continue this script"
   curl https://releases.rancher.com/install-docker/$DOCKER_VERSION.sh | sh
-  # when running as non-root (ubuntu) run the following and logout/log back in
-  #sudo usermod -aG docker ubuntu
+  sudo usermod -aG docker $USERNAME
 
   echo "install make - required for beijing+"
   sudo apt-get install make -y
 
-  sudo docker run -d --restart=unless-stopped -p 8880:8080 --name rancher_server rancher/server:v$RANCHER_VERSION
+  sudo docker run -d --restart=unless-stopped -p $PORT:8080 --name rancher_server rancher/server:v$RANCHER_VERSION
   sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v$KUBECTL_VERSION/bin/linux/amd64/kubectl
   sudo chmod +x ./kubectl
   sudo mv ./kubectl /usr/local/bin/kubectl
@@ -96,7 +103,7 @@ install_onap() {
   KEY_SECRET=`echo $API_RESPONSE | jq -r .secretValue`
   echo "publicValue: $KEY_PUBLIC secretValue: $KEY_SECRET"
 
-  export RANCHER_URL=http://${SERVER}:8880
+  export RANCHER_URL=http://${SERVER}:$PORT
   export RANCHER_ACCESS_KEY=$KEY_PUBLIC
   export RANCHER_SECRET_KEY=$KEY_SECRET
   ./rancher env ls
@@ -107,7 +114,7 @@ install_onap() {
   ./rancher env create -t kubernetes $KUBE_ENV_NAME > kube_env_id.json
   PROJECT_ID=$(<kube_env_id.json)
   echo "env id: $PROJECT_ID"
-  export RANCHER_HOST_URL=http://${SERVER}:8880/v1/projects/$PROJECT_ID
+  export RANCHER_HOST_URL=http://${SERVER}:$PORT/v1/projects/$PROJECT_ID
   echo "you should see an additional kubernetes environment usually with id 1a7"
   ./rancher env ls
   # optionally disable cattle env
@@ -132,14 +139,21 @@ install_onap() {
   echo "60 more sec"
   sleep 60
   # see registrationUrl in
-  REGISTRATION_TOKENS=`curl http://127.0.0.1:8880/v2-beta/registrationtokens`
+  REGISTRATION_TOKENS=`curl http://127.0.0.1:$PORT/v2-beta/registrationtokens`
   echo "REGISTRATION_TOKENS: $REGISTRATION_TOKENS"
   REGISTRATION_URL=`echo $REGISTRATION_TOKENS | jq -r .data[0].registrationUrl`
   REGISTRATION_DOCKER=`echo $REGISTRATION_TOKENS | jq -r .data[0].image`
   REGISTRATION_TOKEN=`echo $REGISTRATION_TOKENS | jq -r .data[0].token`
   echo "Registering host for image: $REGISTRATION_DOCKER url: $REGISTRATION_URL registrationToken: $REGISTRATION_TOKEN"
   HOST_REG_COMMAND=`echo $REGISTRATION_TOKENS | jq -r .data[0].command`
-  sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/racher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN
+  echo "Running agent docker..."
+  if [[ "$COMPUTEADDRESS" != false ]]; then
+      echo "sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/racher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN"
+      sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/racher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN
+  else
+      echo "sudo docker run -e CATTLE_AGENT_IP=\"$ADDRESS\" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$SERVER:$PORT/v1/scripts/$TOKEN"
+      sudo docker run -e CATTLE_AGENT_IP="$ADDRESS" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$SERVER:$PORT/v1/scripts/$REGISTRATION_TOKEN
+  fi
   echo "waiting 8 min for host registration to finish"
   sleep 420
   echo "1 more min"
@@ -158,7 +172,7 @@ clusters:
 - cluster:
     api-version: v1
     insecure-skip-tls-verify: true
-    server: "https://$SERVER:8880/r/projects/$PROJECT_ID/kubernetes:6443"
+    server: "https://$SERVER:$PORT/r/projects/$PROJECT_ID/kubernetes:6443"
   name: "${ENVIRON}"
 contexts:
 - context:
@@ -180,9 +194,12 @@ EOF
   kubectl get pods --all-namespaces
   echo "upgrade server side of helm in kubernetes"
   sudo helm version
+  echo "sleep 90"
+  sleep 90
   sudo helm init --upgrade
   echo "sleep 90"
   sleep 90
+  echo "verify both versions are the same below"
   sudo helm version
   echo "start helm server"
   sudo helm serve &
@@ -191,13 +208,17 @@ EOF
   echo "add local helm repo"
   sudo helm repo add local http://127.0.0.1:8879
   sudo helm repo list
+  echo "finished"
 }
 
 BRANCH=
 SERVER=
 ENVIRON=
+COMPUTEADDRESS=true
+ADDRESS=
+VALIDATE=false
 
-while getopts ":b:s:e:u:" PARAM; do
+while getopts ":b:s:e:u:c:a:v" PARAM; do
   case $PARAM in
     u)
       usage
@@ -212,6 +233,15 @@ while getopts ":b:s:e:u:" PARAM; do
     s)
       SERVER=${OPTARG}
       ;;
+    c)
+      COMPUTEADDRESS=${OPTARG}
+      ;;
+    a)
+      ADDRESS=${OPTARG}
+      ;;
+    v)
+      VALIDATE=${OPTARG}
+      ;;
     ?)
       usage
       exit
@@ -224,5 +254,5 @@ if [[ -z $BRANCH ]]; then
   exit 1
 fi
 
-install_onap $BRANCH $SERVER $ENVIRON
+install_onap $BRANCH $SERVER $ENVIRON $COMPUTEADDRESS $ADDRESS $VALIDATE
 
