@@ -39,6 +39,7 @@ sudo ./oom_rancher_setup.sh -b master -s cd.onap.cloud -e onap -c false -a 104.2
 -e [environment]    : use the default (onap)
 -c [true/false]     : use computed client address (default true)
 -a [IP address]     : client address ip - no FQDN
+-v [true/false]     : validate
 EOF
 }
 
@@ -208,6 +209,10 @@ EOF
   echo "add local helm repo"
   sudo helm repo add local http://127.0.0.1:8879
   sudo helm repo list
+  echo "enabling grafana dashboard"
+  kubectl expose -n kube-system deployment monitoring-grafana --type=LoadBalancer --name monitoring-grafana-client
+  echo "get the nodeport for a specific VM"
+  kubectl get services --all-namespaces | grep graf
   echo "finished"
 }
 
