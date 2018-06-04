@@ -4,7 +4,7 @@ Log Enhancements Release Notes
 ==============================
 
 
-Version: x.y.z
+Version: 1.2.2
 --------------
 
 :Release Date: 2018-06-107
