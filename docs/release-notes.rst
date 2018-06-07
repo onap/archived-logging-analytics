@@ -10,14 +10,17 @@ Version: 1.2.2
 :Release Date: 2018-06-07
 
 **New Features**
-
+   - Logstash is a daemonset (clustered at 1 container per VM)
+   - `The following applications send logs to the ELK stack - <https://jira.onap.org/browse/LOG-230>`_
 
 **Bug Fixes**
 
 
 **Known Issues**
+   - Logstash load balancing is asymmetric
 
 **Security Notes**
+   - all three nodeports for logstash, elasticsearch and kibana are open by default for now
 
 LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_.
 
