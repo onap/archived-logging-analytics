@@ -30,7 +30,7 @@ example
 ./cd.sh -b master -e onap -c true -d false -w true -r false (standard new server/dev environment - use this as the default)
 
 -u                  : Display usage
--b [branch]         : branch = master or amsterdam (required)
+-b [branch]         : branch = master/beijing or amsterdam (required)
 -e [environment]    : use the default (onap)
 -c [true|false]     : FLAG clone new oom repo (default: true)
 -d [true|false]     : FLAG delete prev oom - (cd build) (default: false)
@@ -50,16 +50,14 @@ deploy_onap() {
   if [[ "$DELETE_PREV_OOM" != false ]]; then
     echo "remove existing oom"
     # master/beijing only - not amsterdam
-    if [ "$BRANCH" == "master" ]; then
-      kubectl delete namespace $ENVIRON
-      kubectl delete namespace dcae
-      kubectl delete namespace dev
-      sudo helm delete --purge dev
-      sudo helm delete --purge $ENVIRON
-      sudo helm delete --purge onap
-      sudo helm delete --purge dcae
-    else
+    if [ "$BRANCH" == "amsterdam" ]; then
       oom/kubernetes/oneclick/deleteAll.bash -n $ENVIRON
+    else
+      # workaround for secondary orchestration in dcae
+      sudo helm delete --purge $ENVIRON
+      echo "sleep for 4 min to allow helm delete to finish pod terminations before trying a kubectl delete namespace"
+      sleep 240
+      kubectl delete namespace $ENVIRON
     fi
 
     sleep 1
@@ -101,10 +99,7 @@ deploy_onap() {
     git clone -b $BRANCH http://gerrit.onap.org/r/oom
   fi
 
-  if [ "$BRANCH" == "master" ]; then
-    echo "moving values.yaml to oom/kubernetes/"
-    #sudo cp values.yaml oom/kubernetes/onap
-  else
+  if [ "$BRANCH" == "amsterdam" ]; then
     echo "start config pod"
     # still need to source docker variables
     source oom/kubernetes/oneclick/setenv.bash
@@ -119,6 +114,9 @@ deploy_onap() {
       sleep 15
       echo "waiting for config pod to complete"
     done
+  else
+    echo "moving values.yaml to oom/kubernetes/"
+    #sudo cp values.yaml oom/kubernetes/onap
   fi
 
   # usually the prepull takes up to 25-300 min - however hourly builds will finish the docker pulls before the config pod is finished
@@ -127,17 +125,17 @@ deploy_onap() {
   #chmod 777 prepull_docker.sh
   #./prepull_docker.sh
   echo "start onap pods"
-  if [ "$BRANCH" == "master" ]; then
-    cd oom/kubernetes/
-    sudo make clean
-    sudo make all
-    sudo make onap
-    sudo helm install local/onap -n onap --namespace $ENVIRON
-    cd ../../
-  else
+  if [ "$BRANCH" == "amsterdam" ]; then
     cd oom/kubernetes/oneclick
     ./createAll.bash -n $ENVIRON
     cd ../../../
+  else
+    cd oom/kubernetes/
+    sudo make clean
+    sudo make all
+    sudo make $ENVIRON
+    sudo helm install local/onap -n onap --namespace $ENVIRON
+    cd ../../
   fi
 
   echo "wait for all pods up for 15-80 min"
