@@ -39,6 +39,7 @@ Prereq:
 -e [AWS efs id]         : AWS Elastic File System ID prefix
 -r [AWS region prefix]  : AWS Region prefix
 -t [token]              : registration token
+-h [agent ver]          : agent version (default 1.2.9 for 1.6.14
 -c [true/false]         : use computed client address
 -a [IP address]         : client address ip - no FQDN
 -v [validate true/false]: optional
@@ -50,6 +51,7 @@ register_node() {
     DOCKERDATA_NFS=dockerdata-nfs
     DOCKER_VER=17.03
     USERNAME=ubuntu
+    PORT=8880
 
     if [[ "$IS_NODE" != false ]]; then
         sudo curl https://releases.rancher.com/install-docker/$DOCKER_VER.sh | sh
@@ -61,11 +63,11 @@ register_node() {
     if [[ "$IS_NODE" != false ]]; then
         echo "Running agent docker..."
         if [[ "$COMPUTEADDRESS" != false ]]; then
-            echo "sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$MASTER:8880/v1/scripts/$TOKEN"
-            sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$MASTER:8880/v1/scripts/$TOKEN
+            echo "sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v$AGENT_VER http://$MASTER:$PORT/v1/scripts/$TOKEN"
+            sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v$AGENT_VER http://$MASTER:$PORT/v1/scripts/$TOKEN
         else
-            echo "sudo docker run -e CATTLE_AGENT_IP=\"$ADDRESS\" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$MASTER:8880/v1/scripts/$TOKEN"
-            sudo docker run -e CATTLE_AGENT_IP="$ADDRESS" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$MASTER:8880/v1/scripts/$TOKEN
+            echo "sudo docker run -e CATTLE_AGENT_IP=\"$ADDRESS\" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v$AGENT_VER http://$MASTER:$PORT/v1/scripts/$TOKEN"
+            sudo docker run -e CATTLE_AGENT_IP="$ADDRESS" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v$AGENT_VER http://$MASTER:$PORT/v1/scripts/$TOKEN
         fi
     fi
 }
@@ -75,10 +77,11 @@ MASTER=
 TOKEN=
 AWS_REGION=
 AWS_EFS=
+AGENT_VER=1.2.9
 COMPUTEADDRESS=true
 ADDRESS=
 VALIDATE=
-while getopts ":u:n:s:e:r:t:c:a:v" PARAM; do
+while getopts ":u:n:s:e:r:t:h:c:a:v" PARAM; do
   case $PARAM in
     u)
       usage
@@ -98,6 +101,9 @@ while getopts ":u:n:s:e:r:t:c:a:v" PARAM; do
       ;;
     t)
       TOKEN=${OPTARG}
+      ;;
+    h)
+      AGENT_VER=${OPTARG}
       ;;
     c)
       COMPUTEADDRESS=${OPTARG}
@@ -120,6 +126,8 @@ if [ -z $MASTER ]; then
   exit 1
 fi
 
-register_node  $IS_NODE $MASTER $AWS_EFS $AWS_REGION $TOKEN $COMPUTEADDRESS $ADDRESS $VALIDATE
-echo "if you get ERROR: http://$MASTER:8880/v1 is not accessible (The requested URL returned error: 404 Not Found) - check your token"
-printf "**** Done ****\n"
+register_node  $IS_NODE $MASTER $AWS_EFS $AWS_REGION $TOKEN $AGENT_VER $COMPUTEADDRESS $ADDRESS $VALIDATE
+echo "check dockerdata-nfs"
+sudo ls /dockerdata-nfs
+echo "if you get http://$MASTER:8880/v1 is not accessible (The requested URL returned error: 404 Not Found) - check your token"
+printf "**** Success: Done ****\n"
