@@ -149,8 +149,8 @@ install_onap() {
   HOST_REG_COMMAND=`echo $REGISTRATION_TOKENS | jq -r .data[0].command`
   echo "Running agent docker..."
   if [[ "$COMPUTEADDRESS" != false ]]; then
-      echo "sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/racher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN"
-      sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/racher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN
+      echo "sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN"
+      sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN
   else
       echo "sudo docker run -e CATTLE_AGENT_IP=\"$ADDRESS\" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$SERVER:$PORT/v1/scripts/$TOKEN"
       sudo docker run -e CATTLE_AGENT_IP="$ADDRESS" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$SERVER:$PORT/v1/scripts/$REGISTRATION_TOKEN
@@ -209,11 +209,12 @@ EOF
   echo "add local helm repo"
   sudo helm repo add local http://127.0.0.1:8879
   sudo helm repo list
-  echo "enabling grafana dashboard"
-  kubectl expose -n kube-system deployment monitoring-grafana --type=LoadBalancer --name monitoring-grafana-client
-  echo "get the nodeport for a specific VM"
-  kubectl get services --all-namespaces | grep graf
-  echo "finished"
+  echo "To enable grafana dashboard - do this after running cd.sh which brings up onap - or you may get a 302xx port conflict"
+  echo "kubectl expose -n kube-system deployment monitoring-grafana --type=LoadBalancer --name monitoring-grafana-client"
+  echo "to get the nodeport for a specific VM running grafana"
+  echo "kubectl get services --all-namespaces | grep graf"
+  kubectl get pods --all-namespaces
+  echo "finished!"
 }
 
 BRANCH=
