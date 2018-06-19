@@ -28,6 +28,41 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsSame.sameInstance;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.core.StringEndsWith.endsWith;
+import static org.hamcrest.core.Every.everyItem;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.core.StringStartsWith.startsWith;
+import static org.hamcrest.beans.HasProperty.hasProperty;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThan;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.hamcrest.collection.IsArray.array;
+import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
+import static org.hamcrest.collection.IsArrayContainingInAnyOrder.arrayContainingInAnyOrder;
+import static org.hamcrest.collection.IsIn.isIn;
+import static org.hamcrest.collection.IsIn.isOneOf;
+import static org.hamcrest.collection.IsMapContaining.hasKey;
+import static org.hamcrest.collection.IsMapContaining.hasEntry;
+import static org.hamcrest.collection.IsMapContaining.hasValue;
+import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
+import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.isEmptyString;
+import static org.hamcrest.text.StringContainsInOrder.stringContainsInOrder;
+import static org.hamcrest.xml.HasXPath.hasXPath;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -61,7 +96,7 @@ public class ONAPLogAdapterOutputTest {
     @BeforeSuite
     public static void setUp() throws Exception {
         sDir = Files.createTempDirectory(ONAPLogAdapterOutputTest.class.getName()).toFile();
-        System.getProperties().setProperty("SLF4J_OUTPUT_DIRECTORY", sDir.getAbsolutePath());
+        System.getProperties().setProperty("TESTNG_SLF4J_OUTPUT_DIRECTORY", sDir.getAbsolutePath());
         LoggerFactory.getLogger(ONAPLogAdapterOutputTest.class).info("Starting.");
     }
 
@@ -121,7 +156,9 @@ public class ONAPLogAdapterOutputTest {
         assertThat(lines.get(0), containsString("ENTRY"));
         final String [] line0 = lines.get(0).split("\t", -1);
         assertThat(line0.length, is(9));
-        DatatypeConverter.parseDateTime(line0[0]);
+        final long sanity = DatatypeConverter.parseDateTime(line0[0]).getTimeInMillis();
+        assertThat(Math.abs(System.currentTimeMillis() - sanity), lessThan(5000L));
+        assertThat(line0[0], endsWith("Z"));
         assertThat(line0[1].trim().length(), greaterThan(1));
         assertThat(line0[2], is("INFO"));
         assertThat(line0[3], is(this.getClass().getName()));
@@ -136,6 +173,7 @@ public class ONAPLogAdapterOutputTest {
         final String [] line1 = lines.get(1).split("\t", -1);
         assertThat(line1.length, is(9));
         DatatypeConverter.parseDateTime(line1[0]);
+        assertThat(line1[0], endsWith("Z"));
         assertThat(line1[1].trim().length(), greaterThan(1));
         assertThat(line1[2], is("WARN"));
         assertThat(line1[3], is(this.getClass().getName()));
@@ -150,6 +188,7 @@ public class ONAPLogAdapterOutputTest {
         final String [] line2 = lines.get(2).split("\t", -1);
         assertThat(line2.length, is(9));
         DatatypeConverter.parseDateTime(line2[0]);
+        assertThat(line2[0], endsWith("Z"));
         assertThat(line2[1].trim().length(), greaterThan(1));
         assertThat(line2[2], is("ERROR"));
         assertThat(line2[3], is(this.getClass().getName()));

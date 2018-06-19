@@ -31,7 +31,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SLF4JRefApplication {
 
     /** System property override, read by embedded Logback configuration. */
-    public static final String SLF4J_OUTPUT_DIRECTORY = "SLF4J_OUTPUT_DIRECTORY";
+    public static final String TESTNG_SLF4J_OUTPUT_DIRECTORY = "TESTNG_SLF4J_OUTPUT_DIRECTORY";
 
     /**
      * Launch from CLI.
@@ -48,7 +48,7 @@ public class SLF4JRefApplication {
      * overridden by tests, but not in services.)
      */
     static void initOutputDirectory() {
-        System.getProperties().setProperty(SLF4J_OUTPUT_DIRECTORY,
-                System.getProperty(SLF4J_OUTPUT_DIRECTORY, "."));
+        System.getProperties().setProperty(TESTNG_SLF4J_OUTPUT_DIRECTORY,
+                System.getProperty(TESTNG_SLF4J_OUTPUT_DIRECTORY, "."));
     }
 }

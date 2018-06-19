@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -32,6 +34,41 @@ import org.slf4j.event.Level;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsSame.sameInstance;
+import static org.hamcrest.core.StringContains.containsString;
+import static org.hamcrest.core.StringEndsWith.endsWith;
+import static org.hamcrest.core.Every.everyItem;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.core.StringStartsWith.startsWith;
+import static org.hamcrest.beans.HasProperty.hasProperty;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThan;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.hamcrest.collection.IsArray.array;
+import static org.hamcrest.collection.IsArrayContaining.hasItemInArray;
+import static org.hamcrest.collection.IsArrayContainingInAnyOrder.arrayContainingInAnyOrder;
+import static org.hamcrest.collection.IsIn.isIn;
+import static org.hamcrest.collection.IsIn.isOneOf;
+import static org.hamcrest.collection.IsMapContaining.hasKey;
+import static org.hamcrest.collection.IsMapContaining.hasEntry;
+import static org.hamcrest.collection.IsMapContaining.hasValue;
+import static org.hamcrest.text.IsEqualIgnoringWhiteSpace.equalToIgnoringWhiteSpace;
+import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.hamcrest.text.IsEmptyString.isEmptyOrNullString;
+import static org.hamcrest.text.IsEmptyString.isEmptyString;
+import static org.hamcrest.text.StringContainsInOrder.stringContainsInOrder;
+import static org.hamcrest.xml.HasXPath.hasXPath;
+
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -116,6 +153,14 @@ public class ONAPLogAdapterTest {
             assertThat(mdcs.get("ServiceName"), is("uri123"));
             assertThat(mdcs.get("ServerFQDN"), is("local123"));
             assertThat(mdcs.get("ClientIPAddress"), is("remote123"));
+
+            // Timestamp format and value:
+
+            final String invokeTimestampString = mdcs.get("InvokeTimestamp");
+            assertThat(invokeTimestampString, notNullValue());
+            assertThat(invokeTimestampString, endsWith("Z"));
+            final long invokeTimestamp = DatatypeConverter.parseDateTime(invokeTimestampString).getTimeInMillis();
+            assertThat(Math.abs(System.currentTimeMillis() - invokeTimestamp), lessThan(5000L));
         }
         finally {
             MDC.clear();
