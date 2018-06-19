@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_12b34c0b",
+        "filename": "reference/logging-slf4j/src/main/java/org/onap/logging/ref/slf4j/ONAPLogAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-06-19T16:01:32Z",
+      "side": 1,
+      "message": "looks good",
+      "revId": "bca830c8ee8cc574bd3f05e0599c56d05ba011e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_32b688fa",
+        "filename": "reference/logging-slf4j/src/test/java/org/onap/logging/ref/slf4j/ONAPLogAdapterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-06-19T16:01:32Z",
+      "side": 1,
+      "message": "nice",
+      "revId": "bca830c8ee8cc574bd3f05e0599c56d05ba011e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
