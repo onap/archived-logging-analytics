@@ -58,7 +58,7 @@ public class CallGraphTest {
     public static void setUp() throws Exception {
         AbstractComponentTest.setInProcess();
         sDir = Files.createTempDirectory(CallGraphTest.class.getName()).toFile();
-        System.getProperties().setProperty("SLF4J_OUTPUT_DIRECTORY", sDir.getAbsolutePath());
+        System.getProperties().setProperty("TESTNG_SLF4J_OUTPUT_DIRECTORY", sDir.getAbsolutePath());
         LoggerFactory.getLogger(CallGraphTest.class).info("Starting.");
     }
 

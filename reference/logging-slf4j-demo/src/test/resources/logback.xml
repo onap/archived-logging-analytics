@@ -17,7 +17,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${SLF4J_OUTPUT_DIRECTORY}/output.log</file>
+        <file>${TESTNG_SLF4J_OUTPUT_DIRECTORY}/output.log</file>
         <encoder>
             <pattern>${pattern}</pattern>
         </encoder>

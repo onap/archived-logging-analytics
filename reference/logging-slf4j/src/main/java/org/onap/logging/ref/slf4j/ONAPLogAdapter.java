@@ -21,7 +21,9 @@
 
 package org.onap.logging.ref.slf4j;
 
-import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -315,7 +317,9 @@ public class ONAPLogAdapter {
         // depending on where you need them to appear, OR extend the
         // ServiceDescriptor to add them.
 
-        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP, LocalDateTime.now().toString());
+        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
+                ZonedDateTime.now(ZoneOffset.UTC)
+                        .format(DateTimeFormatter.ISO_INSTANT));
         MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestID);
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationID);
         MDC.put(ONAPLogConstants.MDCs.PARTNER_NAME, partnerName);

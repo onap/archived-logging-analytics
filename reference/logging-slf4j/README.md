@@ -25,26 +25,13 @@ The adapter provides:
 Note that:
 * The adapter implementation uses static inner classes in order to fit in a single source file. This was an objective. 
 
-## WAR
-
-Building produces a simple (spring-boot](https://projects.spring.io/spring-boot/) example WAR, which can be launched from this directory with:
-
-```bash
-$ java -war target/*war
-```
-
-The example WAR in ```logging-slf4j-demo``` publishes four web services:
-1. ```services/alpha```
-2. ```services/beta```
-3. ```services/gamma```
-4. ```services/delta```
-
-... each of which can invoke the others.
-
 The purpose of the WAR is to demonstrate minimalist ONAP-compliant logging for web components, but a secondary purpose is to demonstrate that the call graph can be generated for a (mostly) representative set of interacting REST services.
+
+## Configuration
+
+Note that the bundled SLF4J configuration *isn't* meant to be normative. Close enough as makes no difference for
+the purposes of tests, but be aware that it might not always be up-to-date.
 
 ## Tests
 
-Tests for:
-1. Code in the (potentially) reusable ``common`` package.
-2. Validating that emitted logs can be used to generate an unambiguous call graph.
+TestNG tests for contract + output of SLF4J reference impl.

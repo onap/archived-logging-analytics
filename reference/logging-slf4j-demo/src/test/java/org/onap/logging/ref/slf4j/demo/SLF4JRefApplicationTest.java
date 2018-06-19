@@ -34,14 +34,14 @@ public class SLF4JRefApplicationTest {
 
     @Test
     public void testProperty() {
-        assertThat(SLF4JRefApplication.SLF4J_OUTPUT_DIRECTORY,
-                is("SLF4J_OUTPUT_DIRECTORY"));
+        assertThat(SLF4JRefApplication.TESTNG_SLF4J_OUTPUT_DIRECTORY,
+                is("TESTNG_SLF4J_OUTPUT_DIRECTORY"));
     }
 
     @Test
     public void testInitOutputDirectory() throws Exception {
         SLF4JRefApplication.initOutputDirectory();
-        assertThat(System.getProperty(SLF4JRefApplication.SLF4J_OUTPUT_DIRECTORY),
+        assertThat(System.getProperty(SLF4JRefApplication.TESTNG_SLF4J_OUTPUT_DIRECTORY),
                 notNullValue());
     }
 }
