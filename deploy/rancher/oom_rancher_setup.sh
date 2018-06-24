@@ -24,8 +24,8 @@
 # Michael O'Brien
 # Amsterdam
 #     Rancher 1.6.10, Kubernetes 1.7.7, Kubectl 1.7.7, Helm 2.3.0, Docker 1.12
-# master
-#     Rancher 1.6.14, Kubernetes 1.8.10, Kubectl 1.8.10, Helm 2.8.2, Docker 17.03
+# master/beijing
+#     Rancher 1.6.18, Kubernetes 1.8.10, Kubectl 1.8.10, Helm 2.8.2, Docker 17.03
 
 
 usage() {
@@ -54,7 +54,7 @@ install_onap() {
     HELM_VERSION=2.3.0
     DOCKER_VERSION=1.12
   else
-    RANCHER_VERSION=1.6.14
+    RANCHER_VERSION=1.6.18
     KUBECTL_VERSION=1.8.10
     HELM_VERSION=2.8.2
     DOCKER_VERSION=17.03
@@ -152,8 +152,8 @@ install_onap() {
       echo "sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN"
       sudo docker run --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher $REGISTRATION_DOCKER $RANCHER_URL/v1/scripts/$REGISTRATION_TOKEN
   else
-      echo "sudo docker run -e CATTLE_AGENT_IP=\"$ADDRESS\" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$SERVER:$PORT/v1/scripts/$TOKEN"
-      sudo docker run -e CATTLE_AGENT_IP="$ADDRESS" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.9 http://$SERVER:$PORT/v1/scripts/$REGISTRATION_TOKEN
+      echo "sudo docker run -e CATTLE_AGENT_IP=\"$ADDRESS\" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.10 http://$SERVER:$PORT/v1/scripts/$TOKEN"
+      sudo docker run -e CATTLE_AGENT_IP="$ADDRESS" --rm --privileged -v /var/run/docker.sock:/var/run/docker.sock -v /var/lib/rancher:/var/lib/rancher rancher/agent:v1.2.10 http://$SERVER:$PORT/v1/scripts/$REGISTRATION_TOKEN
   fi
   echo "waiting 8 min for host registration to finish"
   sleep 420
