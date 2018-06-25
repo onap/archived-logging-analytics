@@ -20,14 +20,25 @@
  */
 package org.onap.demo.logging;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.onap.logging.ref.slf4j.ONAPLogAdapter;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 @Service("daoFacade")
 public class ApplicationService implements ApplicationServiceLocal {
 	
     @Override
-    public Boolean health() {
+    public Boolean health(HttpServletRequest servletRequest) {
     	Boolean health = true;
     	// TODO: check database
+    	final ONAPLogAdapter adapter = new ONAPLogAdapter(LoggerFactory.getLogger(this.getClass()));
+    	try {
+    	    adapter.entering(new ONAPLogAdapter.HttpServletRequestAdapter(servletRequest));
+    	} finally {
+    	    adapter.exiting();
+    	}
+    	
     	return health;
     }
   
