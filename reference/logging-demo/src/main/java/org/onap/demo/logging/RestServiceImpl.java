@@ -40,6 +40,7 @@ public class RestServiceImpl extends Application {
 	@Produces(MediaType.TEXT_HTML)
 	public String getTest() {
 		return "testing: " + applicationServiceLocal;
+		
 	}
 
    private ApplicationServiceLocal getApplicationService() {
