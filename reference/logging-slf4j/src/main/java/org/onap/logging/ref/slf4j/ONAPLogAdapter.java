@@ -333,7 +333,8 @@ public class ONAPLogAdapter {
         // Default the service name to the requestURI, in the event that
         // no value has been provided.
 
-        if (MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME) == null) {
+        if (MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME) == null ||
+                MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME).equalsIgnoreCase(EMPTY_MESSAGE)) {
             MDC.put(ONAPLogConstants.MDCs.SERVICE_NAME, request.getRequestURI());
         }
 

@@ -20,6 +20,8 @@
  */
 package org.onap.demo.logging;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface ApplicationServiceLocal {
-	Boolean health();
+	Boolean health(HttpServletRequest request);
 }
