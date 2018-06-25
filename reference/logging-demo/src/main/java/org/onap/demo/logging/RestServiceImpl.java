@@ -31,19 +31,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 @Path("/read")
 public class RestServiceImpl extends Application {
-	@Inject
-	@Qualifier("daoFacade")
+    @Inject
+    @Qualifier("daoFacade")
     private ApplicationServiceLocal applicationServiceLocal;
-	
-	@GET
-	@Path("/test")
-	@Produces(MediaType.TEXT_HTML)
-	public String getTest() {
-		return "testing: " + applicationServiceLocal;
-	}
 
-   private ApplicationServiceLocal getApplicationService() {
-	   return applicationServiceLocal;
-   }
+    @GET
+    @Path("/test")
+    @Produces(MediaType.TEXT_HTML)
+    public String getTest() {
+        return "testing: " + applicationServiceLocal;
+
+    }
+
+    private ApplicationServiceLocal getApplicationService() {
+        return applicationServiceLocal;
+    }
 }
 
