@@ -166,6 +166,47 @@ public class ONAPLogAdapterTest {
             MDC.clear();
         }
     }
+    
+    /**
+     * Test ENTERING with an EMPTY_STRING serviceName.
+     */
+    @Test
+    public void testEnteringWithEMPTY_STRING_serviceName() {
+
+        final Logger logger = LoggerFactory.getLogger(this.getClass());
+        final ONAPLogAdapter adapter = new ONAPLogAdapter(logger);
+        final MockHttpServletRequest http = new MockHttpServletRequest();
+        http.setRequestURI("uri123");
+        http.setServerName("local123");
+        http.setRemoteAddr("remote123");
+        http.addHeader("X-ONAP-RequestID", "request123");
+        http.addHeader("X-ONAP-InvocationID", "invocation123");
+        http.addHeader("X-ONAP-PartnerName", "partner123");
+
+        try {
+            // an empty string should kick in setting the actual service name (treated same as null)
+            adapter.getServiceDescriptor().setServiceName("");
+            adapter.entering(http);
+            final Map<String, String> mdcs = MDC.getCopyOfContextMap();
+            assertThat(mdcs.get("RequestID"), is("request123"));
+            assertThat(mdcs.get("InvocationID"), is("invocation123"));
+            assertThat(mdcs.get("PartnerName"), is("partner123"));
+            assertThat(mdcs.get("ServiceName"), is("uri123"));
+            assertThat(mdcs.get("ServerFQDN"), is("local123"));
+            assertThat(mdcs.get("ClientIPAddress"), is("remote123"));
+
+            // Timestamp format and value:
+
+            final String invokeTimestampString = mdcs.get("InvokeTimestamp");
+            assertThat(invokeTimestampString, notNullValue());
+            assertThat(invokeTimestampString, endsWith("Z"));
+            final long invokeTimestamp = DatatypeConverter.parseDateTime(invokeTimestampString).getTimeInMillis();
+            assertThat(Math.abs(System.currentTimeMillis() - invokeTimestamp), lessThan(5000L));
+        }
+        finally {
+            MDC.clear();
+        }
+    }
 
     @Test
     public void testSetServiceDescriptor() {

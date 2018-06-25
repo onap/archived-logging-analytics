@@ -18,35 +18,28 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.demo.logging;
+package org.onap.logging.demo;
 
-import javax.inject.Inject;
+import static org.junit.Assert.*;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.junit.Test;
+import org.onap.demo.logging.ApplicationService;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.util.Assert;
 
-@Path("/health")
-public class RestHealthServiceImpl extends Application {
-    
-    @Context private HttpServletRequest servletRequest;
-    
-	@Inject
-	@Qualifier("daoFacade")
-    private ApplicationServiceLocal applicationServiceLocal;
-	
-	@GET
-	@Path("/health")
-	@Produces(MediaType.TEXT_HTML)
-	public String getHealth() {
+public class ApplicationServiceTest {
 
-	    return applicationServiceLocal.health(servletRequest).toString();
-	}
-	
+    @Test
+    public final void testHealth() {
+        ApplicationService service = new ApplicationService();
+        Assert.notNull(service);
+        HttpServletRequest servletRequest = new MockHttpServletRequest();
+        Assert.notNull(servletRequest);
+        boolean health = service.health(servletRequest);
+        Assert.isTrue(health);
+        System.out.println("health : " + health);
+    }
+
 }
-

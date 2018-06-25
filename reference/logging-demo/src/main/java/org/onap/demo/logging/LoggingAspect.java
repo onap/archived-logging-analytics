@@ -20,33 +20,29 @@
  */
 package org.onap.demo.logging;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.onap.logging.ref.slf4j.ONAPLogAdapter;
+import org.slf4j.LoggerFactory;
 
-@Path("/health")
-public class RestHealthServiceImpl extends Application {
+@Aspect
+public class LoggingAspect {
     
-    @Context private HttpServletRequest servletRequest;
-    
-	@Inject
-	@Qualifier("daoFacade")
-    private ApplicationServiceLocal applicationServiceLocal;
-	
-	@GET
-	@Path("/health")
-	@Produces(MediaType.TEXT_HTML)
-	public String getHealth() {
+    @Before("execution(* org.onap.demo.logging.*.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        Object[] args = joinPoint.getArgs();
+        Object servletRequest = args[0];
+        ONAPLogAdapter.HttpServletRequestAdapter requestAdapter = new ONAPLogAdapter.HttpServletRequestAdapter(
+                (HttpServletRequest)servletRequest);
+        final ONAPLogAdapter adapter = new ONAPLogAdapter(LoggerFactory.getLogger(joinPoint.getTarget().getClass()));
+        try {
+            adapter.entering(requestAdapter);
+        } finally {
+            adapter.exiting();
+        }
+    }
 
-	    return applicationServiceLocal.health(servletRequest).toString();
-	}
-	
 }
-
