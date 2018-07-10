@@ -1,0 +1,282 @@
+<configuration scan='{{.Values.log.scan.enabled}}' scanPeriod='{{.Values.log.scan.seconds}} seconds' debug='{{.Values.log.debug}}'>
+
+    <!-- Component-specific settings. Will ALWAYS change. -->
+
+    <property name="componentName" value='{{default "UNSET_COMPONENT" .Values.log.componentName}}'/>
+    <property name="subcomponentName" value='{{default "UNSET_SUBCOMPONENT" .Values.log.subcomponentName}}'/>
+
+    <!-- Common settings. Will SOMETIMES change. -->
+
+    <property name="serverName" value='{{.Values.log.serverName}}'/>
+    <property name="logDir" value='{{.Values.log.logDir}}'/>
+    <property name="maxFileSize" value='{{.Values.log.maxFileSize}}'/>
+    <property name="maxHistory" value='{{.Values.log.maxHistory}}'/>
+    <property name="totalSizeCap" value='{{.Values.log.totalSizeCap}}'/>
+    <property name="queueSize" value='{{.Values.log.queueSize}}'/>
+
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <property name="p_tim" value="%d{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;, UTC}"/>
+    <property name="p_lvl" value="%level"/>
+    <property name="p_log" value="%logger"/>
+    <property name="p_mdc" value="%replace(%replace(%mdc){'\t','\\\\t'}){'\n', '\\\\n'}"/>
+    <property name="p_msg" value="%replace(%replace(%msg){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+    <property name="p_exc" value="%replace(%replace(%rootException){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+    <property name="p_mak" value="%replace(%replace(%marker){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+    <property name="p_thr" value="%thread"/>
+
+    <!-- Appender-specific properties. -->
+
+    <!-- Console (human-readable) logging -->
+
+    <property
+            name="consolePattern"
+            value="%nopexception${p_log}\t${p_tim}\t${p_lvl}\t%message\t${p_mdc}\t%rootException\t${p_mak}\t${p_thr}%n"/>
+
+    <!-- Beats (indexable) output. -->
+
+    <property name="beatsPattern" value="%nopexception${p_tim}\t${p_thr}\t${p_lvl}\t${p_log}\t${p_mdc}\t${p_msg}\t${p_exc}\t${p_mak}\t%n"/>
+    <property name="beatsLogRoot" value="${logDir}/beats"/>
+    <property name="beatsLogDirectory" value="${beatsLogRoot}/${componentName}/${subcomponentName}"/>
+    <property name="beatsLogFilename" value="${serverName}"/>
+
+    <!-- EELF (legacy) output. -->
+
+    <property name="eelfAuditLogName" value="${serverName}-audit"/>
+    <property name="eelfMetricsLogName" value="${serverName}-metrics"/>
+    <property name="eelfDebugLogName" value="${serverName}-debug"/>
+    <property name="eelfErrorLogName" value="${serverName}-error"/>
+    <property name="eelfApplicationLogName" value="${serverName}-application"/>
+    <property
+            name="eelfAuditPattern"
+            value="%X{BeginTimestamp}|%X{EndTimestamp}|%X{RequestId}|%X{ServiceInstanceId}|%thread||%X{ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDesc}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{RemoteHost}|%logger|||||||%msg%n"/>
+    <property
+            name="eelfMetricsPattern"
+            value="%X{BeginTimestamp}|%X{EndTimestamp}|%X{RequestId}|%X{ServiceInstanceId}|%thread||%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDesc}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{RemoteHost}|%logger|||%X{TargetVirtualEntity}|||||%msg%n"/>
+    <property
+            name="eelfErrorPattern"
+            value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%thread|%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%.-5level|%X{ErrorCode}|%X{ErrorDesc}|%msg%n"/>
+    <property
+            name="eelfDebugPattern"
+            value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX, UTC}|%X{RequestId}|%msg%n"/>
+    <property
+            name="eelfApplicationPattern"
+            value="${eelfErrorPattern}" />
+    <property name="eelfLogRoot" value="${logDir}/eelf"/>
+    <property name="eelfLogDirectory" value="${eelfLogRoot}/${componentName}/${subcomponentName}"/>
+
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <!-- Console output. /////////////////////////////////////////// -->
+
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="Console">
+        <encoder>
+            <pattern>${consolePattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ConsoleAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="Console"/>
+    </appender>
+
+    <!-- Indexable output. /////////////////////////////////////////// -->
+
+    <appender name="Beats" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${beatsLogDirectory}/${beatsLogFilename}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${beatsLogDirectory}/${beatsLogFilename}.%i.log.%d</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${beatsPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="BeatsAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="Beats"/>
+    </appender>
+
+    <!-- Syslog output. -->
+
+    <appender name="Syslog" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>{{default "localhost" .Values.log.syslog.host}}</syslogHost>
+        <port>{{default "514" .Values.log.syslog.port}}</port>
+        <facility>{{default "USER" .Values.log.syslog.facility}}</facility>
+    </appender>
+
+    <appender name="SyslogAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="Syslog"/>
+    </appender>
+
+    <!-- EELF output. -->
+
+    <!-- Audit. -->
+
+    <appender name="EELFAudit" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${eelfLogDirectory}/${eelfAuditLogName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${eelfLogDirectory}/${eelfAuditLogName}.%i.log.%d</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${eelfAuditPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="EELFAuditAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="EELFAudit"/>
+    </appender>
+
+    <!-- EELF metrics. -->
+
+    <appender name="EELFMetrics" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${eelfLogDirectory}/${eelfMetricsLogName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${eelfLogDirectory}/${eelfMetricsLogName}.%i.log.%d</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${eelfMetricsPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="EELFMetricsAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="EELFMetrics"/>
+    </appender>
+
+    <!-- EELF debug -->
+
+    <appender name="EELFDebug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${eelfLogDirectory}/${eelfDebugLogName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${eelfLogDirectory}/${eelfDebugLogName}.%i.log.%d</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${eelfDebugPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="EELFDebugAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="EELFDebug"/>
+    </appender>
+
+    <!-- EELF error -->
+
+    <appender name="EELFError" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${eelfLogDirectory}/${eelfErrorLogName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${eelfLogDirectory}/${eelfErrorLogName}.%i.log.%d</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${eelfErrorPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="EELFErrorAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="EELFError"/>
+    </appender>
+
+    <!-- EELF general -->
+
+    <appender name="EELF" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${eelfLogDirectory}/${eelfApplicationLogName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${eelfLogDirectory}/${eelfApplicationLogName}.%i.log.%d</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalSizeCap}</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${eelfApplicationPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="EELFAsync" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${queueSize}</queueSize>
+        <appender-ref ref="EELF"/>
+    </appender>
+
+    <!-- ///////////////////////////////////////////////////////////////////// -->
+    <!-- ///////////////////////////////////////////////////////////////////// -->
+    <!-- ///////////////////////////////////////////////////////////////////// -->
+    <!-- ///////////////////////////////////////////////////////////////////// -->
+
+    <!-- EELF loggers. -->
+
+    {{if .Values.log.root.eelf}}
+    <logger name="com.att.eelf.audit" level="info" additivity="false">
+        <appender-ref ref="EELFAuditAsync"/>
+    </logger>
+
+    <logger name="com.att.eelf.metrics" level="info" additivity="false">
+        <appender-ref ref="EELFMetricsAsync"/>
+    </logger>
+
+    <logger name="com.att.eelf.debug" level="debug" additivity="false">
+        <appender-ref ref="EELFDebugAsync"/>
+    </logger>
+
+    <logger name="com.att.eelf.error" level="error" additivity="false">
+        <appender-ref ref="EELFErrorAsync"/>
+    </logger>
+    {{ end }}
+
+    <!-- Root logger. -->
+
+    <root level='{{.Values.log.root.level}}'>
+        {{ if .Values.log.root.beats }}
+        <appender-ref ref="BeatsAsync"/>
+        {{ end }}
+        {{ if .Values.log.root.console }}
+        <appender-ref ref="ConsoleAsync"/>
+        {{ end }}
+        {{ if .Values.log.root.eelf }}
+        <appender-ref ref="EELFAsync"/>
+        {{ end }}
+    </root>
+
+    <!-- Named loggers. -->
+
+    {{- range .Values.log.loggers }}
+    <logger name='{{.name}}' level='{{.level}}' additivity="false">
+        {{ if .beats }}
+        <appender-ref ref="BeatsAsync"/>
+        {{ end }}
+        {{ if .console }}
+        <appender-ref ref="ConsoleAsync"/>
+        {{ end }}
+        {{ if .syslog }}
+        <appender-ref ref="SyslogAsync"/>
+        {{ end }}
+        {{ if .eelf }}
+        <appender-ref ref="EELFAsync"/>
+        {{ end }}
+    </logger>
+    {{- end}}
+
+</configuration>

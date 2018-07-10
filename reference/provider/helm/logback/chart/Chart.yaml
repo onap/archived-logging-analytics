@@ -1,0 +1,4 @@
+apiVersion: v1
+name: logdemo
+version: 1.0.0
+description: whatever

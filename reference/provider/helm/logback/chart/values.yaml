@@ -1,0 +1,35 @@
+log:
+
+  componentName: c1
+  subcomponentName: s1
+
+  debug: true
+
+  scan:
+    enabled: true
+    seconds: 60
+
+  serverName: ${HOSTNAME}
+  logDir: /var/log/onap
+  maxFileSize: 50MB
+  maxHistory: 50
+  totalSizeCap: 20GB
+  queueSize: 256
+
+  syslog:
+      host: localhost
+      port: 514
+      facility: USER
+
+  root:
+    level: INFO
+    beats: true
+    console: true
+    syslog: false
+    eelf: false
+
+  # loggers:
+  #   - name: org.onap.logging.helm.test
+  #     level: DEBUG
+  #     beats: true
+  #     console: true

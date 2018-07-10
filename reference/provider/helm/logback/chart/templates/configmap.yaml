@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logback-configmap
+  namespace: {{ .Values.nsPrefix }}
+data:
+{{ tpl (.Files.Glob "resources/*").AsConfig . | indent 2 }}
