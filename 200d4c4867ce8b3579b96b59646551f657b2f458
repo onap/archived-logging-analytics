@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_1bac16ed",
+        "filename": "reference/logging-demo/src/test/java/org/onap/logging/demo/ApplicationServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-07-23T23:50:42Z",
+      "side": 1,
+      "message": "I suspect you would like to test this further, for example, test that the number of items in the classes set?",
+      "revId": "200d4c4867ce8b3579b96b59646551f657b2f458",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
