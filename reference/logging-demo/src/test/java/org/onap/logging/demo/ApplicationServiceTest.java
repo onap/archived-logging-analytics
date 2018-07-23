@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 import org.onap.demo.logging.ApplicationService;
+import org.onap.demo.logging.RestApplication;
+import org.onap.demo.logging.RestHealthServiceImpl;
+import org.onap.demo.logging.RestServiceImpl;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.Assert;
 
@@ -39,7 +42,38 @@ public class ApplicationServiceTest {
         Assert.notNull(servletRequest);
         boolean health = service.health(servletRequest);
         Assert.isTrue(health);
-        System.out.println("health : " + health);
     }
 
+    @Test
+    public final void testRestEndpointCoverageForRestHealthServiceImpl() {
+        // primarily for code coverage
+        RestHealthServiceImpl service = new RestHealthServiceImpl();
+        Assert.notNull(service);
+        ApplicationService appService = new ApplicationService();
+        Assert.notNull(appService);
+        service.setApplicationService(appService);
+        String health = service.getHealth();
+        Assert.notNull(health);
+        Assert.isTrue(health.equalsIgnoreCase("true"));
+    }
+    
+    @Test
+    public final void testRestEndpointCoverageForRestServiceImpl() {
+        // primarily for code coverage
+        RestServiceImpl service = new RestServiceImpl();
+        Assert.notNull(service);
+        ApplicationService appService = new ApplicationService();
+        Assert.notNull(appService);
+        service.setApplicationService(appService);
+        String health = service.getTest();
+        Assert.notNull(health);
+    }
+    
+    @Test
+    public final void testJAXRSFramework() {
+        // primarily for code coverage
+        RestApplication app = new RestApplication();
+        Assert.notNull(app);
+        app.getClasses();
+    }
 }
