@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_653a5138",
+        "filename": "reference/logging-kubernetes/logdemonode/charts/logdemonode/values.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-07-23T16:23:50Z",
+      "side": 1,
+      "message": "these are not inherited - need to be enabled for DNS to work",
+      "revId": "d882270162d56c55da339af8fb9384e1bdc0160d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
