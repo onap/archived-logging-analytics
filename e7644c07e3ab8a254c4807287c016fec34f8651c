@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_3ba55a04",
+        "filename": "reference/logging-kubernetes/logdemonode/charts/logdemonode/resources/config/logback.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-07-23T23:36:28Z",
+      "side": 1,
+      "message": "This file is being modified to pull in patterns for MDCs",
+      "revId": "e7644c07e3ab8a254c4807287c016fec34f8651c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
