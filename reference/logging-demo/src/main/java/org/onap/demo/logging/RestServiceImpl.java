@@ -42,9 +42,13 @@ public class RestServiceImpl extends Application {
         return "testing: " + applicationServiceLocal;
 
     }
-
-    private ApplicationServiceLocal getApplicationService() {
-        return applicationServiceLocal;
+    
+    /**
+     * Use only for testing
+     * @param aService
+     */
+    public void setApplicationService(ApplicationServiceLocal aService) {
+        applicationServiceLocal = aService;
     }
 }
 
