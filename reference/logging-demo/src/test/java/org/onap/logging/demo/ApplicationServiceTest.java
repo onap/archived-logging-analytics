@@ -22,10 +22,16 @@ package org.onap.logging.demo;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Test;
 import org.onap.demo.logging.ApplicationService;
+import org.onap.demo.logging.LoggingAspect;
+import org.onap.demo.logging.RestApplication;
+import org.onap.demo.logging.RestHealthServiceImpl;
+import org.onap.demo.logging.RestServiceImpl;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.util.Assert;
 
@@ -39,7 +45,59 @@ public class ApplicationServiceTest {
         Assert.notNull(servletRequest);
         boolean health = service.health(servletRequest);
         Assert.isTrue(health);
-        System.out.println("health : " + health);
     }
 
+    @Test
+    public final void testRestEndpointCoverageForRestHealthServiceImpl() {
+        // primarily for code coverage
+        RestHealthServiceImpl service = new RestHealthServiceImpl();
+        Assert.notNull(service);
+        ApplicationService appService = new ApplicationService();
+        Assert.notNull(appService);
+        service.setApplicationService(appService);
+        String health = service.getHealth();
+        Assert.notNull(health);
+        Assert.isTrue(health.equalsIgnoreCase("true"));
+    }
+    
+    @Test
+    public final void testRestEndpointCoverageForRestServiceImpl() {
+        // primarily for code coverage
+        RestServiceImpl service = new RestServiceImpl();
+        Assert.notNull(service);
+        ApplicationService appService = new ApplicationService();
+        Assert.notNull(appService);
+        service.setApplicationService(appService);
+        String health = service.getTest();
+        Assert.notNull(health);
+    }
+    
+    @Test
+    public final void testJAXRSFramework() {
+        // primarily for code coverage
+        RestApplication app = new RestApplication();
+        Assert.notNull(app);
+        Set<Class<?>> classes = app.getClasses();
+        Assert.notNull(classes);
+        Assert.isTrue(classes.size() > 1);
+    }
+    
+    @Test
+    public final void testLoggingAspect() {
+        // primarily for code coverage
+        LoggingAspect aspect = new LoggingAspect();
+        Assert.notNull(aspect);
+        JoinPointMock joinPoint = new JoinPointMock();
+        ApplicationService appService = new ApplicationService();
+        Assert.notNull(appService);
+        joinPoint.setTarget(appService.getClass());
+        joinPoint.getTarget();
+        HttpServletRequest servletRequest = new MockHttpServletRequest();
+        Assert.notNull(servletRequest);
+        HttpServletRequest[] args = new HttpServletRequest[1];
+        args[0] = servletRequest;
+        joinPoint.setArgs(args);
+        aspect.logAfter(joinPoint);
+        aspect.logBefore(joinPoint);
+    }
 }

@@ -48,5 +48,13 @@ public class RestHealthServiceImpl extends Application {
 	    return applicationServiceLocal.health(servletRequest).toString();
 	}
 	
+	/**
+	 * Use only for testing
+	 * @param aService
+	 */
+	public void setApplicationService(ApplicationServiceLocal aService) {
+	    applicationServiceLocal = aService;
+	}
+	
 }
 
