@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_45b06ddd",
+        "filename": "reference/logging-kubernetes/logdemonode/charts/logdemonode/templates/deployment.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-07-23T16:09:18Z",
+      "side": 1,
+      "message": "reverse please to var/log/onap",
+      "revId": "a988cadbf97528b4d634e7e975d56e222c9ab2cf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
