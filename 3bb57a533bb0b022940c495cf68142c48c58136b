@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Avdhut Kholkar <avdhut.kholkar@amdocs.com>
+Code-Review+2: Luke Parker <lparker@amdocs.com>
+Code-Review+2: Prudence Au <prudence.au@amdocs.com>
+Submitted-by: Prudence Au <prudence.au@amdocs.com>
+Submitted-at: Tue, 24 Jul 2018 13:06:21 +0000
+Reviewed-on: https://gerrit.onap.org/r/57245
+Project: logging-analytics
+Branch: refs/heads/master
