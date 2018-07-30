@@ -9,6 +9,13 @@
   <artifactId>logging-library</artifactId>
   <packaging>jar</packaging>
   <name>logging-library</name>
+  
+    <properties>
+       <spring.version>4.3.6.RELEASE</spring.version>
+       <logback.version>1.2.3</logback.version> 
+       <onap.version>1.2.2-SNAPSHOT</onap.version>         
+  </properties>
+  
   <build>
       <plugins>
       <plugin>
@@ -57,13 +64,86 @@
       	</plugins>
       </pluginManagement>
   </build>
-    <properties>
-    </properties>
+  
   <dependencies>
+      <!--  decouple HttpServlet parameters from both this project and slf4j later -->
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.0.1</version>
+        <scope>provided</scope>
+    </dependency>
           <dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-slf4j</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
+            <version>${onap.version}</version>
         </dependency>
+               <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <!--scope>test</scope-->
+        </dependency>
+        <dependency> 
+     <groupId>org.springframework</groupId> 
+     <artifactId>spring-aspects</artifactId> 
+     <version>${spring.version}</version> 
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+                <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-core</artifactId>
+                        <version>${logback.version}</version>
+                </dependency>
+                <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>${logback.version}</version>
+                </dependency>  
+ 
   </dependencies>
 </project>
