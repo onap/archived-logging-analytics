@@ -2,7 +2,7 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {     
-      "scriptURL": { "value": "https://jira.onap.org/secure/attachment/11609/oom_entrypoint.sh"},
+      "scriptURL": { "value": "https://git.onap.org/logging-analytics/plain/deploy/rancher/oom_entrypoint.sh"},
       "onapBranch": { "value": "master" },
       "onapEnvironment": { "value": "onap"},
       "vmName": { "value": "a-replace-this-0" },
