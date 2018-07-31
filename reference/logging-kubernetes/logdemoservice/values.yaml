@@ -1,7 +1,0 @@
-nsPrefix: onap
-pullPolicy: Always
-nodePortPrefix: 302
-image:
-  readiness: oomk8s/readiness-check:1.0.0
-  logdemoservice: oomk8s/logging-demo-service:0.0.1
-  filebeat: docker.elastic.co/beats/filebeat:5.5.0
