@@ -56,7 +56,7 @@ install_onap() {
   else
     RANCHER_VERSION=1.6.18
     KUBECTL_VERSION=1.8.10
-    HELM_VERSION=2.8.2
+    HELM_VERSION=2.9.1
     DOCKER_VERSION=17.03
   fi
 

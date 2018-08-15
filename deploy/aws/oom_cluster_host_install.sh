@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #############################################################################
-# v20180618
+# v20180815
 # Amazon AWS specific EFS/NFS share and rancher host join script for each cluster node
 # https://wiki.onap.org/display/DW/Cloud+Native+Deployment
 # source from https://jira.onap.org/browse/OOM-320
@@ -39,7 +39,7 @@ Prereq:
 -e [AWS efs id]         : AWS Elastic File System ID prefix
 -r [AWS region prefix]  : AWS Region prefix
 -t [token]              : registration token
--h [agent ver]          : agent version (default 1.2.9 for 1.6.14
+-h [agent ver]          : agent version (default 1.2.10 for 1.6.18
 -c [true/false]         : use computed client address
 -a [IP address]         : client address ip - no FQDN
 -v [validate true/false]: optional
@@ -77,7 +77,7 @@ MASTER=
 TOKEN=
 AWS_REGION=
 AWS_EFS=
-AGENT_VER=1.2.9
+AGENT_VER=1.2.10
 COMPUTEADDRESS=true
 ADDRESS=
 VALIDATE=
