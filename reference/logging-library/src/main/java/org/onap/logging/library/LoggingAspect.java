@@ -18,9 +18,9 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.demo.logging;
+package org.onap.logging.library;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest; 
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;

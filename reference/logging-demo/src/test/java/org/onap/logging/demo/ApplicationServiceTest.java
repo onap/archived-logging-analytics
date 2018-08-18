@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.Test;
 import org.onap.demo.logging.test.JoinPointMock;
 import org.onap.demo.logging.ApplicationService;
-import org.onap.demo.logging.LoggingAspect;
+import org.onap.logging.library.LoggingAspect;
 import org.onap.demo.logging.RestApplication;
 import org.onap.demo.logging.RestHealthServiceImpl;
 import org.onap.demo.logging.RestServiceImpl;
