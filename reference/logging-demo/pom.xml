@@ -12,7 +12,9 @@
        <jackson-2-version>2.5.1</jackson-2-version>
        <spring.version>4.3.6.RELEASE</spring.version>
        <logback.version>1.2.3</logback.version> 
-       <onap.version>1.2.2-SNAPSHOT</onap.version>         
+       <onap.version>1.2.2-SNAPSHOT</onap.version> 
+       <audit_log_level>DEBUG</audit_log_level> 
+       <log_dir_root_prefix>/var</log_dir_root_prefix>      
   </properties>
   <build>
       <plugins>
@@ -32,6 +34,18 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<configuration>
+			<systemPropertyVariables>
+				<audit_log_level>${audit.log.level}</audit_log_level>
+			</systemPropertyVariables>
+			<environmentVariables>
+				<LOG_DIR_ROOT_PREFIX>${log_dir_root_prefix}</LOG_DIR_ROOT_PREFIX>
+			</environmentVariables>
+		</configuration>
+	</plugin>
     </plugins>
       <pluginManagement>
       	<plugins>
