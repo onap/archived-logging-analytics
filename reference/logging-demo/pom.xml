@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -59,7 +60,7 @@
       								</goals>
       							</pluginExecutionFilter>
       							<action>
-      								<ignore></ignore>
+      								<ignore/>
       							</action>
       						</pluginExecution>
       					</pluginExecutions>
@@ -80,8 +81,8 @@
             <artifactId>logging-mock-service</artifactId>
             <version>${onap.version}</version>
         </dependency>
-        
-        
+
+
             <!-- https://jersey.java.net/documentation/latest/modules-and-dependencies.html -->
     <dependency>
         <groupId>javax.ws.rs</groupId>
@@ -198,7 +199,7 @@
         <version>3.0.1</version>
         <scope>provided</scope>
     </dependency>
-   
+
        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>

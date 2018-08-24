@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -5,17 +6,17 @@
       <artifactId>logging-reference</artifactId>
       <version>1.2.2-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>logging-library</artifactId>
   <packaging>jar</packaging>
   <name>logging-library</name>
-  
+
     <properties>
        <spring.version>4.3.6.RELEASE</spring.version>
        <logback.version>1.2.3</logback.version> 
        <onap.version>1.2.2-SNAPSHOT</onap.version>         
   </properties>
-  
+
   <build>
       <plugins>
       <plugin>
@@ -54,7 +55,7 @@
       								</goals>
       							</pluginExecutionFilter>
       							<action>
-      								<ignore></ignore>
+      								<ignore/>
       							</action>
       						</pluginExecution>
       					</pluginExecutions>
@@ -64,7 +65,7 @@
       	</plugins>
       </pluginManagement>
   </build>
-  
+
   <dependencies>
       <!--  decouple HttpServlet parameters from both this project and slf4j later -->
       <dependency>
@@ -144,6 +145,6 @@
                         <artifactId>logback-classic</artifactId>
                         <version>${logback.version}</version>
                 </dependency>  
- 
+
   </dependencies>
 </project>
