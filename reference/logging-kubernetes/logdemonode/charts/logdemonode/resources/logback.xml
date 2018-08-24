@@ -61,7 +61,7 @@
   <property name="p_19_ClientIPAddress" value="%X{ClientIPAddress}" />
   <property name="p_20_VirtualServerName" value="%X{VirtualServerName}" />
   <property name="p_21_ContextName" value="%X{ContextName}" />
-  <property name="p_22_TargetEntity" value="%X{TargetEntity}" />
+  <property name="p_22_TargetEntity" value="{TargetEntity}" />
   <property name="p_23_TargetServiceName" value="%X{TargetServiceName}" />
   <property name="p_24_TargetElement" value="%X{TargetElement}" />
   <property name="p_25_User" value="%X{User}" />
@@ -70,8 +70,7 @@
   <property name="p_28_message" value="${Message}" />
   <property name="p_29_marker" value="${Marker}" />
   
-  
-  <property name="pattern" value="%nopexception${p_1_LogTimestamp}|${p_2_EntryTimestamp}|${p_3_InvokeTimestamp}|${p_4_RequestID}|${p_5_InvocationID}|${p_6_InstanceUUID}|${p_7_ServiceInstanceID}|${p_8_thread}|${p_9_ServiceName}|${p_10_PartnerName}|${p_11_StatusCode}|${p_12_ResponseCode}|${p_13_ResponseDesc}|${p_14_level}|${p_15_Severity}|${p_16_ServerIPAddress}|${p_17_ElapsedTime}|${p_18_ServerFQDN}|${p_19_ClientIPAddress}|${p_20_VirtualServerName}|${p_21_ContextName}|${p_22_TargetEntity}|${p_23_TargetServiceName}|${p_24_TargetElement}|${p_25_User}|${p_26_logger}|${p_27_mdc}|${p_28_message}|${p_29_marker}%n" />
+  <property name="pattern" value="%nopexception${p_1_LogTimestamp}|${p_2_EntryTimestamp}|${p_3_InvokeTimestamp}|${p_4_RequestID}|${p_5_InvocationId}|${p_6_InstanceUUID}|${p_7_ServiceInstanceId}|${p_8_thread}|${p_9_ServiceName}|${p_10_PartnerName}|${p_11_StatusCode}|${p_12_ResponseCode}|${p_13_ResponseDesc}|${p_14_level}|${p_15_Severity}|${p_16_ServerIPAddress}|${p_17_ElapsedTime}|${p_18_ServerFQDN}|${p_19_ClientIPAddress}|${p_20_VirtualServerName}|${p_21_ContextName}|${p_22_TargetEntity}|${p_23_TargetServiceName}|${p_24_TargetElement}|${p_25_User}|${p_26_logger}|${p_27_mdc}|${p_28_message}|${p_29_marker}%n" />
   
   <!-- 4 log files -->
   <property name="auditLoggerPattern" 
