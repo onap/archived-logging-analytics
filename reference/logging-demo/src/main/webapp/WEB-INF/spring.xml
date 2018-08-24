@@ -37,7 +37,7 @@
     <!-- enable logging AOP proxies -->
     <aop:aspectj-autoproxy />
     <beans>
-        <bean class="org.onap.demo.logging.LoggingAspect" /> <!-- required even though we annotate with @Aspect -->
+        <bean class="org.onap.logging.LoggingAspect" /> <!-- required even though we annotate with @Aspect -->
     </beans>
 </beans>
 
