@@ -30,11 +30,21 @@ global:
 # application image
 #repository: nexus3.onap.org:10001
 repository: oomk8s
-image: logging-demo-nbi:0.0.3
+image: logging-demo-nbi:0.0.4
 pullPolicy: Always
 
 # flag to enable debugging - application support required
 debugEnabled: false
+# logging directory root - use "/var" for "/var/log/onap"
+LOG_DIR_ROOT_PREFIX: /var/log/onap
+# application.properties dir
+APP_CONFIG_DIR: /opt/app/config
+AUDII_LOG_LEVEL: debug
+DEBUG_LOG_LEVEL: debug
+ERROR_LOG_LEVEL: dinfo
+METRICS_LOG_LEVEL: dinfo
+
+
 
 # application configuration
 # Example:

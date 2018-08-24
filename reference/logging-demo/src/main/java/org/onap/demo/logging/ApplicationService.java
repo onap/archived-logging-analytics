@@ -36,7 +36,11 @@ public class ApplicationService implements ApplicationServiceLocal {
     	Boolean health = true;
     	// TODO: check database
     	// Log outside the AOP framework - to simulate existing component logs between the ENTRY/EXIT markers
-    	LoggerFactory.getLogger(this.getClass()).info("Running /health");
+    	LoggerFactory.getLogger(this.getClass()).info("default appender - info level - Running /health");
+    	// TODO: exit comes in at all times (entry only in info)
+    	LoggerFactory.getLogger(this.getClass()).debug("default appender - debug level - Running /health");
+    	
+    	
     	return health;
     }
   
