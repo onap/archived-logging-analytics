@@ -69,9 +69,11 @@ spec:
             initialDelaySeconds: {{ .Values.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.readiness.periodSeconds }}
           env:
-#Example environment variable passed to container
-#            - name: DEBUG_FLAG
-#              value: {{ .Values.global.debugEnabled | default .Values.debugEnabled | quote }}
+             #Example environment variable passed to container
+            - name: DEBUG_FLAG
+              value: {{ .Values.global.debugEnabled | default .Values.debugEnabled | quote }}
+            - name: LOG_DIR_ROOT_PREFIX
+              value: {{ .Values.global.LOG_DIR_ROOT_PREFIX | default .Values.LOG_DIR_ROOT_PREFIX | quote }}
           volumeMounts:
           - name: {{ include "common.fullname" . }}-logs
             mountPath: /var/log/onap
