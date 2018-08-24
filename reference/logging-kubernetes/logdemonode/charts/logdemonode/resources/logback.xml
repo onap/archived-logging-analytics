@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- based on https://git.onap.org/oom/tree/kubernetes/portal/charts/portal-sdk/resources/config/deliveries/properties/ONAPPORTALSDK/logback.xml -->
+<configuration scan="true" scanPeriod="3 seconds" debug="false">
+  <property file="${APP_CONFIG_DIR}/application.properties" />
+  <!-- pod specific -->
+  <!--  specify the component name -->
+  <property name="componentName" value="logdemo"></property> <!-- make variable -->
+  <property name="subComponentName" value="logdemonode"></property> <!--  make variable -->
+
+  <!-- ONAP common -->
+  <!--  specify the base path of the log directory - set logDirRoot environment variable in k8s or at the container level - default to "/var" -->
+  <property name="logDirPrefix" value="${LOG_DIR_ROOT_PREFIX}/log/onap"></property>
+  <property name="auditLogLevel" value="${AUDIT_LOG_LEVEL}"></property>
+  <property name="debugLogLevel" value="${DEBUG_LOG_LEVEL}"></property>
+  <property name="metricsLogLevel" value="${METRICS_LOG_LEVEL}"></property>
+  <property name="errorLogLevel" value="${ERROR_LOG_LEVEL}"></property>
+  <!-- The directories where logs are written -->
+  <property name="logDirectory" value="${logDirPrefix}/${componentName}/${subComponentName}" />
+  <!-- Can easily relocate debug logs by modifying this path. -->
+  <property name="debugLogDirectory" value="${logDirPrefix}/${componentName}/${subComponentName}" />
+  <!-- property name="generalLogName" value="application" /--> <!--  see error.log -->
+  <property name="errorLogName" value="error" />
+  <property name="metricsLogName" value="metrics" />
+  <property name="auditLogName" value="audit" />
+  <property name="debugLogName" value="debug" />
+  <property name="queueSize" value="256" />
+  <property name="maxFileSize" value="50MB" />
+  <property name="maxHistory" value="30" />
+  <property name="totalSizeCap" value="10GB" />  
+  
+  <!-- MDC and MARKER specific for Cassablanca -->
+  <property name="LogTimestamp" value="%d{&quot;yyyy-MM-dd'T'HH:mm:ss.SSSXXX&quot;, UTC}"/>
+  <property name="Level" value="%.-5level"/>
+  <property name="Logger" value="%logger"/>
+  <property name="Mdc" value="%replace(%replace(%mdc){'\t','\\\\t'}){'\n', '\\\\n'}"/>
+  <property name="Message" value="%replace(%replace(%msg){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+  <property name="RootException" value="%replace(%replace(%rootException){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+  <property name="Marker" value="%replace(%replace(%marker){'\t', '\\\\t'}){'\n','\\\\n'}"/>
+  <property name="Thread" value="%thread"/>
+  <!-- indexed  -->
+  
+  <!--  for Casablanca we support both position dependent pipe delimited - and position independent KVP MDCs -->
+  <property name="p_1_LogTimestamp" value="${LogTimestamp}" />
+  <property name="p_2_EntryTimestamp" value="%X{EntryTimestamp}" />
+  <property name="p_3_InvokeTimestamp" value="%X{InvokeTimestamp}" />
+  <property name="p_4_RequestID" value="%X{RequestId}" />
+  <property name="p_5_InvocationID" value="%X{InvocationId}" />
+  <property name="p_6_InstanceID" value="%X{InstanceUUID}" /> <!--  previously InstanceUUID -->
+  <property name="p_7_ServiceInstanceID" value="%X{ServiceInstanceId}" />
+  <property name="p_8_thread" value="${Thread}" />
+  <property name="p_9_ServiceName" value="%X{ServiceName}" />
+  <property name="p_10_PartnerName" value="%X{PartnerName}" />
+  <property name="p_11_StatusCode" value="%X{StatusCode}" />
+  <property name="p_12_ResponseCode" value="%X{ResponseCode}" />
+  <property name="p_13_ResponseDesc" value="%X{ResponseDesc}" />
+  <property name="p_14_level" value="${Level}" />
+  <property name="p_15_Severity" value="%X{Severity}" />
+  <property name="p_16_ServerIPAddress" value="%X{ServerIPAddress}" />
+  <property name="p_17_ElapsedTime" value="%X{ElapsedTime}" />
+  <property name="p_18_ServerFQDN" value="%X{ServerFQDN}" />
+  <property name="p_19_ClientIPAddress" value="%X{ClientIPAddress}" />
+  <property name="p_20_VirtualServerName" value="%X{VirtualServerName}" />
+  <property name="p_21_ContextName" value="%X{ContextName}" />
+  <property name="p_22_TargetEntity" value="{TargetEntity}" />
+  <property name="p_23_TargetServiceName" value="%X{TargetServiceName}" />
+  <property name="p_24_TargetElement" value="%X{TargetElement}" />
+  <property name="p_25_User" value="%X{User}" />
+  <property name="p_26_logger" value="${Logger}" />
+  <property name="p_27_mdc" value="${Mdc}" />
+  <property name="p_28_message" value="${Message}" />
+  <property name="p_29_marker" value="${Marker}" />
+  
+  <property name="pattern" value="%nopexception${p_1_LogTimestamp}|${p_2_EntryTimestamp}|${p_3_InvokeTimestamp}|${p_4_RequestID}|${p_5_InvocationId}|${p_6_InstanceUUID}|${p_7_ServiceInstanceId}|${p_8_thread}|${p_9_ServiceName}|${p_10_PartnerName}|${p_11_StatusCode}|${p_12_ResponseCode}|${p_13_ResponseDesc}|${p_14_level}|${p_15_Severity}|${p_16_ServerIPAddress}|${p_17_ElapsedTime}|${p_18_ServerFQDN}|${p_19_ClientIPAddress}|${p_20_VirtualServerName}|${p_21_ContextName}|${p_22_TargetEntity}|${p_23_TargetServiceName}|${p_24_TargetElement}|${p_25_User}|${p_26_logger}|${p_27_mdc}|${p_28_message}|${p_29_marker}%n" />
+  
+  <!-- 4 log files -->
+  <property name="auditLoggerPattern" 
+    value="${pattern}" />
+  <property name="metricsLoggerPattern" 
+    value="${pattern}" />
+  <property name="errorLoggerPattern" 
+    value="${pattern}" />  
+  <property name="debugLoggerPattern" 
+    value="${pattern}" />
+  <!-- property name="auditLoggerPattern" 
+    value="%X{AuditLogBeginTimestamp}|%X{AuditLogEndTimestamp}|%X{RequestId}|%X{ServiceInstanceId}|%thread|%X{VirtualServerName}|%X{ServiceName}|%X{PartnerName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{ClassName}|%X{Unused}|%X{ProcessKey}|%X{CustomField1}|%X{CustomField2}|%X{CustomField3}|%X{CustomField4}| %msg%n" />
+  <property name="metricsLoggerPattern" 
+    value="%X{MetricsLogBeginTimestamp}|%X{MetricsLogEndTimestamp}|%X{RequestId}|%X{ServiceInstanceId}|%thread|%X{VirtualServerName}|%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%X{StatusCode}|%X{ResponseCode}|%X{ResponseDescription}|%X{InstanceUUID}|%.-5level|%X{AlertSeverity}|%X{ServerIPAddress}|%X{Timer}|%X{ServerFQDN}|%X{ClientIPAddress}|%X{ClassName}|%X{Unused}|%X{ProcessKey}|%X{TargetVisualEntity}|%X{CustomField1}|%X{CustomField2}|%X{CustomField3}|%X{CustomField4}| %msg%n" />
+  <property name="errorLoggerPattern" 
+    value="%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%thread|%X{ServiceName}|%X{PartnerName}|%X{TargetEntity}|%X{TargetServiceName}|%X{ClassName}|%X{AlertSeverity}|%X{ErrorCode}|%X{ErrorDescription}| %msg%n" />
+  <property name="debugLoggerPattern" 
+    value="%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX}|%X{RequestId}|%thread|%X{ClassName}| %msg%n" /-->
+  <!-- Example evaluator filter applied against console appender -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${errorLoggerPattern}</pattern>
+    </encoder>
+  </appender>
+  <!-- ============================================================================ -->
+  <!-- EELF Appenders -->
+  <!-- ============================================================================ -->
+  <!-- appender name="EELF" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logDirectory}/${generalLogName}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logDirectory}/${generalLogName}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${applicationLoggerPattern}</pattern>
+    </encoder>
+    <filter class="org.onap.portalapp.util.CustomLoggingFilter" />
+  </appender>
+  <appender name="asyncEELF" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>256</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <appender-ref ref="EELF" />
+  </appender-->
+ 
+  <appender name="EELFAudit" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logDirectory}/${auditLogName}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${logDirectory}/${auditLogName}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${auditLoggerPattern}</pattern>
+    </encoder>
+  </appender>
+  <appender name="asyncEELFAudit" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>256</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <appender-ref ref="EELFAudit" />
+  </appender>
+  <appender name="EELFMetrics" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logDirectory}/${metricsLogName}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${logDirectory}/${metricsLogName}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${metricsLoggerPattern}</pattern>
+    </encoder>
+  </appender>
+  <appender name="asyncEELFMetrics" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>256</queueSize>
+    <appender-ref ref="EELFMetrics"/>
+  </appender>
+  <appender name="EELFError" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logDirectory}/${errorLogName}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${logDirectory}/${errorLogName}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${errorLoggerPattern}</pattern>
+    </encoder>
+  </appender>
+  <appender name="asyncEELFError" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>256</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <appender-ref ref="EELFError"/>
+  </appender>
+  <appender name="EELFDebug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${debugLogDirectory}/${debugLogName}.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- daily rollover -->
+      <fileNamePattern>${logDirectory}/${debugLogName}.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+      <!-- keep 30 days' worth of history capped at 3GB total size -->
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>3GB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${defaultLoggerPattern}</pattern>
+    </encoder>
+  </appender>
+  <appender name="asyncEELFDebug" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>256</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <appender-ref ref="EELFDebug" />
+  </appender>
+  
+  <!-- logger name="org.onap.eelf" level="info" additivity="false">
+    <appender-ref ref="asyncEELF" />
+  </logger-->
+  <logger name="org.onap.eelf.audit" level="${auditLogLevel}" additivity="false">
+    <appender-ref ref="asyncEELFAudit" />
+  </logger>
+  <logger name="org.onap.eelf.debug" level="${debugLogLevel}" additivity="false">
+    <appender-ref ref="asyncEELFDebug" />
+  </logger>
+  <logger name="org.onap.eelf.error" level="${errorLogLevel}" additivity="false">
+    <appender-ref ref="asyncEELFError" />
+  </logger>
+  <logger name="org.onap.eelf.metrics" level="${metricsLogLevel}" additivity="false">
+    <appender-ref ref="asyncEELFMetrics" />
+  </logger>
+  
+  <root level="INFO">
+    <!--  appender-ref ref="asyncEELF" /-->
+    <appender-ref ref="asyncEELFAudit" />
+  </root>
+</configuration>
