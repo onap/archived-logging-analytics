@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f2e9dd80",
+        "filename": "reference/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-25T00:20:08Z",
+      "side": 0,
+      "message": "there are no effective changes in reference/pom.xml - this is the result of an automated change right?",
+      "revId": "25fc709eb9d8b9bc79f46000005f5dbd49c2871c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
