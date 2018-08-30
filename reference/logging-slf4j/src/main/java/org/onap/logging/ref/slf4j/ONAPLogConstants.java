@@ -202,6 +202,9 @@ public final class ONAPLogConstants {
 
         /** Not. */
         ERROR,
+        
+        /** In Progress. */
+        INPROGRESS
     }
 
     /**
