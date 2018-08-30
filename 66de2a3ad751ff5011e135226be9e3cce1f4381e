@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e51a5d7c",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1803
+      },
+      "writtenOn": "2018-08-30T22:25:25Z",
+      "side": 1,
+      "message": "Just to clarify: msg is put in p_message and where is the Standard Attribute called Message used? Is Message put in msg somewhere else? Thanks",
+      "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
