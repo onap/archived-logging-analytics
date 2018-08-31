@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_183a5799",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-31T20:04:56Z",
+      "side": 1,
+      "message": "will do - sounds good -  all uppercase",
+      "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e51a5d7c",
         "filename": "reference/logging-demo/src/main/resources/logback.xml",
         "patchSetId": 6
@@ -36,6 +53,23 @@
       "writtenOn": "2018-08-30T22:25:25Z",
       "side": 1,
       "message": "Just to clarify: msg is put in p_message and where is the Standard Attribute called Message used? Is Message put in msg somewhere else? Thanks",
+      "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_383f138a",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-31T20:04:56Z",
+      "side": 1,
+      "message": "will try to get \"Message\" working",
       "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
