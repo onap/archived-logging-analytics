@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_358abe6a",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 131
+      },
+      "writtenOn": "2018-08-31T17:24:57Z",
+      "side": 1,
+      "message": "if you make the env uppercase then this would go upper too.",
+      "range": {
+        "startLine": 11,
+        "startChar": 41,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e51a5d7c",
         "filename": "reference/logging-demo/src/main/resources/logback.xml",
         "patchSetId": 6
@@ -13,6 +36,29 @@
       "writtenOn": "2018-08-30T22:25:25Z",
       "side": 1,
       "message": "Just to clarify: msg is put in p_message and where is the Standard Attribute called Message used? Is Message put in msg somewhere else? Thanks",
+      "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_55b73a3a",
+        "filename": "reference/logging-kubernetes/logdemonode/charts/logdemonode/templates/deployment.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 131
+      },
+      "writtenOn": "2018-08-31T17:24:57Z",
+      "side": 1,
+      "message": "I dunno.. style wise, I prefer to see env variables in all CAPS.  what do you think?",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 30
+      },
       "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
