@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_36e3a9a5",
+        "filename": "reference/logging-slf4j/src/main/java/org/onap/logging/ref/slf4j/ONAPLogConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-08-31T13:57:39Z",
+      "side": 1,
+      "message": "nice one",
+      "revId": "7e1d40b6f91c4da5b52ef98a27f938ccc6229baf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
