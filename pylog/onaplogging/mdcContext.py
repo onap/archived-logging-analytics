@@ -13,7 +13,9 @@
 
 import logging
 import threading
+import io
 import os
+import traceback
 import sys
 import functools
 
@@ -21,7 +23,7 @@ import functools
 __all__ = ['patch_loggingMDC', 'MDC']
 
 _replace_func_name = ['info', 'critical', 'fatal', 'debug',
-                      'error', 'warn', 'warning', 'findCaller']
+                      'error', 'warn', 'warning', 'log', 'findCaller']
 
 
 class MDCContext(threading.local):
@@ -134,8 +136,20 @@ def error(self, msg, *args, **kwargs):
     if self.isEnabledFor(logging.ERROR):
         self._log(logging.ERROR, msg, args, **kwargs)
 
+@fetchkeys
+def log(self, level, msg, *args, **kwargs):
 
-def findCaller(self):
+    if not isinstance(level, int):
+        if logging.raiseExceptions:
+            raise TypeError("level must be an integer")
+        else:
+            return
+
+    if self.isEnabledFor(level):
+        self._log(level, msg, args, **kwargs)
+
+
+def findCaller(self, stack_info=False):
 
     f = logging.currentframe()
     if f is not None:
@@ -148,7 +162,20 @@ def findCaller(self):
         if filename == logging._srcfile or co.co_name == "replace":
             f = f.f_back
             continue
-        rv = (co.co_filename, f.f_lineno, co.co_name)
+        if sys.version_info > (3, 2):
+            sinfo = None
+            if stack_info:
+                sio = io.StringIO()
+                sio.write("Stack (most recent call last):\n")
+                traceback.print_stack(f, file=sio)
+                sinfo = sio.getvalue()
+                if sinfo[-1] == '\n':
+                    sinfo = sinfo[:-1]
+                sio.close()
+            rv = (co.co_filename, f.f_lineno, co.co_name, sinfo)
+        else:
+            rv = (co.co_filename, f.f_lineno, co.co_name)
+
         break
 
     return rv
