@@ -57,6 +57,9 @@ public final class ONAPLogConstants {
 
         /** Marker reporting invocation. */
         public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
+        
+        /** Marker reporting invocation. */
+        public static final Marker INVOKE_RETURN = MarkerFactory.getMarker("INVOKE_RETURN");
 
         /** Marker reporting synchronous invocation. */
         public static final Marker INVOKE_SYNCHRONOUS = build("INVOKE", "SYNCHRONOUS");
@@ -111,6 +114,9 @@ public final class ONAPLogConstants {
 
         /** MDC recording target service. */
         public static final String TARGET_SERVICE_NAME = "TargetServiceName";
+        
+        /** MDC recording target entity. */
+        public static final String TARGET_ENTITY = "TargetEntity";
 
         /** MDC recording current service instance. */
         public static final String INSTANCE_UUID = "InstanceUUID";
