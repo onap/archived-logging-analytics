@@ -9,7 +9,7 @@
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-
+import sys
 import logging
 
 
@@ -19,15 +19,33 @@ class MDCFormatter(logging.Formatter):
     to enrich log message.
     """
 
-    def __init__(self, fmt=None, mdcfmt=None, datefmt=None):
+    def __init__(self, fmt=None, mdcfmt=None, datefmt=None, style="%"):
         """
         :param fmt: build-in format string contains standard
                Python %-style mapping keys
         :param mdcFmt: mdc format with '{}'-style mapping keys
         :param datefmt: Date format to use
+        :param style: style mapping keys in python3
         """
+        if sys.version_info > (3, 2):
+            super(MDCFormatter, self).__init__(fmt=fmt, datefmt=datefmt,
+                                               style=style)
+        elif sys.version_info > (2, 7):
+            super(MDCFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
+        else:
+            logging.Formatter.__init__(self, fmt, datefmt)
 
-        super(MDCFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
+        self.style = style
+        self._mdc_tag = "%(mdc)s"
+        if sys.version_info > (3, 2):
+            if self.style not in logging._STYLES:
+                raise ValueError('Style must be one of: %s' % ','.join(
+                        logging._STYLES.keys()))
+            if self.style == "{":
+                self._mdc_tag = "{mdc}"
+            elif self.style == "$":
+                self._mdc_tag = "${mdc}"
+
         self._tmpfmt = self._fmt
         if mdcfmt:
             self._mdcFmt = mdcfmt
@@ -60,7 +78,7 @@ class MDCFormatter(logging.Formatter):
                 elif len(st) > 0:
                     st.pop()
 
-        keys = filter(lambda x: x[1:-1].strip('\n \t  ') != "", keys)
+        keys = list(filter(lambda x: x[1:-1].strip('\n \t  ') != "", keys))
         words = None
         if keys:
             words = map(lambda x: x[1:-1], keys)
@@ -88,15 +106,25 @@ class MDCFormatter(logging.Formatter):
             the output of mdc message: 'key1=value1 key3='
 
         """
-        mdcIndex = self._fmt.find('%(mdc)s')
+        mdcIndex = self._fmt.find(self._mdc_tag)
         if mdcIndex == -1:
-            return super(MDCFormatter, self).format(record)
+            if sys.version_info > (2, 7):
+                return super(MDCFormatter, self).format(record)
+            else:
+                return logging.Formatter.format(self, record)
 
         mdcFmtkeys, mdcFmtWords = self._mdcfmtKey()
-        if mdcFmtWords is None:
 
-            self._fmt = self._fmt.replace("%(mdc)s", "")
-            return super(MDCFormatter, self).format(record)
+        if mdcFmtWords is None:
+            if sys.version_info > (3, 2):
+                self._style = logging._STYLES[self.style][0](
+                    self._fmt.replace(self._mdc_tag, ""))
+            else:
+                self._fmt = self._fmt.replace(self._mdc_tag, "")
+            if sys.version_info > (2, 7):
+                return super(MDCFormatter, self).format(record)
+            else:
+                return logging.Formatter.format(self, record)
 
         mdc = record.__dict__.get('mdc', None)
         res = {}
@@ -109,12 +137,19 @@ class MDCFormatter(logging.Formatter):
         del mdc
         try:
             mdcstr = self._replaceStr(keys=mdcFmtkeys).format(**res)
-            self._fmt = self._fmt.replace("%(mdc)s", mdcstr)
-            s = super(MDCFormatter, self).format(record)
+            if sys.version_info > (3, 2):
+                self._style = logging._STYLES[self.style][0](
+                    self._fmt.replace(self._mdc_tag, mdcstr))
+            else:
+                self._fmt = self._fmt.replace(self._mdc_tag, mdcstr)
+            if sys.version_info > (2, 7):
+                s = super(MDCFormatter, self).format(record)
+            else:
+                s = logging.Formatter.format(self, record)
             return s
 
         except KeyError as e:
-            print("The mdc key %s format is wrong" % e.message)
+            print("The mdc key %s format is wrong" % str(e))
         except Exception:
             raise
 
