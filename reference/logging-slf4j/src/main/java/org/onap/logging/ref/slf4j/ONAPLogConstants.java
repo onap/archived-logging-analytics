@@ -57,6 +57,9 @@ public final class ONAPLogConstants {
 
         /** Marker reporting invocation. */
         public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
+        
+        /** Marker reporting invocation. */
+        public static final Marker INVOKE_RETURN = MarkerFactory.getMarker("INVOKE_RETURN");
 
         /** Marker reporting synchronous invocation. */
         public static final Marker INVOKE_SYNCHRONOUS = build("INVOKE", "SYNCHRONOUS");
