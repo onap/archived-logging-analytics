@@ -12,17 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mdcContext import patch_loggingMDC
-from logWatchDog import patch_loggingYaml
+import sys
+from logging import Filter
+from marker import matchMarkerHelp
 
 
-__all__ = ["patch_all"]
+class MarkerFilter(Filter):
 
+    def __init__(self, name="", markers=None):
+        if sys.version_info > (2, 7):
+            super(MarkerFilter, self).__init__(name)
+        else:
+            Filter.__init__(self, name)
 
-def patch_all(mdc=True, yaml=True):
+        self.markerToMatch = markers
 
-    if mdc is True:
-        patch_loggingMDC()
-
-    if yaml is True:
-        patch_loggingYaml()
+    def filter(self, record):
+        # compare filter's markers with record's marker
+        return matchMarkerHelp(record, self.markerToMatch)

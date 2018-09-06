@@ -1,19 +1,23 @@
-# Copyright (c) 2018 VMware, Inc.
+# Copyright 2018 ke liang <lokyse@163.com>.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at:
+# You may obtain a copy of the License at
 #
-#       http://www.apache.org/licenses/LICENSE-2.0
+#         http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import sys
 import logging
+from markerFormatter import MarkerFormatter
 
 
-class MDCFormatter(logging.Formatter):
+class MDCFormatter(MarkerFormatter):
     """
     A custom MDC formatter to prepare Mapped Diagnostic Context
     to enrich log message.
@@ -33,7 +37,7 @@ class MDCFormatter(logging.Formatter):
         elif sys.version_info > (2, 7):
             super(MDCFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
         else:
-            logging.Formatter.__init__(self, fmt, datefmt)
+            MarkerFormatter.__init__(self, fmt, datefmt)
 
         self.style = style
         self._mdc_tag = "%(mdc)s"
@@ -46,7 +50,6 @@ class MDCFormatter(logging.Formatter):
             elif self.style == "$":
                 self._mdc_tag = "${mdc}"
 
-        self._tmpfmt = self._fmt
         if mdcfmt:
             self._mdcFmt = mdcfmt
         else:
@@ -111,20 +114,19 @@ class MDCFormatter(logging.Formatter):
             if sys.version_info > (2, 7):
                 return super(MDCFormatter, self).format(record)
             else:
-                return logging.Formatter.format(self, record)
+                return MarkerFormatter.format(self, record)
 
         mdcFmtkeys, mdcFmtWords = self._mdcfmtKey()
 
         if mdcFmtWords is None:
+            self._fmt = self._fmt.replace(self._mdc_tag, "")
             if sys.version_info > (3, 2):
-                self._style = logging._STYLES[self.style][0](
-                    self._fmt.replace(self._mdc_tag, ""))
-            else:
-                self._fmt = self._fmt.replace(self._mdc_tag, "")
+                self._style = logging._STYLES[self.style][0](self._fmt)
+
             if sys.version_info > (2, 7):
                 return super(MDCFormatter, self).format(record)
             else:
-                return logging.Formatter.format(self, record)
+                return MarkerFormatter.format(self, record)
 
         mdc = record.__dict__.get('mdc', None)
         res = {}
@@ -137,22 +139,17 @@ class MDCFormatter(logging.Formatter):
         del mdc
         try:
             mdcstr = self._replaceStr(keys=mdcFmtkeys).format(**res)
+            self._fmt = self._fmt.replace(self._mdc_tag, mdcstr)
+
             if sys.version_info > (3, 2):
-                self._style = logging._STYLES[self.style][0](
-                    self._fmt.replace(self._mdc_tag, mdcstr))
-            else:
-                self._fmt = self._fmt.replace(self._mdc_tag, mdcstr)
+                self._style = logging._STYLES[self.style][0](self._fmt)
+
             if sys.version_info > (2, 7):
-                s = super(MDCFormatter, self).format(record)
+                return super(MDCFormatter, self).format(record)
             else:
-                s = logging.Formatter.format(self, record)
-            return s
+                return MarkerFormatter.format(self, record)
 
         except KeyError as e:
             print("The mdc key %s format is wrong" % str(e))
         except Exception:
             raise
-
-        finally:
-            # reset fmt format
-            self._fmt = self._tmpfmt
