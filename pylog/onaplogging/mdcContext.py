@@ -1,15 +1,16 @@
-# Copyright (c) 2018 VMware, Inc.
+# Copyright 2018 ke liang <lokyse@163.com>.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at:
+# You may obtain a copy of the License at
 #
-#       http://www.apache.org/licenses/LICENSE-2.0
+#         http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import logging
 import threading
@@ -18,12 +19,14 @@ import os
 import traceback
 import sys
 import functools
-
+from marker import Marker
+from marker import MARKER_TAG
 
 __all__ = ['patch_loggingMDC', 'MDC']
 
 _replace_func_name = ['info', 'critical', 'fatal', 'debug',
-                      'error', 'warn', 'warning', 'log', 'findCaller']
+                      'error', 'warn', 'warning', 'log',
+                      'handle', 'findCaller']
 
 
 class MDCContext(threading.local):
@@ -68,7 +71,9 @@ def fetchkeys(func):
 
     @functools.wraps(func)
     def replace(*args, **kwargs):
+
         kwargs['extra'] = _getmdcs(extra=kwargs.get('extra', None))
+        #print("this is extra %s" % kwargs['extra'])
         func(*args, **kwargs)
     return replace
 
@@ -80,7 +85,7 @@ def _getmdcs(extra=None):
     :return: mdc dict
     """
     if MDC.isEmpty():
-        return
+        return extra
 
     mdc = MDC.result()
 
@@ -93,6 +98,8 @@ def _getmdcs(extra=None):
         extra = {}
 
     extra['mdc'] = mdc
+
+
     del mdc
     return extra
 
@@ -106,7 +113,6 @@ def info(self, msg, *args, **kwargs):
 
 @fetchkeys
 def debug(self, msg, *args, **kwargs):
-
     if self.isEnabledFor(logging.DEBUG):
         self._log(logging.DEBUG, msg, args, **kwargs)
 
@@ -148,6 +154,17 @@ def log(self, level, msg, *args, **kwargs):
 
     if self.isEnabledFor(level):
         self._log(level, msg, args, **kwargs)
+
+
+def handle(self, record):
+
+    cmarker = getattr(self, MARKER_TAG, None)
+
+    if isinstance(cmarker, Marker):
+        setattr(record, MARKER_TAG, cmarker)
+
+    if (not self.disabled) and self.filter(record):
+        self.callHandlers(record)
 
 
 def findCaller(self, stack_info=False):
@@ -192,3 +209,6 @@ def patch_loggingMDC():
             newfunc = getattr(localModule, attr, None)
             if newfunc:
                 setattr(logging.Logger, attr, newfunc)
+
+
+
