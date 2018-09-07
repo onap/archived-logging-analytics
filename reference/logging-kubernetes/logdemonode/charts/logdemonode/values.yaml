@@ -16,7 +16,7 @@
 # Global configuration defaults.
 #################################################################
 global:
-  nodePortPrefix: 302
+  #nodePortPrefix: 302
   #repository: nexus3.onap.org:10001
   repository: oomk8s
 #  readinessRepository: oomk8s
@@ -73,7 +73,7 @@ service:
   type: NodePort
   externalPort: 8080
   internalPort: 8080
-  nodePort: 58
+  nodePort: 53
   # optional port name override - default can be defined in service.yaml
   #portName: http
 

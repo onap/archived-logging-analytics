@@ -17,6 +17,7 @@
 #################################################################
 global:
   nodePortPrefix: 302
+  nodePortPrefixExt: 304
   #repository: nexus3.onap.org:10001
   repository: oomk8s
   readinessRepository: oomk8s
