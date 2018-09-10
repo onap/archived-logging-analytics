@@ -12,17 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mdcContext import patch_loggingMDC
-from logWatchDog import patch_loggingYaml
+from __future__ import absolute_import
 
+from marker.marker import (
+    Marker, MARKER_TAG,
+    BaseMarker, matchMarkerHelp)
 
-__all__ = ["patch_all"]
+from marker.markerFactory import MarkerFactory
+from marker.markerHandler import MarkerNotifyHandler
+from marker.markerFilter import MarkerFilter
 
-
-def patch_all(mdc=True, yaml=True):
-
-    if mdc is True:
-        patch_loggingMDC()
-
-    if yaml is True:
-        patch_loggingYaml()
+__all__ = ("Marker", "MARKER_TAG", "BaseMarker",
+           "matchMarkerHelp", "MarkerFactory",
+           "MarkerNotifyHandler", "MarkerFilter")
