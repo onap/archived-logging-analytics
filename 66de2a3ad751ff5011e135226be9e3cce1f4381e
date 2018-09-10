@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_cdbddfb8",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 131
+      },
+      "writtenOn": "2018-09-10T14:07:29Z",
+      "side": 1,
+      "message": "this should have a license header too right?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 38
+      },
+      "revId": "66de2a3ad751ff5011e135226be9e3cce1f4381e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_358abe6a",
         "filename": "reference/logging-demo/src/main/resources/logback.xml",
         "patchSetId": 6
