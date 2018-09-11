@@ -16,32 +16,28 @@ import sys
 import logging
 from marker import MARKER_TAG
 from marker import Marker
+from colorFormatter import BaseColorFormatter
 
 
-class MarkerFormatter(logging.Formatter):
+class MarkerFormatter(BaseColorFormatter):
 
-    def __init__(self, fmt=None, datefmt=None, style='%'):
+    def __init__(self, fmt=None, datefmt=None, colorfmt=None, style='%'):
 
         if sys.version_info > (3, 2):
             super(MarkerFormatter, self).__init__(
-                fmt=fmt, datefmt=datefmt, style=style)
+                fmt=fmt, datefmt=datefmt, colorfmt=colorfmt, style=style)
         elif sys.version_info > (2, 7):
             super(MarkerFormatter, self).__init__(
-                fmt=fmt, datefmt=datefmt)
+                fmt=fmt, datefmt=datefmt, colorfmt=colorfmt)
         else:
-            logging.Formatter.__init__(self, fmt, datefmt)
+            BaseColorFormatter.__init__(self, fmt, datefmt, colorfmt)
 
-        self.style = style
         self._marker_tag = "%(marker)s"
 
-        if sys.version_info > (3, 2):
-            if self.style not in logging._STYLES:
-                raise ValueError('Style must be one of: %s' %
-                                 ','.join(logging._STYLES.keys()))
-            if self.style == "{":
-                self._marker_tag = "{marker}"
-            elif self.style == "$":
-                self._marker_tag = "${marker}"
+        if self.style == "{":
+            self._marker_tag = "{marker}"
+        elif self.style == "$":
+            self._marker_tag = "${marker}"
 
         self._tmpFmt = self._fmt
 
@@ -66,7 +62,7 @@ class MarkerFormatter(logging.Formatter):
             if sys.version_info > (2, 7):
                 return super(MarkerFormatter, self).format(record)
             else:
-                return logging.Formatter.format(self, record)
+                return BaseColorFormatter.format(self, record)
 
         finally:
                 self._fmt = self._tmpFmt
