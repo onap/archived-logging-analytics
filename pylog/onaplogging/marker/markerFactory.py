@@ -51,12 +51,12 @@ class MarkerFactory(IMarkerFactory):
         if marker_name is None:
             raise ValueError("not empty")
 
+        lock.acquire()
         marker = self._marker_map.get(marker_name, None)
         if marker is None:
-            lock.acquire()
             marker = BaseMarker(name=marker_name)
             self._marker_map[marker_name] = marker
-            lock.release()
+        lock.release()
 
         return marker
 

@@ -23,32 +23,38 @@ class MDCFormatter(MarkerFormatter):
     to enrich log message.
     """
 
-    def __init__(self, fmt=None, mdcfmt=None, datefmt=None, style="%"):
+    def __init__(self, fmt=None, mdcfmt=None,
+                 datefmt=None, colorfmt=None, style="%"):
         """
         :param fmt: build-in format string contains standard
                Python %-style mapping keys
         :param mdcFmt: mdc format with '{}'-style mapping keys
         :param datefmt: Date format to use
+        :param colorfmt: colored output with ANSI escape code on terminal
         :param style: style mapping keys in python3
         """
         if sys.version_info > (3, 2):
-            super(MDCFormatter, self).__init__(fmt=fmt, datefmt=datefmt,
+            super(MDCFormatter, self).__init__(fmt=fmt,
+                                               datefmt=datefmt,
+                                               colorfmt=colorfmt,
                                                style=style)
         elif sys.version_info > (2, 7):
-            super(MDCFormatter, self).__init__(fmt=fmt, datefmt=datefmt)
+            super(MDCFormatter, self).__init__(fmt=fmt,
+                                               datefmt=datefmt,
+                                               colorfmt=colorfmt)
         else:
-            MarkerFormatter.__init__(self, fmt, datefmt)
+            MarkerFormatter.__init__(self, fmt, datefmt, colorfmt)
 
-        self.style = style
+        #self.style = style
         self._mdc_tag = "%(mdc)s"
-        if sys.version_info > (3, 2):
-            if self.style not in logging._STYLES:
-                raise ValueError('Style must be one of: %s' % ','.join(
-                        logging._STYLES.keys()))
-            if self.style == "{":
-                self._mdc_tag = "{mdc}"
-            elif self.style == "$":
-                self._mdc_tag = "${mdc}"
+        # if sys.version_info > (3, 2):
+        #     if self.style not in logging._STYLES:
+        #         raise ValueError('Style must be one of: %s' % ','.join(
+        #                 logging._STYLES.keys()))
+        if self.style == "{":
+            self._mdc_tag = "{mdc}"
+        elif self.style == "$":
+            self._mdc_tag = "${mdc}"
 
         if mdcfmt:
             self._mdcFmt = mdcfmt
