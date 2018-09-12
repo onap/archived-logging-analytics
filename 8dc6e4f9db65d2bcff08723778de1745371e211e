@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_00eb8c78",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-09-12T19:14:42Z",
+      "side": 1,
+      "message": "yes p_tim is just macro that puts out the built in $d (date/time) field - LogTimestamp in the acumos spec - in regards to the name - the p_* names are specific to the inherited logback from porta/sdk - we can call these macro names anything - maybe we should use the spec names and rename LogTimestamp from p_tim (as I see you updated the wiki with p_tim)",
+      "revId": "8dc6e4f9db65d2bcff08723778de1745371e211e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e059b08e",
         "filename": "reference/logging-demo/src/main/resources/logback.xml",
         "patchSetId": 12
@@ -13,6 +30,23 @@
       "writtenOn": "2018-09-12T18:33:48Z",
       "side": 1,
       "message": "is p_tim what we had called LogTimestamp (field 1) in the logging standards wiki:https://wiki.acumos.org/display/OAM/Log+Standards?",
+      "revId": "8dc6e4f9db65d2bcff08723778de1745371e211e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c0d914f4",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-09-12T19:14:42Z",
+      "side": 1,
+      "message": "right, p_exc was used in the original portal/sdk pattern - for error patterns - it is a built-in field we could output it - last location was after msg",
       "revId": "8dc6e4f9db65d2bcff08723778de1745371e211e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
