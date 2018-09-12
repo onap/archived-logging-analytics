@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e059b08e",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1803
+      },
+      "writtenOn": "2018-09-12T18:33:48Z",
+      "side": 1,
+      "message": "is p_tim what we had called LogTimestamp (field 1) in the logging standards wiki:https://wiki.acumos.org/display/OAM/Log+Standards?",
+      "revId": "8dc6e4f9db65d2bcff08723778de1745371e211e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c0527466",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1803
+      },
+      "writtenOn": "2018-09-12T18:33:48Z",
+      "side": 1,
+      "message": "where is p_exc used? will it be used later?",
+      "revId": "8dc6e4f9db65d2bcff08723778de1745371e211e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
