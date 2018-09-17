@@ -6,4 +6,4 @@ To deploy the kubernetes undercloud and provision OOM refer to the deploy subfol
 
 Running the logdemonode pod:
 see the README.md in the reference/logging-kubernetes/logdemonode directory
-
+testing shared development across multiple vms
