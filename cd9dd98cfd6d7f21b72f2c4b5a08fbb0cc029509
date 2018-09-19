@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_e7651caf",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1803
+      },
+      "writtenOn": "2018-09-19T18:57:59Z",
+      "side": 1,
+      "message": "I thought for now we were leaving off ${RootException}",
+      "range": {
+        "startLine": 43,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 2
+      },
+      "revId": "cd9dd98cfd6d7f21b72f2c4b5a08fbb0cc029509",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
