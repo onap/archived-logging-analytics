@@ -22,7 +22,7 @@ setup(
                      "project to record MDC information and reload logging"
                      "at runtime",
     version="1.0.5",
-    license="MIT Licence",
+    license="Apache 2.0",
     author='ke liang',
     author_email="lokyse@163.com",
     packages=find_packages(),
