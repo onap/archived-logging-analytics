@@ -22,6 +22,30 @@
       "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b13f39d6",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-09-27T15:45:51Z",
+      "side": 1,
+      "message": "the alias is InstanceID to align with the rest - the actual field in InstanceUUID for backwards compat",
+      "parentUuid": "1a76adc5_cedc941b",
+      "range": {
+        "startLine": 51,
+        "startChar": 52,
+        "endLine": 51,
+        "endChar": 64
+      },
+      "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
