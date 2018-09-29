@@ -1,18 +1,24 @@
 ---
 project: 'logging-analytics'
 project_creation_date: '2017-08-04'
+project_category: ''
 lifecycle_state: 'Incubation'
-project_lead: &onap_releng_ptl
+project_lead: &onap_logging-analytics_ptl
     name: 'Michael OBrien'
     email: 'frank.obrien@amdocs.com'
     id: 'michaelobrien'
     company: 'Amdocs'
     timezone: 'Canada/Ottawa'
-primary_contact: *onap_releng_ptl
+primary_contact: *onap_logging-analytics_ptl
 issue_tracking:
     type: 'jira'
     url: 'https://jira.onap.org/projects/LOG'
     key: 'LOG'
+mailing_list:
+    type: 'groups.io'
+    url: 'lists.onap.org'
+    tag: '<[sub-project_name]>'
+realtime_discussion: ''
 meetings:
     - type: 'zoom'
         agenda: 'https://wiki.onap.org/pages/viewpage.action?pageId=10784046'
@@ -21,8 +27,16 @@ meetings:
         channel: 'n/a'
         repeats: 'weekly'
         time: '15:00 UTC'
+repositories:
+    - 'logging-analytics'
+    - 'logging-analytics-pomba-pomba-aai-context-builder'
+    - 'logging-analytics-pomba-pomba-audit-common'
+    - 'logging-analytics-pomba-pomba-context-aggregator'
+    - 'logging-analytics-pomba-pomba-network-discovery-context-builder'
+    - 'logging-analytics-pomba-pomba-sdc-context-builder'
+    - 'logging-analytics-pomba-pomba-sdnc-context-builder'
 committers:
-    - <<: *onap_releng_ptl
+    - <<: *onap_logging-analytics_ptl
     - name: 'Avdhut Kholkar'
         email: 'avdhut.kholkar@amdocs.com'
         company: 'Amdocs'
