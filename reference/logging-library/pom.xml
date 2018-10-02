@@ -1,19 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
+  <!-- parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
       <version>1.2.2-SNAPSHOT</version>
-  </parent>
-  
+  </parent-->
+   <parent>
+      <groupId>org.onap.oparent</groupId>
+      <artifactId>oparent</artifactId>
+      <version>1.2.1</version>
+  </parent>  
+  <groupId>org.onap.logging-analytics</groupId>
   <artifactId>logging-library</artifactId>
+  <version>1.2.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>logging-library</name>
   
     <properties>
        <spring.version>4.3.6.RELEASE</spring.version>
-       <logback.version>1.2.3</logback.version> 
-       <onap.version>1.2.2-SNAPSHOT</onap.version>         
+       <logback.version>1.2.3</logback.version>          
   </properties>
   
   <build>
@@ -76,7 +81,7 @@
           <dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-slf4j</artifactId>
-            <version>${onap.version}</version>
+            <version>1.2.2-SNAPSHOT</version>
         </dependency>
                <dependency>
             <groupId>org.springframework</groupId>
