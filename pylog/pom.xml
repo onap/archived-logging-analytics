@@ -14,13 +14,20 @@
 <project
     xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
+    <!-- parent>
         <groupId>org.onap.logging-analytics</groupId>
         <artifactId>logging-analytics</artifactId>
         <version>1.2.2-SNAPSHOT</version>
-    </parent>
+    </parent-->
+    <parent>
+      <groupId>org.onap.oparent</groupId>
+      <artifactId>oparent</artifactId>
+      <version>1.2.1</version>
+    </parent>  
+    <groupId>org.onap.logging-analytics</groupId>  
     <modelVersion>4.0.0</modelVersion>
     <artifactId>logging-pylog</artifactId>
+    <version>1.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>logging-pylog</name>
     <description>onap python logging library</description>

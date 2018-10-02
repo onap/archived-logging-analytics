@@ -9,11 +9,15 @@
   <groupId>org.onap.logging-analytics</groupId>
   <artifactId>logging-analytics</artifactId>
   <packaging>pom</packaging>
-  <version>1.2.2</version>
+  <version>1.2.2-SNAPSHOT</version>
   <name>logging-analytics</name>
   <url>http://maven.apache.org</url>
   <modules>
     <module>reference</module>
-    <module>pylog</module>
+    <!--  temp 1 branch release at a time -->
+    <!-- module>pylog</module-->
   </modules>
+  <!-- 
+     branches: root/reference/demo/
+   -->
 </project>

@@ -11,8 +11,7 @@
   <properties>
        <jackson-2-version>2.5.1</jackson-2-version>
        <spring.version>4.3.6.RELEASE</spring.version>
-       <logback.version>1.2.3</logback.version> 
-       <onap.version>1.2.2-SNAPSHOT</onap.version>         
+       <logback.version>1.2.3</logback.version>                
   </properties>
   <build>
       <plugins>
@@ -21,7 +20,6 @@
               <plugin>
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-site-plugin</artifactId>
-                  <version>3.6</version>
               </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -70,15 +68,15 @@
       </pluginManagement>
   </build>
     <dependencies>
-        <dependency>
+        <!-- dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-library</artifactId>
-            <version>${onap.version}</version>
-        </dependency>
+            <version>1.2.2-SNAPSHOT</version>
+        </dependency-->
         <dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-mock-service</artifactId>
-            <version>${onap.version}</version>
+            <version>1.2.2-SNAPSHOT</version>
         </dependency>
         
         
