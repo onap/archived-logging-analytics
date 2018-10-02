@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_bab86e2b",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-10-02T23:18:52Z",
+      "side": 1,
+      "message": "Nevermind, I overlooked.  We need to do this one last.",
+      "parentUuid": "bada0100_7a74469c",
+      "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_3aa55e04",
         "filename": "pylog/pom.xml",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bada0100_7a820654",
+        "filename": "pylog/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-10-02T23:18:52Z",
+      "side": 1,
+      "message": "Ignore my previous comment.\n\nHowever, I think we can release this one for this first round.",
+      "parentUuid": "bada0100_3aa55e04",
+      "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_faaef6e6",
         "filename": "reference/pom.xml",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-10-02T23:10:51Z",
       "side": 1,
       "message": "Is this used anywhere else?",
+      "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_9a87aa61",
+        "filename": "reference/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-10-02T23:18:52Z",
+      "side": 1,
+      "message": "Please ignore my comment.",
+      "parentUuid": "bada0100_faaef6e6",
       "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
