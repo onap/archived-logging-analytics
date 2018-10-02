@@ -104,6 +104,24 @@
       "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_7ae9a619",
+        "filename": "reference/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-10-02T23:24:45Z",
+      "side": 1,
+      "message": "I reverted the change I did to the root pom in the 1st commit - also based on gary\u0027s advice - don\u0027t release poms",
+      "parentUuid": "bada0100_9a87aa61",
+      "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
