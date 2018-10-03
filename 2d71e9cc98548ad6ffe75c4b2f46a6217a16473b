@@ -72,6 +72,23 @@
     },
     {
       "key": {
+        "uuid": "bada0100_3a0f9ee3",
+        "filename": "reference/logging-library/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-10-03T00:15:26Z",
+      "side": 1,
+      "message": "this is the issue - slf4j-1.2.2-SNAPS?HOT - will need to disable this build and the parent logging-demo in order for the build to complete - doing in next merge later tonight or tomorrow morning",
+      "revId": "2d71e9cc98548ad6ffe75c4b2f46a6217a16473b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bada0100_faaef6e6",
         "filename": "reference/pom.xml",
         "patchSetId": 2
