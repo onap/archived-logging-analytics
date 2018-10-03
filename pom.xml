@@ -13,7 +13,8 @@
   <name>logging-analytics</name>
   <url>http://maven.apache.org</url>
   <modules>
-    <module>reference</module>
+    <module>reference/logging-slf4j</module>
+    <!--module>reference</module-->
     <!--  temp 1 branch release at a time -->
     <!-- module>pylog</module-->
   </modules>
