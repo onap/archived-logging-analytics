@@ -12,7 +12,7 @@
   </parent>  
   <groupId>org.onap.logging-analytics</groupId>
   <artifactId>logging-library</artifactId>
-  <version>1.2.2-SNAPSHOT</version>
+  <version>1.2.2</version>
   <packaging>jar</packaging>
   <name>logging-library</name>
   
