@@ -15,10 +15,11 @@
   <modules>
     <!-- temp build all leaf modules and thos dependent on logging-slf4j.jar:1.2.2 - without dependencies on each other-->
     <!--module>reference/logging-slf4j</module-->
-    <module>reference/logging-slf4j-demo</module>
-    <module>reference/logging-library</module>
+    <!--module>reference/logging-slf4j-demo</module>
+    <module>reference/logging-library</module-->
+    <!-- on at a time and no previously released -->
     <module>reference/logging-mock-service</module>
-    <module>reference/logging-slf4j</module>
+    <!--module>reference/logging-slf4j</module-->
     <!--module>reference</module-->
     <!--  temp 1 branch release at a time -->
     <!-- module>pylog</module-->
