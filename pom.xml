@@ -17,7 +17,8 @@
     <!--module>reference/logging-slf4j</module-->
     <module>reference/logging-slf4j-demo</module>
     <module>reference/logging-library</module>
-    <!--module>reference/logging-mock-service</module-->
+    <module>reference/logging-mock-service</module>
+    <module>reference/logging-slf4j</module>
     <!--module>reference</module-->
     <!--  temp 1 branch release at a time -->
     <!-- module>pylog</module-->
