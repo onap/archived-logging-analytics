@@ -86,6 +86,23 @@
       "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_775c5026",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1803
+      },
+      "writtenOn": "2018-10-05T21:39:33Z",
+      "side": 1,
+      "message": "I\u0027m getting feedback from developers that exceptions are needed in the log and therefore %nopexception should not be here. Also, there are issues with p_28_message not being the last value in the line. Can we switch p_28_message and p_29_marker??",
+      "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
