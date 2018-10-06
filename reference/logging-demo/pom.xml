@@ -1,11 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
+  <!-- parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.2.2-SNAPSHOT</version>
+      <version>1.2.2</version>
+  </parent-->
+  <parent>
+      <groupId>org.onap.oparent</groupId>
+      <artifactId>oparent</artifactId>
+      <version>1.2.1</version>
   </parent>
+  
   <artifactId>logging-demo</artifactId>
+  <version>1.2.2</version>
   <packaging>war</packaging>
   <name>logging-demo</name>
   <properties>
@@ -71,9 +78,9 @@
         <dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-mock-service</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
+            <version>1.2.2</version>
         </dependency>
-        
+       
         
             <!-- https://jersey.java.net/documentation/latest/modules-and-dependencies.html -->
     <dependency>
@@ -257,6 +264,18 @@
                         <groupId>ch.qos.logback</groupId>
                         <artifactId>logback-classic</artifactId>
                         <version>${logback.version}</version>
-                </dependency>  
+                </dependency>
+                <!-- JUnit 4.12 used to come with EELF -->
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>  
     </dependencies>
 </project>
