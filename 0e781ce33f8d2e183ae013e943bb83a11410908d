@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bada0100_7213f45c",
+        "filename": "pylog/version.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-10-09T20:58:05Z",
+      "side": 1,
+      "message": "This should be 6",
+      "revId": "0e781ce33f8d2e183ae013e943bb83a11410908d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bada0100_d20e6034",
+        "filename": "version.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-10-09T20:58:05Z",
+      "side": 1,
+      "message": "this needs to be 6",
+      "revId": "0e781ce33f8d2e183ae013e943bb83a11410908d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
