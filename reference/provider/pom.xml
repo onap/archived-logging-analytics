@@ -6,7 +6,7 @@
       <artifactId>logging-reference</artifactId>
       <version>1.2.6-SNAPSHOT</version>
   </parent>  
-  <artifactId>logging-docker-root</artifactId>
+  <artifactId>logging-provider</artifactId>
   <packaging>pom</packaging>
-  <name>logging-docker-root</name>
+  <name>logging-provider</name>
 </project>
