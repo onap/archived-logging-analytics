@@ -4,23 +4,21 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-analytics</artifactId>
-      <version>1.2.2-SNAPSHOT</version>
+      <version>1.2.6-SNAPSHOT</version>
   </parent>
-  <groupId>org.onap.logging-analytics</groupId>
   <artifactId>logging-reference</artifactId>
   <packaging>pom</packaging>
-  <version>1.2.2-SNAPSHOT</version>
   <name>logging-reference</name>
   <url>http://maven.apache.org</url> 
   <modules>
     <module>logging-demo</module>
     <module>logging-library</module>
     <module>logging-mock-service</module>
-    <!-- module>logging-docker-root</module>
-    <module>logging-kubernetes</module-->
+    <module>logging-docker-root</module>
+    <module>logging-kubernetes</module>
     <module>logging-slf4j</module>
-    <!-- one branch at a time -->
-    <!-- module>logging-slf4j-demo</module-->
+    <module>logging-slf4j-demo</module>
+    <module>provider</module>
   </modules>
   <build>
       <pluginManagement>

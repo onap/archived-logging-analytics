@@ -1,26 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <!-- parent>
+  <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.2.2-SNAPSHOT</version>
-  </parent-->
-   <parent>
-      <groupId>org.onap.oparent</groupId>
-      <artifactId>oparent</artifactId>
-      <version>1.2.1</version>
-  </parent>  
-  <groupId>org.onap.logging-analytics</groupId>
+      <version>1.2.6-SNAPSHOT</version>
+  </parent>
   <artifactId>logging-library</artifactId>
-  <version>1.2.2</version>
   <packaging>jar</packaging>
   <name>logging-library</name>
-  
-    <properties>
-       <spring.version>4.3.6.RELEASE</spring.version>
-       <logback.version>1.2.3</logback.version>          
+  <properties>
+      <spring.version>4.3.6.RELEASE</spring.version>
+      <logback.version>1.2.3</logback.version>          
   </properties>
-  
   <build>
       <plugins>
       <plugin>
@@ -71,19 +62,19 @@
   </build>
   
   <dependencies>
-      <!--  decouple HttpServlet parameters from both this project and slf4j later -->
-      <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.0.1</version>
-        <scope>provided</scope>
-    </dependency>
-          <dependency>
-            <groupId>org.onap.logging-analytics</groupId>
-            <artifactId>logging-slf4j</artifactId>
-            <version>1.2.2</version>
-        </dependency>
-               <dependency>
+       <dependency>
+           <groupId>org.onap.logging-analytics</groupId>
+           <artifactId>logging-slf4j</artifactId>
+           <version>1.2.6-SNAPSHOT</version>
+       </dependency>
+       <!--  decouple HttpServlet parameters from both this project and slf4j later -->
+       <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>javax.servlet-api</artifactId>
+           <version>3.0.1</version>
+           <scope>provided</scope>
+       </dependency>
+       <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
@@ -115,9 +106,9 @@
             <!--scope>test</scope-->
         </dependency>
         <dependency> 
-     <groupId>org.springframework</groupId> 
-     <artifactId>spring-aspects</artifactId> 
-     <version>${spring.version}</version> 
+            <groupId>org.springframework</groupId> 
+            <artifactId>spring-aspects</artifactId> 
+            <version>${spring.version}</version> 
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -139,16 +130,15 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-                <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-core</artifactId>
-                        <version>${logback.version}</version>
-                </dependency>
-                <dependency>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
-                        <version>${logback.version}</version>
-                </dependency>  
- 
-  </dependencies>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+         </dependency>  
+   </dependencies>  
 </project>
