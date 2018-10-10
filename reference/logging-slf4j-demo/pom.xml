@@ -10,7 +10,12 @@
     <name>logging-slf4j-demo</name>
     <packaging>war</packaging>
     <properties>
-        <springframework.boot.version>1.5.10.RELEASE</springframework.boot.version>
+        <!-- from 1.5.10 to not pull in spring 4.3.14/5.0.5 override of 5.0.9
+             however 4.3.17 of spring-core over 4.3.14 is not enough - need 4.3.18+
+             tomcat-embed-core 8.5.31 needs 8.5.32+ - which spring-boot 1.5.15 brings in
+             spring-expression 4.3.14 goes to 4.3.17 under 1.5.15
+         -->
+        <springframework.boot.version>1.5.15.RELEASE</springframework.boot.version>
     </properties>
 
     <dependencies>
