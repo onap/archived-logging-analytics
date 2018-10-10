@@ -10,7 +10,7 @@
   <name>logging-demo</name>
   <properties>
        <jackson-2-version>2.5.1</jackson-2-version>
-       <spring.version>4.3.6.RELEASE</spring.version>
+       <spring.version>4.3.17.RELEASE</spring.version>
        <logback.version>1.2.3</logback.version>                
   </properties>
   <build>
