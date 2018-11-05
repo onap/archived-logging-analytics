@@ -3,8 +3,43 @@
 Log Enhancements Release Notes
 ==============================
 
+Version: 1.2.2 Casablanca
+--------------
 
-Version: 1.2.2
+:Release Date: 2018-11-15
+
+**New Features**
+   - Demo slf4j library with marker/mdc support along with kubernetes, docker, war support projects.
+
+**Bug Fixes**
+
+
+**Known Issues**
+   - `Logstash load balancing is asymmetric wherever AAI is run - https://jira.onap.org/browse/LOG-376`_
+
+**Security Notes**
+      None
+
+LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_.
+
+Quick Links:
+ 	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
+
+ 	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+
+ 	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=43385152>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
+Version: Beijing
 --------------
 
 :Release Date: 2018-06-07
@@ -26,9 +61,9 @@ LOG code has been formally scanned during build time using NexusIQ and all Criti
 
 Quick Links:
  	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
- 	
+
  	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
- 	
+
  	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
 
 **Upgrade Notes**
@@ -38,7 +73,8 @@ Quick Links:
       None
 
 **Other**
-      None
+      Note: there was no released artifacts under 1.2.2 for Beijing - release was pushed to Casablanca
+
 
 
 Version: 1.0.0
