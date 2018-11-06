@@ -20,13 +20,13 @@
 # after this run the standard oom install
 # this installation can be run on amy ubuntu 16.04 VM or physical host
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
-# source from https://jira.onap.org/browse/OOM-715
+# source from https://jira.onap.org/browse/LOG-325
 # Michael O'Brien
 #
 # Amsterdam
 #     Rancher 1.6.10, Kubernetes 1.7.7, Kubectl 1.7.7, Helm 2.3.0, Docker 1.12
-# master
-#     Rancher 1.6.14, Kubernetes 1.8.10, Kubectl 1.8.10, Helm 2.8.2, Docker 17.03
+# master (casablanca : RC2)
+#     Rancher 1.6.22, Kubernetes 1.11.2, Kubectl 1.11.2, Helm 2.9.2, Docker 17.03
 # run as root - because of the logout that would be required after the docker user set
 
 usage() {
