@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_01efccb1",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-11-06T15:17:16Z",
+      "side": 1,
+      "message": "noticed the ~/oom.. instead of a oom..\nwill be ok as I only run as ubuntu or root user - either case any changes by mike to the plugin will still get picked up",
+      "revId": "856169460ce5b5c2870e3cbb60e5cdc9cfa46c27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
