@@ -15,11 +15,12 @@
 # limitations under the License.
 #
 #############################################################################
-# v20180815
+# v20181105
 # Amazon AWS specific EFS/NFS share and rancher host join script for each cluster node
 # https://wiki.onap.org/display/DW/Cloud+Native+Deployment
 # source from https://jira.onap.org/browse/OOM-320
 # Michael O'Brien
+# LOG-806 upgrade for Rancher 1.6.22, kubernetes 1.11
 
 usage() {
 cat <<EOF
@@ -77,7 +78,7 @@ MASTER=
 TOKEN=
 AWS_REGION=
 AWS_EFS=
-AGENT_VER=1.2.10
+AGENT_VER=1.2.11
 COMPUTEADDRESS=true
 ADDRESS=
 VALIDATE=
