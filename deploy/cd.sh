@@ -71,12 +71,11 @@ deploy_onap() {
     # wait for 0/1 before deleting
     echo "sleeping 30 sec"
     # delete potential hanging clustered pods
-    kubectl delete pod $ENVIRON-aaf-sms-vault-0 -n $ENVIRON --grace-period=0 --force
-    kubectl delete pod $ENVIRON-aai-cassandra-0 -n $ENVIRON --grace-period=0 --force
-    kubectl delete pod $ENVIRON-aai-cassandra-1 -n $ENVIRON --grace-period=0 --force
-    kubectl delete pod $ENVIRON-aai-cassandra-2 -n $ENVIRON --grace-period=0 --force
+    #kubectl delete pod $ENVIRON-aaf-sms-vault-0 -n $ENVIRON --grace-period=0 --force
     # specific to when there is no helm release
     kubectl delete pv --all
+    kubectl delete pvc --all
+    kubectl delete secrets --all
     kubectl delete clusterrolebinding --all
     # replace with watch
     # keep jenkins 120 sec timeout happy with echos
@@ -97,6 +96,8 @@ deploy_onap() {
     rm -rf oom
     echo "pull new oom"
     git clone -b $BRANCH http://gerrit.onap.org/r/oom
+    # https://wiki.onap.org/display/DW/OOM+Helm+%28un%29Deploy+plugins
+    sudo cp -R ~/oom/kubernetes/helm/plugins/ ~/.helm
   fi
 
   if [ "$BRANCH" == "amsterdam" ]; then
@@ -134,7 +135,8 @@ deploy_onap() {
     sudo make clean
     sudo make all
     sudo make $ENVIRON
-    sudo helm install local/onap -n onap --namespace $ENVIRON
+    #sudo helm install local/onap -n onap --namespace $ENVIRON
+    sudo helm deploy onap local/onap --namespace $ENVIRON
     cd ../../
   fi
 
