@@ -45,11 +45,11 @@ POMBA is sub-project of the Logging Enhancements Project.
 
 Casablanca
 --------------
-pomba-audit-common Version: 1.3.1
-pomba-aai-context-builder Version: 1.3.1
-pomba-context-aggregator Version: 1.3.3
-pomba-network-discovery-context-builder Version: 1.3.0
-pomba-sdc-context-builder Version: 1.3.1
+   - pomba-audit-common Version: 1.3.1
+   - pomba-aai-context-builder Version: 1.3.1
+   - pomba-context-aggregator Version: 1.3.3
+   - pomba-network-discovery-context-builder Version: 1.3.0
+   - pomba-sdc-context-builder Version: 1.3.1
 
 
 --------------
@@ -72,11 +72,9 @@ pomba-sdc-context-builder Version: 1.3.1
 POMBA code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_.
 
 Quick Links:
- 	- `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
- 	
- 	- `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
- 	
- 	- `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
+   - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
+   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
 
 **Upgrade Notes**
       None
