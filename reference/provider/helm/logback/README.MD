@@ -48,4 +48,4 @@ Before this can be made available generally available:
 It doesn't:
 
 1. Provide appender-specific logger-to-level mappings. Each logger gets the same level for each appender.
-2. Define globals, or nececssarily fit into the nascent scheme for OOM helm chart parameterization.
+2. Define globals, or necessarily fit into the nascent scheme for OOM helm chart parameterization.
