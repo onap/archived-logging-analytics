@@ -15,7 +15,7 @@ Logstash provides two types of configurations
 1. Create canonical path /etc/onap/logstash/conf.d/ on the host on which the logstash has to be installed.
 2. Save the logstash.yml at location created in step 1.
 3. Create canonical path /etc/onap/logstash/conf.d/pipeline/ on the host.
-4. The onap-pipeline.conf is parameterized and has tokens instead of values for certain deployment specific parameteres (like port, elastic host etc.). These tokens has a syntax as '$[a-zA-Z_]+'.
+4. The onap-pipeline.conf is parameterized and has tokens instead of values for certain deployment specific parameters (like port, elastic host etc.). These tokens has a syntax as '$[a-zA-Z_]+'.
 5. These tokens are listed in another file onap-pipeline.properties. These properties are also provided with commented description about them in the file itself. These tokens have to be replaced with the appropriate values as per the deployment environment before deployment.
 6. Now, save the final onap-pipeline.conf at location created in step 3.
 7. Following is the list of specifications for logstash container creation-
