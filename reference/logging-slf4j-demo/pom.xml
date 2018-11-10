@@ -14,8 +14,9 @@
              however 4.3.17 of spring-core over 4.3.14 is not enough - need 4.3.18+
              tomcat-embed-core 8.5.31 needs 8.5.32+ - which spring-boot 1.5.15 brings in
              spring-expression 4.3.14 goes to 4.3.17 under 1.5.15
+             1.5.17 ups jackson-databind from 2.8.11.2 - but we will likely need 2.9+ 
          -->
-        <springframework.boot.version>1.5.15.RELEASE</springframework.boot.version>
+        <springframework.boot.version>1.5.17.RELEASE</springframework.boot.version>
         <spring.version>5.0.9.RELEASE</spring.version>
         <logback.version>1.2.3</logback.version>
     </properties>
