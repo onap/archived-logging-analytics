@@ -11,7 +11,7 @@
   <properties>
        <jackson-2-version>2.8.6</jackson-2-version>
        <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop/5.0.5.RELEASE -->
-       <spring.version>5.0.9.RELEASE</spring.version>
+       <spring.version>5.1.2.RELEASE</spring.version>
        <logback.version>1.2.3</logback.version>                
   </properties>
   <build>

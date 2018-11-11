@@ -16,7 +16,7 @@
              spring-expression 4.3.14 goes to 4.3.17 under 1.5.15
          -->
         <springframework.boot.version>1.5.15.RELEASE</springframework.boot.version>
-        <spring.version>5.0.9.RELEASE</spring.version>
+        <spring.version>5.1.2.RELEASE</spring.version>
         <logback.version>1.2.3</logback.version>
     </properties>
 
