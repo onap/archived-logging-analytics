@@ -5,12 +5,12 @@
       "scriptURL": { "value": "https://git.onap.org/logging-analytics/plain/deploy/rancher/oom_entrypoint.sh"},
       "onapBranch": { "value": "master" },
       "onapEnvironment": { "value": "onap"},
-      "vmName": { "value": "a-replace-this-0" },
+      "vmName": { "value": "replace-this" },
       "sshKeyData": {
-      "value": "ssh-rsa AA-add-your-public-key-obrienbiometrics"
+      "value": "ssh-rsa AAA-your-key yourmail@mail"
       },
-      "dnsLabelPrefix": { "value": "replacethis0" },
-      "vmSize": { "value": "Standard_D32s_v3" },
+      "dnsLabelPrefix": { "value": "replace-this-as-well" },
+      "vmSize": { "value": "Standard_E64s_v3" },
       "scriptName": { "value": "oom_entrypoint.sh"},
       "osType": { "value": "Linux" },
       "adminUsername": { "value": "ubuntu"}

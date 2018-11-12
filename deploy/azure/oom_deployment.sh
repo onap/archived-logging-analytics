@@ -25,7 +25,7 @@
 # Amsterdam
 #     Rancher 1.6.10, Kubernetes 1.7.7, Kubectl 1.7.7, Helm 2.3.0, Docker 1.12
 # master
-#     Rancher 1.6.14, Kubernetes 1.8.6, Kubectl 1.8.6, Helm 2.6.1, Docker 17.03
+#     Rancher 1.6.22, Kubernetes 1.11.2, Kubectl 1.11.2, Helm 2.9.2, Docker 17.03
 # run as root - because of the logout that would be required after the docker user set
 usage() {
 cat <<EOF

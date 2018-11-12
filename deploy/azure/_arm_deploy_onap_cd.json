@@ -19,11 +19,15 @@
          "Standard_E2_v3",
          "Standard_D1",
          "Standard_D4_v3",
+         "Standard_D4s_v3",
          "Standard_D8S_v3",
          "Standard_D32s_v3",
+         "Standard_D64s_v3",
          "Standard_D16s_v3",
          "Standard_E16_v3",
-         "Standard_E64_v3"],
+         "Standard_F8s_v2",
+         "Standard_E64_v3",
+         "Standard_E64s_v3"],
          "metadata": { "description": "VM size" }}
     },
   "variables": {
@@ -62,52 +66,10 @@
       "properties": {
       "securityRules": [
         {
-          "name": "port_10249-10255_172",
-          "properties": {
-            "description": "port_10249-10255_172",
-            "protocol": "*",
-            "sourcePortRange": "*",
-            "destinationPortRange": "10249-10255",
-            "sourceAddressPrefix": "172.17.0.1/32",
-            "destinationAddressPrefix": "*",
-            "access": "Allow",
-            "priority": 120,
-            "direction": "Inbound"
-            }
-        },
-        {
-          "name": "port_10249-10255_127",
-          "properties": {
-            "description": "port_10249-10255_127",
-            "protocol": "*",
-            "sourcePortRange": "*",
-            "destinationPortRange": "10249-10255",
-            "sourceAddressPrefix": "127.0.0.1/32",
-            "destinationAddressPrefix": "*",
-            "access": "Allow",
-            "priority": 122,
-            "direction": "Inbound"
-            }
-        },
-        {
-          "name": "Port_10249-10255-block",
-          "properties": {
-            "description": "Port_10249-10255-block",
-            "protocol": "Tcp",
-            "sourcePortRange": "*",
-            "destinationPortRange": "10249-10255",
-            "sourceAddressPrefix": "Internet",
-            "destinationAddressPrefix": "*",
-            "access": "Deny",
-            "priority": 130,
-            "direction": "Inbound"
-            }
-        },
-        {
           "name": "in-rule",
           "properties": {
             "description": "All in",
-            "protocol": "Tcp",
+            "protocol": "Any",
             "sourcePortRange": "*",
             "destinationPortRange": "*",
             "sourceAddressPrefix": "Internet",
@@ -117,25 +79,11 @@
             "direction": "Inbound"
             }
         },
-       {
-          "name": "block-8080",
-          "properties": {
-            "description": "block-8080",
-            "protocol": "Tcp",
-            "sourcePortRange": "8080",
-            "destinationPortRange": "*",
-            "sourceAddressPrefix": "Internet",
-            "destinationAddressPrefix": "*",
-            "access": "Deny",
-            "priority": 104,
-            "direction": "Outbound"
-            }
-          },
         {
           "name": "out-rule",
           "properties": {
             "description": "All out",
-            "protocol": "Tcp",
+            "protocol": "Any",
             "sourcePortRange": "*",
             "destinationPortRange": "*",
             "sourceAddressPrefix": "Internet",
