@@ -137,6 +137,23 @@
       "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a19c8ac1",
+        "filename": "reference/logging-kubernetes/logdemonode/charts/logdemonode/values.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2018-11-20T20:18:54Z",
+      "side": 1,
+      "message": "AUDIT",
+      "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
