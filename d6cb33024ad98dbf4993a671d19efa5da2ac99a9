@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_629d3159",
+        "filename": "reference/logging-demo/pom.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 129
+      },
+      "writtenOn": "2018-11-27T02:39:03Z",
+      "side": 1,
+      "message": "Environment-specific path.",
+      "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_02a465a4",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 129
+      },
+      "writtenOn": "2018-11-27T02:39:03Z",
+      "side": 1,
+      "message": "Tabs. Are we still planning to revert to pipes?",
+      "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_589282a0",
         "filename": "reference/logging-demo/src/main/resources/logback.xml",
         "patchSetId": 18
@@ -100,6 +134,23 @@
       "writtenOn": "2018-10-05T21:39:33Z",
       "side": 1,
       "message": "I\u0027m getting feedback from developers that exceptions are needed in the log and therefore %nopexception should not be here. Also, there are issues with p_28_message not being the last value in the line. Can we switch p_28_message and p_29_marker??",
+      "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c2adfd89",
+        "filename": "reference/logging-demo/src/main/resources/logback.xml",
+        "patchSetId": 18
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 129
+      },
+      "writtenOn": "2018-11-27T02:39:03Z",
+      "side": 1,
+      "message": "Could use properties configured further up (where the value is 10GB). Would make it easier to (eventually) generate config from Helm.",
       "revId": "d6cb33024ad98dbf4993a671d19efa5da2ac99a9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
