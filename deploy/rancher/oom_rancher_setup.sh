@@ -26,10 +26,12 @@
 #     Rancher 1.6.10, Kubernetes 1.7.7, Kubectl 1.7.7, Helm 2.3.0, Docker 1.12
 # beijing
 #     Rancher 1.6.14, Kubernetes 1.8.10, Kubectl 1.8.10, Helm 2.8.2, Docker 17.03
-# master/casablanca (until RC1)
+# casablanca (until RC1)
 #     Rancher 1.6.18, Kubernetes 1.10.3, Kubectl 1.10.3, Helm 2.9.2, Docker 17.03
-# master/casablanca (post RC2) - integration change alignment for INT-586 - 29th Oct via LOG-806
+# casablanca - integration change alignment for INT-586 - 29th Oct via LOG-806
 #     Rancher 1.6.22, Kubernetes 1.11.2, kubectl 1.11.2, Helm 2.9.2, Docker 17.03
+# master/dublin - LOG-895
+#     Rancher 1.6.25, Kubernetes 1.11.3, kubectl 1.11.3, Helm 2.9.2, Docker 17.03
 
 usage() {
 cat <<EOF
@@ -70,8 +72,8 @@ install_onap() {
     DOCKER_VERSION=17.03
     AGENT_VERSION=1.2.11
   else
-    RANCHER_VERSION=1.6.22
-    KUBECTL_VERSION=1.11.2
+    RANCHER_VERSION=1.6.25
+    KUBECTL_VERSION=1.11.3
     HELM_VERSION=2.9.1
     DOCKER_VERSION=17.03
     AGENT_VERSION=1.2.11

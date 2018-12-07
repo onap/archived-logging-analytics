@@ -22,12 +22,18 @@
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
 # source from https://jira.onap.org/browse/OOM-715
 # Michael O'Brien
-# Amsterdam
+# amsterdam
 #     Rancher 1.6.10, Kubernetes 1.7.7, Kubectl 1.7.7, Helm 2.3.0, Docker 1.12
-# master
-#     Rancher 1.6.22, Kubernetes 1.11.2, Kubectl 1.11.2, Helm 2.9.2, Docker 17.03
+# beijing
+#     Rancher 1.6.14, Kubernetes 1.8.10, Kubectl 1.8.10, Helm 2.8.2, Docker 17.03
+# casablanca (until RC1)
+#     Rancher 1.6.18, Kubernetes 1.10.3, Kubectl 1.10.3, Helm 2.9.2, Docker 17.03
+# casablanca - integration change alignment for INT-586 - 29th Oct via LOG-806
+#     Rancher 1.6.22, Kubernetes 1.11.2, kubectl 1.11.2, Helm 2.9.2, Docker 17.03
+# master/dublin - LOG-895
+#     Rancher 1.6.25, Kubernetes 1.11.3, kubectl 1.11.3, Helm 2.9.2, Docker 17.03
 # run as root - because of the logout that would be required after the docker user set
-# 10249-10255 security is provided by rancher oauth via github - use this instead of port level control in the NSG
+# 10249-10255 security is provided by rancher oauth RBAC via github - use this instead of port level control in the NSG
 # https://wiki.onap.org/display/DW/Cloud+Native+Deployment#CloudNativeDeployment-Security
 usage() {
 cat <<EOF

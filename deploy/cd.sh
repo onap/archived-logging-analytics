@@ -15,9 +15,9 @@
 # limitations under the License.
 #
 #############################################################################
-# v20180318
+# v20181207
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
-# source from https://jira.onap.org/browse/OOM-715, 716, 711
+# source from https://jira.onap.org/browse/OOM-320, 326, 321
 # Michael O'Brien
 #
 
@@ -28,6 +28,7 @@ example
 ./cd.sh -b amsterdam -e onap (will rerun onap in the onap namespace, no new repo, no deletion of existing repo, no sdnc workaround, no onap removal at the end
 ./cd.sh -b master -e onap -c true -d true -w true -r true (run as cd server, new oom, delete prev oom, run workarounds, clean onap at the end of the script
 ./cd.sh -b master -e onap -c true -d false -w true -r false (standard new server/dev environment - use this as the default)
+provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml
 
 -u                  : Display usage
 -b [branch]         : branch = master/beijing or amsterdam (required)
@@ -44,6 +45,7 @@ deploy_onap() {
   echo "$(date)"
   echo "running with: -b $BRANCH -e $ENVIRON -c $CLONE_NEW_OOM -d $DELETE_PREV_OOM -w $APPLY_WORKAROUNDS -r $REMOVE_OOM_AT_END"
   echo "provide onap-parameters.yaml(amsterdam) or values.yaml(master) and aai-cloud-region-put.json"
+  echo "provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml"
   #exit 0
   # fix virtual memory for onap-log:elasticsearch under Rancher 1.6.11 - OOM-431
   sudo sysctl -w vm.max_map_count=262144
@@ -73,6 +75,7 @@ deploy_onap() {
     # delete potential hanging clustered pods
     #kubectl delete pod $ENVIRON-aaf-sms-vault-0 -n $ENVIRON --grace-period=0 --force
     # specific to when there is no helm release
+    # see https://wiki.onap.org/display/DW/Cloud+Native+Deployment#CloudNativeDeployment-RemoveaDeployment
     kubectl delete pv --all
     kubectl delete pvc --all
     kubectl delete secrets --all
@@ -136,7 +139,7 @@ deploy_onap() {
     sudo make all
     sudo make $ENVIRON
     #sudo helm install local/onap -n onap --namespace $ENVIRON
-    sudo helm deploy onap local/onap --namespace $ENVIRON
+    sudo helm deploy onap local/onap --namespace $ENVIRON -f ../../dev.yaml
     cd ../../
   fi
 
