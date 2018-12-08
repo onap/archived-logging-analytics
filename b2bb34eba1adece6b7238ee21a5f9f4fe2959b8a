@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: James MacNider <James.MacNider@amdocs.com>
+Code-Review+2: Prudence Au <prudence.au@amdocs.com>
+Submitted-by: Prudence Au <prudence.au@amdocs.com>
+Submitted-at: Sat, 08 Dec 2018 02:01:52 +0000
+Reviewed-on: https://gerrit.onap.org/r/74405
+Project: logging-analytics
+Branch: refs/heads/master
