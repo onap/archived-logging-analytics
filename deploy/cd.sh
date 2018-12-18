@@ -27,7 +27,7 @@ Usage: $0 [PARAMs]
 example 
 ./cd.sh -b amsterdam -e onap (will rerun onap in the onap namespace, no new repo, no deletion of existing repo, no sdnc workaround, no onap removal at the end
 ./cd.sh -b master -e onap -c true -d true -w true -r true (run as cd server, new oom, delete prev oom, run workarounds, clean onap at the end of the script
-./cd.sh -b master -e onap -c true -d false -w true -r false (standard new server/dev environment - use this as the default)
+./cd.sh -b master -e onap -c true -d false -w true -r false -s 600 (standard new server/dev environment - use this as the default)
 provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml
 
 -u                  : Display usage
@@ -37,13 +37,14 @@ provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes
 -d [true|false]     : FLAG delete prev oom - (cd build) (default: false)
 -w [true|false]     : FLAG apply workarounds  IE: sdnc (default: true)
 -r [true|false]     : FLAG remove oom at end of script - for use by CD only (default: false)
+-s [seconds]        : Sleep between deploys to sequence deployments
 EOF
 }
 
 deploy_onap() {
   
   echo "$(date)"
-  echo "running with: -b $BRANCH -e $ENVIRON -c $CLONE_NEW_OOM -d $DELETE_PREV_OOM -w $APPLY_WORKAROUNDS -r $REMOVE_OOM_AT_END"
+  echo "running with: -b $BRANCH -e $ENVIRON -c $CLONE_NEW_OOM -d $DELETE_PREV_OOM -w $APPLY_WORKAROUNDS -r $REMOVE_OOM_AT_END -s $SLEEP_BETWEEN_DEPLOYS"
   echo "provide onap-parameters.yaml(amsterdam) or values.yaml(master) and aai-cloud-region-put.json"
   echo "provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml"
   #exit 0
@@ -89,10 +90,8 @@ deploy_onap() {
 
     # for use by continuous deployment only
     echo " deleting /dockerdata-nfs"
-    sudo chmod -R 777 /dockerdata-nfs/onap
-    sudo chmod -R 777 /dockerdata-nfs/dev
-    rm -rf /dockerdata-nfs/onap
-    rm -rf /dockerdata-nfs/dev
+    sudo chmod -R 777 /dockerdata-nfs
+    rm -rf /dockerdata-nfs/*
   fi
   # for use by continuous deployment only
   if [[ "$CLONE_NEW_OOM" != false ]]; then
@@ -138,8 +137,81 @@ deploy_onap() {
     sudo make clean
     sudo make all
     sudo make $ENVIRON
-    #sudo helm install local/onap -n onap --namespace $ENVIRON
-    sudo helm deploy onap local/onap --namespace $ENVIRON -f ../../dev.yaml
+    DEV_YAML=../../dev.yaml
+    DEPLOY_DELAY=$SLEEP_BETWEEN_DEPLOYS
+    DEPLOY_DELAY_SHORT=120
+    CLOUD_YAML=onap/resources/environments/public-cloud.yaml
+    IN_SEQUENCE=true
+    if [[ "$IN_SEQUENCE" != true ]]; then
+      sudo helm deploy onap local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML --verbose
+    else
+      sudo helm deploy onap local/onap --namespace $ENVIRON -f onap/resources/environments/disable-allcharts.yaml
+    echo "dev.yaml still drives the enabled state - must all be set to enabled=true in order to use helm deploy on specific components"
+    # platform core
+    sudo helm deploy onap-dmaap local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML --set dmaap.enabled=true  --verbose
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-msb local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-aaf local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-aai local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-robot local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY_SHORT
+    sudo helm deploy onap-esr local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # platform optional monitoring
+    sudo helm deploy onap-log local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-pomba local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-consul local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # optional control
+    sudo helm deploy onap-cli local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # vFW related
+    # required for so runtime
+    sudo helm deploy onap-multicloud local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # required by so runtime and holmes
+    sudo helm deploy onap-oof local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-so local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-policy local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-nbi local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-sdc local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-sdnc local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-portal local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # vCPE related
+    sudo helm deploy onap-uui local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-vfc local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-vnfsdk local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # closed loop
+    sudo helm deploy onap-appc local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-dcaegen2 local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # closed loop monitoring
+    sudo helm deploy onap-clamp local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    sudo helm deploy onap-sniro-emulator local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # optional
+    sudo helm deploy onap-contrib local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    sleep $DEPLOY_DELAY
+    # design time
+    sudo helm deploy onap-vvp local/onap --namespace $ENVIRON -f $DEV_YAML -f $CLOUD_YAML
+    fi
     cd ../../
   fi
 
@@ -326,8 +398,9 @@ APPLY_WORKAROUNDS=true
 DELETE_PREV_OOM=false
 REMOVE_OOM_AT_END=false
 CLONE_NEW_OOM=true
+SLEEP_BETWEEN_DEPLOYS=720
 
-while getopts ":u:b:e:c:d:w:r" PARAM; do
+while getopts ":u:b:e:c:d:w:r:s" PARAM; do
   case $PARAM in
     u)
       usage
@@ -351,6 +424,10 @@ while getopts ":u:b:e:c:d:w:r" PARAM; do
     r)
       REMOVE_OOM_AT_END=${OPTARG}
       ;;
+
+    s)
+      SLEEP_BETWEEN_DEPLOYS=${OPTARG}
+      ;;
     ?)
       usage
       exit
@@ -363,6 +440,6 @@ if [[ -z $BRANCH ]]; then
   exit 1
 fi
 
-deploy_onap  $BRANCH $ENVIRON $CLONE_NEW_OOM $DELETE_PREV_OOM $APPLY_WORKAROUNDS $REMOVE_OOM_AT_END
+deploy_onap  $BRANCH $ENVIRON $CLONE_NEW_OOM $DELETE_PREV_OOM $APPLY_WORKAROUNDS $REMOVE_OOM_AT_END $SLEEP_BETWEEN_DEPLOYS
 
 printf "**** Done ****\n"
