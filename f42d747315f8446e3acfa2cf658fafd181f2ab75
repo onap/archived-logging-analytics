@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_1486a813",
+        "filename": "deploy/docker_prepull.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2018-12-18T14:08:55Z",
+      "side": 1,
+      "message": "Should the script take the branch name as an input parameter?",
+      "revId": "f42d747315f8446e3acfa2cf658fafd181f2ab75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
