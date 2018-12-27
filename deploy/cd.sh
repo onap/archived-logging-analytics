@@ -1,7 +1,7 @@
 #!/bin/bash
 #############################################################################
 #
-# Copyright © 2018 Amdocs, Bell.
+# Copyright © 2019 Amdocs.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #############################################################################
-# v20181207
+# v20181226
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
 # source from https://jira.onap.org/browse/OOM-320, 326, 321
 # Michael O'Brien
@@ -26,13 +26,14 @@ usage() {
 Usage: $0 [PARAMs]
 example 
 ./cd.sh -b amsterdam -e onap (will rerun onap in the onap namespace, no new repo, no deletion of existing repo, no sdnc workaround, no onap removal at the end
-./cd.sh -b master -e onap -c true -d true -w true -r true (run as cd server, new oom, delete prev oom, run workarounds, clean onap at the end of the script
-./cd.sh -b master -e onap -c true -d false -w true -r false (standard new server/dev environment - use this as the default)
-provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml
+./cd.sh -b master -e onap -s 500 -c true -d true -w true -r true (run as cd server, new oom, delete prev oom, run workarounds, clean onap at the end of the script
+./cd.sh -b master -e onap -s 600 -c true -d false -w true -r false (standard new server/dev environment - use this as the default)
+provide a dev0.yaml/dev1.yaml override set (0=platform, 1=rest of pods) - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml
 
 -u                  : Display usage
 -b [branch]         : branch = master/beijing or amsterdam (required)
 -e [environment]    : use the default (onap)
+-s [seconds]        : delay between base and rest of onap dual-deployments based on dev0 and dev1.yaml
 -c [true|false]     : FLAG clone new oom repo (default: true)
 -d [true|false]     : FLAG delete prev oom - (cd build) (default: false)
 -w [true|false]     : FLAG apply workarounds  IE: sdnc (default: true)
@@ -43,10 +44,9 @@ EOF
 deploy_onap() {
   
   echo "$(date)"
-  echo "running with: -b $BRANCH -e $ENVIRON -c $CLONE_NEW_OOM -d $DELETE_PREV_OOM -w $APPLY_WORKAROUNDS -r $REMOVE_OOM_AT_END"
-  echo "provide onap-parameters.yaml(amsterdam) or values.yaml(master) and aai-cloud-region-put.json"
-  echo "provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml"
-  #exit 0
+  echo "running with: -b $BRANCH -e $ENVIRON -s $SPLIT_DEPLOY_DELAY -c $CLONE_NEW_OOM -d $DELETE_PREV_OOM -w $APPLY_WORKAROUNDS -r $REMOVE_OOM_AT_END"
+  echo "provide onap-parameters.yaml(amsterdam) or dev0.yaml+dev1.yaml (master) and aai-cloud-region-put.json"
+  echo "provide a dev0.yaml and dev1.yaml override (0=platform, 1=rest of pods) - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml"
   # fix virtual memory for onap-log:elasticsearch under Rancher 1.6.11 - OOM-431
   sudo sysctl -w vm.max_map_count=262144
   if [[ "$DELETE_PREV_OOM" != false ]]; then
@@ -55,6 +55,9 @@ deploy_onap() {
     if [ "$BRANCH" == "amsterdam" ]; then
       oom/kubernetes/oneclick/deleteAll.bash -n $ENVIRON
     else
+      # run undeploy for completeness of the deploy/undeploy cycle - note that pv/pvcs are not deleted in all cases
+      # this will fail as expected on a clean first run of the deployment - the plugin will be installed for run n+1
+      sudo helm undeploy $ENVIRON --purge
       # workaround for secondary orchestration in dcae
       kubectl delete namespace $ENVIRON
       echo "sleep for 4 min to allow the delete to finish pod terminations before trying a helm delete"
@@ -62,9 +65,9 @@ deploy_onap() {
       sudo helm delete --purge $ENVIRON
     fi
 
-    sleep 1
     # verify
-    DELETED=$(kubectl get pods --all-namespaces -a | -E '0/|1/2' | wc -l)
+    DELETED=$(kubectl get pods --all-namespaces -a | grep -E '0/|1/2' | wc -l)
+    echo "showing {$DELETED} undeleted pods"
     echo "verify deletion is finished."
     while [  $(kubectl get pods --all-namespaces | grep -E '0/|1/2' | wc -l) -gt 0 ]; do
       sleep 15
@@ -75,7 +78,6 @@ deploy_onap() {
     # delete potential hanging clustered pods
     #kubectl delete pod $ENVIRON-aaf-sms-vault-0 -n $ENVIRON --grace-period=0 --force
     # specific to when there is no helm release
-    # see https://wiki.onap.org/display/DW/Cloud+Native+Deployment#CloudNativeDeployment-RemoveaDeployment
     kubectl delete pv --all
     kubectl delete pvc --all
     kubectl delete secrets --all
@@ -88,11 +90,9 @@ deploy_onap() {
     echo "${LIST_ALL}"
 
     # for use by continuous deployment only
-    echo " deleting /dockerdata-nfs"
-    sudo chmod -R 777 /dockerdata-nfs/onap
-    sudo chmod -R 777 /dockerdata-nfs/dev
-    rm -rf /dockerdata-nfs/onap
-    rm -rf /dockerdata-nfs/dev
+    echo " deleting /dockerdata-nfs/ all onap-* deployments"
+    sudo chmod -R 777 /dockerdata-nfs/*
+    rm -rf /dockerdata-nfs/*
   fi
   # for use by continuous deployment only
   if [[ "$CLONE_NEW_OOM" != false ]]; then
@@ -139,8 +139,17 @@ deploy_onap() {
     sudo make all
     sudo make $ENVIRON
     #sudo helm install local/onap -n onap --namespace $ENVIRON
-    sudo helm deploy onap local/onap --namespace $ENVIRON -f ../../dev.yaml
-    cd ../../
+    # run an empty deploy first to get a round a random helm deploy failure on a release upgrade failure (deploy plugin runs as upgrade instead of install)
+    echo "deploying empty onap deployment as base 1 of 3"
+    sudo helm deploy onap local/onap --namespace $ENVIRON -f onap/resources/environments/disable-allcharts.yaml --verbose
+    # deploy platform pods first - dev0 and dev1 can be the same is required
+    echo "deploying base onap pods as base 2 of 3"
+    sudo helm deploy onap local/onap --namespace $ENVIRON -f onap/resources/environments/disable-allcharts.yaml -f ~/dev0.yaml --verbose
+    echo "sleep ${SPLIT_DEPLOY_DELAY} sec to allow base platform pods to complete - without a grep on 0/1|0/2| non-Complete jobs"
+    sleep $SPLIT_DEPLOY_DELAY
+    echo "deploying rest of onap pods as base 3 of 3"
+    sudo helm deploy onap local/onap --namespace $ENVIRON -f onap/resources/environments/disable-allcharts.yaml -f ~/dev1.yaml --verbose  
+  cd ../../
   fi
 
   echo "wait for all pods up for 15-80 min"
@@ -326,8 +335,9 @@ APPLY_WORKAROUNDS=true
 DELETE_PREV_OOM=false
 REMOVE_OOM_AT_END=false
 CLONE_NEW_OOM=true
+SPLIT_DEPLOY_DELAY=600
 
-while getopts ":u:b:e:c:d:w:r" PARAM; do
+while getopts ":u:b:e:s:c:d:w:r" PARAM; do
   case $PARAM in
     u)
       usage
@@ -338,6 +348,9 @@ while getopts ":u:b:e:c:d:w:r" PARAM; do
       ;;
     e)
       ENVIRON=${OPTARG}
+      ;;
+    s)
+      SPLIT_DEPLOY_DELAY=${OPTARG}
       ;;
     c)
       CLONE_NEW_OOM=${OPTARG}
@@ -363,6 +376,6 @@ if [[ -z $BRANCH ]]; then
   exit 1
 fi
 
-deploy_onap  $BRANCH $ENVIRON $CLONE_NEW_OOM $DELETE_PREV_OOM $APPLY_WORKAROUNDS $REMOVE_OOM_AT_END
+deploy_onap  $BRANCH $ENVIRON $SPLIT_DEPLOY_DELAY $CLONE_NEW_OOM $DELETE_PREV_OOM $APPLY_WORKAROUNDS $REMOVE_OOM_AT_END
 
 printf "**** Done ****\n"
