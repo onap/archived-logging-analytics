@@ -1,7 +1,7 @@
 #!/bin/bash
 #############################################################################
 #
-# Copyright © 2018 Amdocs, Bell.
+# Copyright © 2019 Amdocs
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #############################################################################
-# v20181207
+# v20181226
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
 # source from https://jira.onap.org/browse/OOM-320, 326, 321
 # Michael O'Brien
@@ -41,12 +41,10 @@ EOF
 }
 
 deploy_onap() {
-  
   echo "$(date)"
   echo "running with: -b $BRANCH -e $ENVIRON -c $CLONE_NEW_OOM -d $DELETE_PREV_OOM -w $APPLY_WORKAROUNDS -r $REMOVE_OOM_AT_END"
   echo "provide onap-parameters.yaml(amsterdam) or values.yaml(master) and aai-cloud-region-put.json"
   echo "provide a dev.yaml override - copy from https://git.onap.org/oom/tree/kubernetes/onap/resources/environments/dev.yaml"
-  #exit 0
   # fix virtual memory for onap-log:elasticsearch under Rancher 1.6.11 - OOM-431
   sudo sysctl -w vm.max_map_count=262144
   if [[ "$DELETE_PREV_OOM" != false ]]; then
@@ -55,6 +53,9 @@ deploy_onap() {
     if [ "$BRANCH" == "amsterdam" ]; then
       oom/kubernetes/oneclick/deleteAll.bash -n $ENVIRON
     else
+      # run undeploy for completeness of the deploy/undeploy cycle - note that pv/pvcs are not deleted in all cases
+      # this will fail as expected on a clean first run of the deployment - the plugin will be installed for run n+1
+      sudo helm undeploy $ENVIRON --purge
       # workaround for secondary orchestration in dcae
       kubectl delete namespace $ENVIRON
       echo "sleep for 4 min to allow the delete to finish pod terminations before trying a helm delete"
@@ -62,7 +63,6 @@ deploy_onap() {
       sudo helm delete --purge $ENVIRON
     fi
 
-    sleep 1
     # verify
     DELETED=$(kubectl get pods --all-namespaces -a | -E '0/|1/2' | wc -l)
     echo "verify deletion is finished."
@@ -72,7 +72,7 @@ deploy_onap() {
     done
     # wait for 0/1 before deleting
     echo "sleeping 30 sec"
-    # delete potential hanging clustered pods
+    # delete potential hanging clustered pods - example only
     #kubectl delete pod $ENVIRON-aaf-sms-vault-0 -n $ENVIRON --grace-period=0 --force
     # specific to when there is no helm release
     # see https://wiki.onap.org/display/DW/Cloud+Native+Deployment#CloudNativeDeployment-RemoveaDeployment
@@ -88,11 +88,9 @@ deploy_onap() {
     echo "${LIST_ALL}"
 
     # for use by continuous deployment only
-    echo " deleting /dockerdata-nfs"
-    sudo chmod -R 777 /dockerdata-nfs/onap
-    sudo chmod -R 777 /dockerdata-nfs/dev
-    rm -rf /dockerdata-nfs/onap
-    rm -rf /dockerdata-nfs/dev
+    echo " deleting /dockerdata-nfs/ all onap-* deployments"
+    sudo chmod -R 777 /dockerdata-nfs/*
+    rm -rf /dockerdata-nfs/*
   fi
   # for use by continuous deployment only
   if [[ "$CLONE_NEW_OOM" != false ]]; then
@@ -139,7 +137,9 @@ deploy_onap() {
     sudo make all
     sudo make $ENVIRON
     #sudo helm install local/onap -n onap --namespace $ENVIRON
-    sudo helm deploy onap local/onap --namespace $ENVIRON -f ../../dev.yaml
+    # run an empty deploy first to get a round a random helm deploy failure on a release upgrade failure (deploy plugin runs as upgrade instead of install)
+    sudo helm deploy onap local/onap --namespace $ENVIRON -f onap/resources/environments/disable-allcharts.yaml --verbose
+    sudo helm deploy onap local/onap --namespace $ENVIRON -f onap/resources/environments/disable-allcharts.yaml -f ../../dev.yaml
     cd ../../
   fi
 
