@@ -215,22 +215,23 @@ deploy_onap() {
       # for now master and casablanca have the same pod structure
       if [[ "$BRANCH" == "casablanca" ]] || [[ "$BRANCH" == "3.0.0-ONAP" ]] || [[ "$BRANCH" == "3.0.1-ONAP" ]] || [[ "$BRANCH" == "master" ]]; then 
         if [[ "$BRANCH" == "master" ]]; then
-          DEPLOY_ORDER_POD_NAME_ARRAY=('robot consul aaf dmaap dcaegen2 msb aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba vvp contrib sniro-emulator')
+          # node DCAEGEN2 must deploy after consul, msb and dmaap but not any later than deploy 5
+          DEPLOY_ORDER_POD_NAME_ARRAY=('consul msb dmaap dcaegen2 aaf robot aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba vvp contrib sniro-emulator')
           # don't count completed pods
-          DEPLOY_NUMBER_PODS_DESIRED_ARRAY=(1 4 13 11 13 5 15 2 6 17 10 12 11 2 8 6 3 18 2 5 5 5 1 11 11 3 1)
+          DEPLOY_NUMBER_PODS_DESIRED_ARRAY=(4 5 13 11 13 1 15 2 6 17 10 12 11 2 8 6 3 18 2 5 5 5 1 11 11 3 1)
           # account for podd that have varying deploy times or replicaset sizes
           # don't count the 0/1 completed pods - and skip most of the ResultSet instances except 1
           # dcae boostrap is problematic
-          DEPLOY_NUMBER_PODS_PARTIAL_ARRAY=(1 2 11 9 13 5 11 2 6 16 10 12 11 2 8 6 3 18 2 5 5 5 1 9 11 3 1)
+          DEPLOY_NUMBER_PODS_PARTIAL_ARRAY=(2 5 13 9 11 1 11 2 6 16 10 12 11 2 8 6 3 18 2 5 5 5 1 9 11 3 1)
         else
           # casablanca branches
-          DEPLOY_ORDER_POD_NAME_ARRAY=('robot consul aaf dmaap dcaegen2 msb aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba vvp contrib sniro-emulator')
+          DEPLOY_ORDER_POD_NAME_ARRAY=('consul msb dmaap dcaegen2 aaf robot aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba vvp contrib sniro-emulator')
           # don't count completed pods
-          DEPLOY_NUMBER_PODS_DESIRED_ARRAY=(1 4 13 11 13 5 15 2 6 17 10 12 11 2 8 6 3 18 2 5 5 5 1 11 11 3 1) 
+          DEPLOY_NUMBER_PODS_DESIRED_ARRAY=(4 5 13 11 13 1 15 2 6 17 10 12 11 2 8 6 3 18 2 5 5 5 1 11 11 3 1) 
           # account for podd that have varying deploy times or replicaset sizes
           # don't count the 0/1 completed pods - and skip most of the ResultSet instances except 1
           # dcae boostrap is problematic
-          DEPLOY_NUMBER_PODS_PARTIAL_ARRAY=(1 2 11 9 13 5 11 2 6 16 10 12 11 2 8 6 3 18 2 5 5 5 1 9 11 3 1)
+          DEPLOY_NUMBER_PODS_PARTIAL_ARRAY=(2 5 13 9 11 1 11 2 6 16 10 12 11 2 8 6 3 18 2 5 5 5 1 9 11 3 1)
         fi
         echo "deploying for $BRANCH using profile $DEPLOY_ORDER_POD_NAME_ARRAY"
       else
