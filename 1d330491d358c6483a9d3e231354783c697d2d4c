@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_0ab41833",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2019-01-15T22:43:59Z",
+      "side": 1,
+      "message": "had 2 test servers - copied one with 13 instead of 11 openlab and openlab-e0.onap.info - effect is dmaap takes the max 20 min instead of 4 min to deploy - as 11\u003c13\n\nalso note these arrays are going away in LOG-923",
+      "revId": "1d330491d358c6483a9d3e231354783c697d2d4c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
