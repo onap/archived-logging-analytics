@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_2a98fcbe",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2019-01-15T22:48:21Z",
+      "side": 1,
+      "message": "the selector is not guaranteed - safer to just delete all remaining stuck pods",
+      "revId": "1d330491d358c6483a9d3e231354783c697d2d4c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4a954085",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2019-01-15T22:48:21Z",
+      "side": 1,
+      "message": "had to move helm undeploy because it may hang on a Terminating stuck pod (All removed above) - still need the helm undeploy in order to do a deploy later\n\nsee OOM-1580",
+      "revId": "1d330491d358c6483a9d3e231354783c697d2d4c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_0ab41833",
         "filename": "deploy/cd.sh",
         "patchSetId": 2
