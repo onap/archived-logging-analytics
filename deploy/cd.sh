@@ -92,7 +92,7 @@ deploy_onap() {
     else
       # run undeploy for completeness of the deploy/undeploy cycle - note that pv/pvcs are not deleted in all cases
       # this will fail as expected on a clean first run of the deployment - the plugin will be installed for run n+1
-      sudo helm undeploy $ENVIRON --purge
+#      sudo helm undeploy $ENVIRON --purge
       # workaround for secondary orchestration in dcae
       kubectl delete namespace $ENVIRON
       echo "sleep for 4 min to allow the delete to finish pod terminations before trying a helm delete"
@@ -101,21 +101,21 @@ deploy_onap() {
     fi
 
     # verify
-    DELETED=$(kubectl get pods --all-namespaces | grep -E '0/|1/2|1/3|2/3' | wc -l)
+    DELETED=$(kubectl get pods --namespace $ENVIRON | grep -E '0/|1/2|1/3|2/3' | wc -l)
     echo "showing $DELETED undeleted pods"
+    kubectl get pods --namespace $ENVIRON | grep -E '0/|1/2|1/3|2/3'
     echo "verify deletion is finished."
     # max number of cycles exits to --force block next
-    local MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE=120 # 30 min
-    local DELETE_COUNTER=0
-    while [  $(kubectl get pods --all-namespaces | grep -E '0/|1/2|1/3|2/3' | wc -l) -gt 0 ]; do
+    local MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE=40 # 10 min
+    while [  $(kubectl get pods --namespace $ENVIRON  | grep -E '0/|1/2|1/3|2/3' | wc -l) -gt 0 ]; do
       sleep 15
-      echo "waiting for deletions to complete, iteration $DELETE_COUNTER of $MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE"
+      echo "waiting for deletions to complete, iterations left: $MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE"
       # addressing rare occurrence on Terminating instances requiring scripted --force in next merge for LOG-914
-      COUNTER=$((COUNTER + 1 ))
       MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE=$((MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE - 1))
       if [ "$MAX_DELETION_WAIT_PERIODS_BEFORE_RUNNING_FORCE" -eq 0 ]; then
         #https://wiki.onap.org/display/DW/ONAP+Development#ONAPDevelopment-WorkingwithJSONPath
-        export POD_NAMES=$(kubectl get pods --field-selector=status.phase!=Running --all-namespaces -o jsonpath="{.items[*].metadata.name}")
+        #export POD_NAMES=$(kubectl get pods --field-selector=status.phase!=Running --all-namespaces -o jsonpath="{.items[*].metadata.name}")
+        export POD_NAMES=$(kubectl get pods --namespace $ENVIRON -o jsonpath="{.items[*].metadata.name}")
         echo "--force delete on pods: $POD_NAMES"
         for pod in $POD_NAMES; do
           echo "running: kubectl delete pods $pod --grace-period=0 --force -n $ENVIRON"
@@ -124,7 +124,7 @@ deploy_onap() {
       fi
     done
     echo "Pod deletions completed"
-    
+    sudo helm undeploy $ENVIRON --purge   
     # specific to when there is no helm release
     kubectl delete pv --all
     kubectl delete pvc --all
