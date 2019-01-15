@@ -16,6 +16,24 @@
       "revId": "1e83fba97e00250918730d41ed49a2aac4dc466e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_39c61c9b",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2019-01-15T01:43:27Z",
+      "side": 1,
+      "message": "I am thinking of putting them in a json file outside the script and allowing for an override\n\nhttps://jira.onap.org/browse/LOG-923\nAdd external yaml/json/csv deployment profile config either on CLI or via WGET to avoid hardcoding dependency list",
+      "parentUuid": "9adffdf1_b9ebec11",
+      "revId": "1e83fba97e00250918730d41ed49a2aac4dc466e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
