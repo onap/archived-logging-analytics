@@ -3,6 +3,96 @@
 Log Enhancements Release Notes
 ==============================
 
+Version: 3.0.1 Casablanca Release
+--------------
+Casablanca
+--------------
+   - logging-analytics Version: 1.2.6
+
+--------------
+:Release Date: 2019-02-08
+
+**New Features**
+   - kubernetes installation upped to 1.11.5 in the Rancher 1.6.25 RI
+   - NFS support for AWS EFS
+
+**Bug Fixes**
+   - `LOG-837 <https://jira.onap.org/browse/LOG-837>`_ Logging/POMBA CLM: fix/address/red-flag spring-mvc-5.1.2 pulls in spring-web-5.0.9
+
+**Known Issues**
+
+   - `LOG-376 <https://jira.onap.org/browse/LOG-376>`_ Logstash load balancing is asymmetric wherever AAI is run
+   - `LOG-895 <https://jira.onap.org/browse/LOG-895>`_ Upgrade Rancher to 1.6.25 to address CVE-2018-1002105 and move to Kubernetes 1.11.5 (server side)
+
+**Security Notes**
+
+LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=45307852>`_.
+
+Quick Links:
+ 	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
+
+ 	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+
+ 	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=45307852>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
+POMBA Release Notes
+--------------
+POMBA is sub-project of the Logging Enhancements Project.
+
+Casablanca
+--------------
+   - pomba-audit-common Version: 1.3.2
+   - pomba-aai-context-builder Version: 1.3.2
+   - pomba-context-aggregator Version: 1.3.4
+   - pomba-network-discovery-context-builder Version: 1.3.1
+   - pomba-sdc-context-builder Version: 1.3.2
+
+--------------
+:Release Date:  2019-02-08
+
+**New Features**
+   - Version 1 of the audit common model
+   - Initial release of context aggregator and 3 context builders
+
+**Bug Fixes**
+
+   - `LOG-892 <https://jira.onap.org/browse/LOG-892`_ PORT - POMBA Network Discovery Context Builder does not log
+
+**Known Issues**
+
+   - `LOG-913 <https://jira.onap.org/browse/LOG-913>`_ POMBA: 1 of 11 pods failing on sequenced startup on 3.0.0-ONAP - pomba is 22 on the order - looks timing related
+   - `LOG-950 <https://jira.onap.org/browse/LOG-950>`_ LOG-950 upped the numbers from 10 to 30 – for intermittent deploy timing – this is an issue for several projects since 3.0.0-ONAP - the solution is a sequenced 5h deploy via `cd.sh <https://git.onap.org/logging-analytics/tree/deploy/cd.sh#n228>`_ and/or better vms for now until the `dependencies <https://wiki.onap.org/display/DW/Log+Streaming+Compliance+and+API#LogStreamingComplianceandAPI-DeploymentDependencyTree-Containerlevel>`_ and jobs are refactored into helm hooks
+
+**Security Notes**
+   - all three nodeports for kibana, context builder and data-router are open by default for now
+
+POMBA code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_.
+
+Quick Links:
+   - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
+   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
 Version: 1.2.2 Casablanca
 --------------
 
