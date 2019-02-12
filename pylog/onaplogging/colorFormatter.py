@@ -105,8 +105,6 @@ class BaseColorFormatter(Formatter):
 
         self.colorfmt = colorfmt
 
-        print(self.colorfmt, isinstance(self.colorfmt, dict))
-
     def _parseColor(self, record):
         """
         color formatter for instance:

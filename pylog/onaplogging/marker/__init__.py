@@ -14,13 +14,13 @@
 
 from __future__ import absolute_import
 
-from marker.marker import (
+from .marker import (
     Marker, MARKER_TAG,
     BaseMarker, matchMarkerHelp)
 
-from marker.markerFactory import MarkerFactory
-from marker.markerHandler import MarkerNotifyHandler
-from marker.markerFilter import MarkerFilter
+from .markerFactory import MarkerFactory
+from .markerHandler import MarkerNotifyHandler
+from .markerFilter import MarkerFilter
 
 __all__ = ("Marker", "MARKER_TAG", "BaseMarker",
            "matchMarkerHelp", "MarkerFactory",

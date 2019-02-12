@@ -14,7 +14,7 @@
 
 import sys
 from logging.handlers import SMTPHandler
-from marker import matchMarkerHelp
+from .marker import matchMarkerHelp
 
 
 class MarkerNotifyHandler(SMTPHandler):

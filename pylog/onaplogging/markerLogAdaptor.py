@@ -16,9 +16,9 @@ import sys
 from logging import LoggerAdapter
 from threading import RLock
 from functools import wraps
-from marker import MARKER_TAG
-from marker import Marker
-from mdcContext import _getmdcs
+from .marker import MARKER_TAG
+from .marker import Marker
+from .mdcContext import _getmdcs
 
 lock = RLock()
 

@@ -21,12 +21,13 @@ setup(
     long_description="python-package onappylog could be used in any python"
                      "project to record MDC information and reload logging"
                      "at runtime",
-    version="1.0.5",
+    version="1.0.7",
     license="Apache 2.0",
     author='ke liang',
     author_email="lokyse@163.com",
     packages=find_packages(),
     platforms=['all'],
+    url="https://github.com/onap/logging-analytics/tree/master/pylog",
     install_requires=[
         "PyYAML>=3.10",
         "watchdog>=0.8.3"
@@ -34,6 +35,7 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
-        'Programming Language :: Python :: 2.7'
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3'
     ]
 )

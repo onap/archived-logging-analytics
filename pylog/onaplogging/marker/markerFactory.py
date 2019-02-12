@@ -14,7 +14,7 @@
 
 import abc
 import threading
-from marker import BaseMarker
+from .marker import BaseMarker
 
 lock = threading.RLock()
 
