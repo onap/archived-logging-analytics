@@ -54,7 +54,7 @@ class MarkerFormatter(BaseColorFormatter):
             elif self._fmt.find(self._marker_tag) != -1 \
                     and not hasattr(record, MARKER_TAG):
 
-                    self._fmt = self._fmt.replace(self._marker_tag, "")
+                self._fmt = self._fmt.replace(self._marker_tag, "")
 
             if sys.version_info > (3, 2):
                 self._style = logging._STYLES[self.style][0](self._fmt)
@@ -65,4 +65,4 @@ class MarkerFormatter(BaseColorFormatter):
                 return BaseColorFormatter.format(self, record)
 
         finally:
-                self._fmt = self._tmpFmt
+            self._fmt = self._tmpFmt
