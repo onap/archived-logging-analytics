@@ -91,7 +91,7 @@ def _getmdcs(extra=None):
         for key in extra:
             #  make sure extra key dosen't override mdckey
             if key in mdc or key == 'mdc':
-                    raise KeyError("Attempt to overwrite %r in MDC" % key)
+                raise KeyError("Attempt to overwrite %r in MDC" % key)
     else:
         extra = {}
 

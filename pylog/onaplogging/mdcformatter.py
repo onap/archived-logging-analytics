@@ -14,7 +14,7 @@
 
 import sys
 import logging
-from markerFormatter import MarkerFormatter
+from .markerFormatter import MarkerFormatter
 
 
 class MDCFormatter(MarkerFormatter):
