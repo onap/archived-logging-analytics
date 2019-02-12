@@ -14,7 +14,7 @@
 
 import sys
 from logging import Filter
-from marker import matchMarkerHelp
+from .import matchMarkerHelp
 
 
 class MarkerFilter(Filter):

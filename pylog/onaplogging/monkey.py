@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from mdcContext import patch_loggingMDC
-from logWatchDog import patch_loggingYaml
+from .mdcContext import patch_loggingMDC
+from .logWatchDog import patch_loggingYaml
 
 
 __all__ = ["patch_all"]
