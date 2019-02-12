@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a14496d7_d672908d",
+        "filename": "pylog/onaplogging/marker/markerFactory.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2835
+      },
+      "writtenOn": "2019-02-12T15:05:06Z",
+      "side": 1,
+      "message": "\".import\" looks like a typo.  Shouldn\u0027t it be \".marker import\"?",
+      "revId": "4aa240a85beaa25b5398eb121926483fae79ac5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faba4dba_6d2bffe4",
+        "filename": "pylog/onaplogging/marker/markerFilter.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2835
+      },
+      "writtenOn": "2019-02-12T15:05:06Z",
+      "side": 1,
+      "message": "\".import\" looks like a typo.  Shouldn\u0027t it be \".marker import\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 12
+      },
+      "revId": "4aa240a85beaa25b5398eb121926483fae79ac5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b0ec8f9_bfa29b68",
+        "filename": "pylog/onaplogging/marker/markerHandler.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 2835
+      },
+      "writtenOn": "2019-02-12T15:05:06Z",
+      "side": 1,
+      "message": "\".import\" looks like a typo.  Shouldn\u0027t it be \".marker import\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 12
+      },
+      "revId": "4aa240a85beaa25b5398eb121926483fae79ac5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
