@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Terry Schmalzried <ts862m@att.com>
+Code-Review+2: Michael O'Brien <frank.obrien@amdocs.com>
+Submitted-by: Michael O'Brien <frank.obrien@amdocs.com>
+Submitted-at: Wed, 20 Feb 2019 22:52:37 +0000
+Reviewed-on: https://gerrit.onap.org/r/78262
+Project: logging-analytics
+Branch: refs/heads/master
