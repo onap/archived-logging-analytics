@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #############################################################################
-# v20190115
+# v20190223
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
 # source from https://jira.onap.org/browse/OOM-320, 326, 321, 898, 925, 914
 # Michael O'Brien
@@ -270,7 +270,10 @@ deploy_onap() {
   dt="$(date +"%T")"
   echo "$dt: wait for all pods up for 15-80 min"
   FAILED_PODS_LIMIT=0
-  MAX_WAIT_PERIODS=480 # 120 MIN
+  MAX_WAIT_PERIODS=10  
+  if [[ "$FULL_MANAGED_DEPLOY" != true ]]; then
+    MAX_WAIT_PERIODS=400 # 100 MIN
+  fi
   COUNTER=0
   PENDING_PODS=0
   while [  $(kubectl get pods --all-namespaces | grep -E '0/|1/2|1/3|2/3' | wc -l) -gt $FAILED_PODS_LIMIT ]; do
