@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 #############################################################################
-# v20190115
+# v20190223
 # https://wiki.onap.org/display/DW/ONAP+on+Kubernetes
 # source from https://jira.onap.org/browse/OOM-320, 326, 321, 898, 925, 914
 # Michael O'Brien
@@ -217,13 +217,13 @@ deploy_onap() {
       if [[ "$BRANCH" == "casablanca" ]] || [[ "$BRANCH" == "3.0.0-ONAP" ]] || [[ "$BRANCH" == "3.0.1-ONAP" ]] || [[ "$BRANCH" == "master" ]]; then 
         if [[ "$BRANCH" == "master" ]]; then
           # node DCAEGEN2 must deploy after consul, msb and dmaap but not any later than deploy 5
-          DEPLOY_ORDER_POD_NAME_ARRAY=('consul msb dmaap dcaegen2 aaf robot aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba vvp contrib sniro-emulator')
+          DEPLOY_ORDER_POD_NAME_ARRAY=('consul msb dmaap dcaegen2 aaf robot aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba contrib sniro-emulator')
           # don't count completed pods
-          DEPLOY_NUMBER_PODS_DESIRED_ARRAY=(4 5 11 11 13 1 15 2 6 17 10 12 11 2 8 6 3 18 2 5 5 5 1 11 11 3 1)
+          DEPLOY_NUMBER_PODS_DESIRED_ARRAY=(4 5 11 11 13 1 15 2 6 17 10 12 11 2 8 6 3 18 2 5 5 5 1 11 3 1)
           # account for podd that have varying deploy times or replicaset sizes
           # don't count the 0/1 completed pods - and skip most of the ResultSet instances except 1
           # dcae boostrap is problematic
-          DEPLOY_NUMBER_PODS_PARTIAL_ARRAY=(2 5 11 9 11 1 11 2 6 16 10 12 11 2 8 6 3 18 2 5 5 5 1 9 11 3 1)
+          DEPLOY_NUMBER_PODS_PARTIAL_ARRAY=(2 5 11 9 11 1 11 2 6 16 10 12 11 2 8 6 3 18 2 5 5 5 1 9 3 1)
         else
           # casablanca branches
           DEPLOY_ORDER_POD_NAME_ARRAY=('consul msb dmaap dcaegen2 aaf robot aai esr multicloud oof so sdc sdnc vid policy portal log vfc uui vnfsdk appc clamp cli pomba vvp contrib sniro-emulator')
@@ -270,7 +270,10 @@ deploy_onap() {
   dt="$(date +"%T")"
   echo "$dt: wait for all pods up for 15-80 min"
   FAILED_PODS_LIMIT=0
-  MAX_WAIT_PERIODS=480 # 120 MIN
+  MAX_WAIT_PERIODS=10  
+  if [[ "$FULL_MANAGED_DEPLOY" != true ]]; then
+    MAX_WAIT_PERIODS=400 # 100 MIN
+  fi
   COUNTER=0
   PENDING_PODS=0
   while [  $(kubectl get pods --all-namespaces | grep -E '0/|1/2|1/3|2/3' | wc -l) -gt $FAILED_PODS_LIMIT ]; do
@@ -388,8 +391,6 @@ deploy_onap() {
   echo "check filebeat 2/2|3/3 count for ELK stack logging consumption"
   FILEBEAT=$(kubectl get pods --all-namespaces -a | grep -E '2/|3/')
   echo "${FILEBEAT}"
-  echo "sleep 5 min - to allow rest frameworks to finish"
-  sleep 300
   echo "List of ONAP Modules"
   LIST_ALL=$(kubectl get pods --all-namespaces -a -o wide )
   echo "${LIST_ALL}"
