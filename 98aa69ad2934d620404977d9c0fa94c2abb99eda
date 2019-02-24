@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec74d85_50b667ba",
+        "filename": "deploy/cd.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1077
+      },
+      "writtenOn": "2019-02-24T00:35:11Z",
+      "side": 1,
+      "message": "vvp just went out of kubernetes - all CD systems adjust",
+      "revId": "98aa69ad2934d620404977d9c0fa94c2abb99eda",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
