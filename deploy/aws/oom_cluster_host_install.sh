@@ -15,14 +15,14 @@
 # limitations under the License.
 #
 #############################################################################
-# v20181207
+# v20190306
 # Amazon AWS specific EFS/NFS share and rancher host join script for each cluster node
 # https://wiki.onap.org/display/DW/Cloud+Native+Deployment
 # source from https://jira.onap.org/browse/OOM-320
 # Michael O'Brien
 # LOG-806 upgrade for Rancher 1.6.22, kubernetes 1.11
 # master/dublin - LOG-895
-#     Rancher 1.6.25, Kubernetes 1.11.3, kubectl 1.11.3, Helm 2.9.2, Docker 17.03
+#     Rancher 1.6.25, Kubernetes 1.11.5, kubectl 1.11.5, Helm 2.9.2, Docker 17.03
 
 
 usage() {
@@ -63,7 +63,7 @@ register_node() {
     fi
     sudo apt-get install nfs-common -y
     sudo mkdir /$DOCKERDATA_NFS
-    sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 $AWS_EFS.efs.$AWS_REGION.amazonaws.com:/ /$DOCKERDATA_NFS
+    sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $AWS_EFS.efs.$AWS_REGION.amazonaws.com:/ /$DOCKERDATA_NFS
     if [[ "$IS_NODE" != false ]]; then
         echo "Running agent docker..."
         if [[ "$COMPUTEADDRESS" != false ]]; then
