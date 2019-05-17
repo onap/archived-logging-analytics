@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27e874e7_c8adbd9e",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2019-05-17T18:14:49Z",
+      "side": 1,
+      "message": "Similar to these logs, we need to update any removal of users... for example\n\n        - type: \u0027Removal\u0027\n          name: \u0027Geora Barsky\u0027\n          name: \u0027Shane Daniel\u0027",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 30
+      },
+      "revId": "15ec5fd4594c1231415af4967aa96c19d7eaeedf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
