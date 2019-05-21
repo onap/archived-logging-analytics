@@ -65,3 +65,7 @@ tsc:
           name: 'Shane Daniel'
           name: 'Prudence Au'
           link: 'https://lists.onap.org/g/ONAP-TSC/message/3470'
+        - type: 'Removal'
+          name: 'Geora Barsky'
+          name: 'Shane Daniel'
+          link: 'https://lists.onap.org/g/onap-tsc/message/4985'
