@@ -19,8 +19,8 @@ import os
 import traceback
 import sys
 import functools
-from marker import Marker
-from marker import MARKER_TAG
+from .marker import Marker
+from .marker import MARKER_TAG
 
 __all__ = ['patch_loggingMDC', 'MDC']
 
