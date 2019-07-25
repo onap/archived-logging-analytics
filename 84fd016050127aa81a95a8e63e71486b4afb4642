@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21797847_3ca610e1",
+        "filename": "reference/logging-slf4j-demo/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2019-07-25T17:44:54Z",
+      "side": 1,
+      "message": "Not sure how this works, but will the artifact pick the parent\u0027s version if otherwise there is not specific version for it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "84fd016050127aa81a95a8e63e71486b4afb4642",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
