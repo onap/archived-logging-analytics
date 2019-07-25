@@ -22,6 +22,30 @@
       "revId": "84fd016050127aa81a95a8e63e71486b4afb4642",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9a2f5f5_9fbfef44",
+        "filename": "reference/logging-slf4j-demo/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2019-07-25T21:46:48Z",
+      "side": 1,
+      "message": "Yea the pom files in the logging-analytics project is slightly interesting.  I believe since logging-slf4j-demo doesn\u0027t explicitly set a version, the version from parent will be used.",
+      "parentUuid": "21797847_3ca610e1",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "84fd016050127aa81a95a8e63e71486b4afb4642",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
