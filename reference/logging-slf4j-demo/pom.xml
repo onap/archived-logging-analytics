@@ -16,7 +16,7 @@
              spring-expression 4.3.14 goes to 4.3.17 under 1.5.15
              1.5.17 ups jackson-databind from 2.8.11.2 - but we will likely need 2.9+
          -->
-        <springframework.boot.version>1.5.22.RELEASE</springframework.boot.version>
+        <springframework.boot.version>2.0.3.RELEASE</springframework.boot.version>
         <spring.version>5.1.2.RELEASE</spring.version>
         <logback.version>1.2.3</logback.version>
     </properties>
@@ -56,10 +56,6 @@
         <dependency>
             <groupId>com.mashape.unirest</groupId>
             <artifactId>unirest-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -105,6 +101,12 @@
                 <groupId>com.mashape.unirest</groupId>
                 <artifactId>unirest-java</artifactId>
                 <version>1.4.9</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
