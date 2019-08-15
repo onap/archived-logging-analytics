@@ -1,12 +1,207 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. Copyright 2017 Bell Canada & Amdocs Intellectual Property.  All rights reserved.
+
+.. Links
+.. _release-notes-label:
 
 Log Enhancements Release Notes
 ==============================
+Version: 5.0.0 El Alto Early Drop Release
+-----------------------------------------
+El Alto Early Drop
+------------------
+   - logging-analytics Version: 1.5.0
+
+:Release Date: 2019-08-16
+
+**New Features**
+      None
+
+**Bug Fixes**
+   - `LOG-1066 <https://jira.onap.org/browse/LOG-1066>`_ Vulnerability issue: upgrade org.apache.tomcat.embed.tomcat-embed-core to 8.5.42
+   - `LOG-1067 <https://jira.onap.org/browse/LOG-1067>`_ Vulnerability issue: confirm rather or not commons-codec is needed for logging projects
+
+**Known Issues**
+
+**Security Notes**
+
+LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
+
+Quick Links:
+ 	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
+
+ 	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+
+ 	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=68541351>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
+POMBA Release Notes
+-------------------
+POMBA is sub-project of the Logging Enhancements Project.
+
+El Alto Early Drop
+------------------
+   - pomba-audit-common Version: 1.5.0
+   - pomba-aai-context-builder Version: 1.5.0
+   - pomba-context-aggregator Version: 1.5.0
+   - pomba-network-discovery-context-builder Version: 1.5.0
+   - pomba-sdc-context-builder Version: 1.5.0
+   - pomba-sdnc-context-builder Version: 1.5.0
+
+:Release Date:  2019-08-16
+
+**New Features**
+   - None
+
+**Bug Fixes**
+   - `LOG-1066 <https://jira.onap.org/browse/LOG-1066>`_ Vulnerability issue: upgrade org.apache.tomcat.embed.tomcat-embed-core to 8.5.42
+   - `LOG-1067 <https://jira.onap.org/browse/LOG-1067>`_ Vulnerability issue: confirm rather or not commons-codec is needed for logging projects
+
+**Known Issues**
+
+   - `LOG-1017 <https://jira.onap.org/browse/LOG-1017>`_ Violations are thrown on attributes that are same (or missing)
+   - `LOG-1016 <https://jira.onap.org/browse/LOG-1016>`_ When comparing attributes from multiple sources, violations thrown do not accurately show the issue.
+   - `LOG-836 <https://jira.onap.org/browse/LOG-836>`_ Logging/POMBA CLM: fix/address/red-flag glassfish bean-validator-2.4.0-b34.jar SEC
+   - `LOG-874 <https://jira.onap.org/browse/LOG-874>`_ Logging CLM: fix/address/red-flag License org.json:json-20140107.jar
+   - `LOG-832 <https://jira.onap.org/browse/LOG-832>`_ Logging/POMBA CLM: fix/address/red-flag SEC jackson-databind-2.4.5.jar - auditcommon - even 2.9.7 is still red
+   - `LOG-831 <https://jira.onap.org/browse/LOG-831>`_ Logging/POMBA CLM: fix/address/red-flag License javax.jms:jms-1.1.jar
+   - `LOG-769 <https://jira.onap.org/browse/LOG-769>`_ POMBA aai ctx pod reports HD full - but DF shows HD is OK
+   - `LOG-826 <https://jira.onap.org/browse/LOG-826>`_ Logging/POMBA CLM: fix/address/red-flag jackson-databind-2.8.11.3 SEC
+   - `LOG-1060 <https://jira.onap.org/browse/LOG-1060>`_ Logging CLM: fix/address/red-flag jackson-databind-2.8.6 SEC
+   - `LOG-1061 <https://jira.onap.org/browse/LOG-1061>`_ POMBA-AUDIT-COMMON CLM: fix/address/red-flag jackson-databind-2.4.5 SEC
+   - `LOG-1063 <https://jira.onap.org/browse/LOG-1063>`_ POMBA-SDNC-CONTEXT-BUILDER CLM: fix/address/red-flag plexus-utils : 3.0.22 SEC
+   - `LOG-1064 <https://jira.onap.org/browse/LOG-1064>`_ POMBA-SDNC-CONTEXT-BUILDER CLM: fix/address/red-flag commons-beanutils : 1.9.3 SEC
+   - `LOG-1062 <https://jira.onap.org/browse/LOG-1062>`_ POMBA-SDNC-CONTEXT-BUILDER CLM: fix/address/red-flag struts-core : 1.3.8-2.4.5 SEC
+   - `LOG-827 <https://jira.onap.org/browse/LOG-827>`_ Logging/POMBA CLM: fix/address/red-flag handlebars-2.0.0.js SEC - upgrade to 4.0.0+
+   - `LOG-830 <https://jira.onap.org/browse/LOG-830>`_ Logging/POMBA CLM: fix/address/red-flag License org.json:json-20140107.jar
+
+**Security Notes**
+   - all nodeports for Kibana, context builders and data-router are open by default for now
+
+POMBA code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
+
+Quick Links:
+   - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
+   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=68541351>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+Version: 4.0.0 Dublin Release
+-----------------------------
+Dublin
+------
+   - logging-analytics Version: 1.2.6
+
+:Release Date: 2019-06-18
+
+**New Features**
+
+**Bug Fixes**
+   
+**Known Issues**
+
+**Security Notes**
+
+LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=64008625>`_.
+
+Quick Links:
+ 	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
+
+ 	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+
+ 	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=51282493>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
+POMBA Release Notes
+-------------------
+POMBA is sub-project of the Logging Enhancements Project.
+
+Dublin
+------
+   - pomba-audit-common Version: 1.4.0
+   - pomba-aai-context-builder Version: 1.4.0
+   - pomba-context-aggregator Version: 1.4.0
+   - pomba-network-discovery-context-builder Version: 1.4.0
+   - pomba-sdc-context-builder Version: 1.4.0
+   - pomba-sdnc-context-builder Version: 1.4.0
+
+:Release Date:  2019-06-18
+
+**New Features**
+   - Version 2 of the audit common model
+   - Initial release of SDNC context builder
+
+**Bug Fixes**
+
+
+**Known Issues**
+
+   - `LOG-1017 <https://jira.onap.org/browse/LOG-1017>`_ Violations are thrown on attributes that are same (or missing)
+   - `LOG-1016 <https://jira.onap.org/browse/LOG-1016>`_ When comparing attributes from multiple sources, violations thrown do not accurately show the issue.
+   - `LOG-836 <https://jira.onap.org/browse/LOG-836>`_ Logging/POMBA CLM: fix/address/red-flag glassfish bean-validator-2.4.0-b34.jar SEC
+   - `LOG-874 <https://jira.onap.org/browse/LOG-874>`_ Logging CLM: fix/address/red-flag License org.json:json-20140107.jar
+   - `LOG-832 <https://jira.onap.org/browse/LOG-832>`_ Logging/POMBA CLM: fix/address/red-flag SEC jackson-databind-2.4.5.jar - auditcommon - even 2.9.7 is still red
+   - `LOG-831 <https://jira.onap.org/browse/LOG-831>`_ Logging/POMBA CLM: fix/address/red-flag License javax.jms:jms-1.1.jar
+   - `LOG-769 <https://jira.onap.org/browse/LOG-769>`_ POMBA aai ctx pod reports HD full - but DF shows HD is OK
+   - `LOG-826 <https://jira.onap.org/browse/LOG-826>`_ Logging/POMBA CLM: fix/address/red-flag jackson-databind-2.8.11.3 SEC
+   - `LOG-1060 <https://jira.onap.org/browse/LOG-1060>`_ Logging CLM: fix/address/red-flag jackson-databind-2.8.6 SEC
+   - `LOG-1061 <https://jira.onap.org/browse/LOG-1061>`_ POMBA-AUDIT-COMMON CLM: fix/address/red-flag jackson-databind-2.4.5 SEC
+   - `LOG-1063 <https://jira.onap.org/browse/LOG-1063>`_ POMBA-SDNC-CONTEXT-BUILDER CLM: fix/address/red-flag plexus-utils : 3.0.22 SEC
+   - `LOG-1064 <https://jira.onap.org/browse/LOG-1064>`_ POMBA-SDNC-CONTEXT-BUILDER CLM: fix/address/red-flag commons-beanutils : 1.9.3 SEC
+   - `LOG-1062 <https://jira.onap.org/browse/LOG-1062>`_ POMBA-SDNC-CONTEXT-BUILDER CLM: fix/address/red-flag struts-core : 1.3.8-2.4.5 SEC
+   - `LOG-827 <https://jira.onap.org/browse/LOG-827>`_ Logging/POMBA CLM: fix/address/red-flag handlebars-2.0.0.js SEC - upgrade to 4.0.0+
+   - `LOG-830 <https://jira.onap.org/browse/LOG-830>`_ Logging/POMBA CLM: fix/address/red-flag License org.json:json-20140107.jar
+
+**Security Notes**
+   - all nodeports for Kibana, context builders and data-router are open by default for now
+
+POMBA code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=64008625>`_.
+
+Quick Links:
+   - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
+   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=51282493>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
 
 Version: 3.0.1 Casablanca Release
---------------
+---------------------------------
 Casablanca
---------------
+-----------
    - logging-analytics Version: 1.2.6
 
 --------------
@@ -46,11 +241,11 @@ Quick Links:
 
 
 POMBA Release Notes
---------------
+-------------------
 POMBA is sub-project of the Logging Enhancements Project.
 
 Casablanca
---------------
+----------
    - pomba-audit-common Version: 1.3.2
    - pomba-aai-context-builder Version: 1.3.2
    - pomba-context-aggregator Version: 1.3.4
@@ -94,7 +289,7 @@ Quick Links:
 
 
 Version: 1.2.2 Casablanca
---------------
+-------------------------
 
 :Release Date: 2018-11-30
 
@@ -129,11 +324,11 @@ Quick Links:
 
 
 POMBA Release Notes
---------------
+-------------------
 POMBA is sub-project of the Logging Enhancements Project.
 
 Casablanca
---------------
+----------
    - pomba-audit-common Version: 1.3.1
    - pomba-aai-context-builder Version: 1.3.1
    - pomba-context-aggregator Version: 1.3.3
@@ -175,7 +370,7 @@ Quick Links:
       None
 
 Version: Beijing
---------------
+----------------
 
 :Release Date: 2018-06-07
 
