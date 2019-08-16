@@ -58,7 +58,7 @@ public final class ONAPLogConstants {
         /** Marker reporting invocation. */
         public static final Marker INVOKE = MarkerFactory.getMarker("INVOKE");
         
-        /** Marker reporting invocation. */
+        /** Marker reporting invocation return. */
         public static final Marker INVOKE_RETURN = MarkerFactory.getMarker("INVOKE_RETURN");
 
         /** Marker reporting synchronous invocation. */
@@ -106,7 +106,7 @@ public final class ONAPLogConstants {
         /** MDC correlating messages for a logical transaction. */
         public static final String REQUEST_ID = "RequestID";
 
-        /** MDC recording calling service. */
+        /** MDC recording calling partner name. */
         public static final String PARTNER_NAME = "PartnerName";
 
         /** MDC recording current service. */
@@ -116,18 +116,30 @@ public final class ONAPLogConstants {
         public static final String TARGET_SERVICE_NAME = "TargetServiceName";
         
         /** MDC recording target entity. */
-        public static final String TARGET_ENTITY = "TargetEntity";
+        public static final String TARGET_ENTITY = "TargetElement";
 
-        /** MDC recording current service instance. */
-        public static final String INSTANCE_UUID = "InstanceUUID";
+        /** MDC recording current service instance id. */
+        public static final String SERVICE_INSTANCE_ID = "ServiceInstanceID";
+
+        /** MDC recording current  instance id. */
+        public static final String INSTANCE_UUID = "InstanceID";
 
         // Network. ////////////////////////////////////////////////////////////
 
         /** MDC recording caller address. */
         public static final String CLIENT_IP_ADDRESS = "ClientIPAddress";
 
-        /** MDC recording server address. */
+        /** MDC recording server IP address. */
+        public static final String SERVER_IP_ADDRESS = "ServerIPAddress";
+
+        /** MDC recording server FQDN. */
         public static final String SERVER_FQDN = "ServerFQDN";
+
+        /** MDC recording virtual server name. */
+        public static final String VIRTUAL_SERVER_NAME = "VirtualServerName";
+
+        /** MDC recording context name. */
+        public static final String CONTEXT_NAME = "ContextName";
 
         /**
          * MDC recording timestamp at the start of the current request,
@@ -146,18 +158,21 @@ public final class ONAPLogConstants {
         /** MDC recording timestamp at the start of the current invocation. */
         public static final String INVOKE_TIMESTAMP = "InvokeTimestamp";
 
+        /** MDC recording elapsed time. */
+        public static final String ELAPSED_TIME = "ElapsedTime";
+
         // Outcomes. ///////////////////////////////////////////////////////////
 
         /** MDC reporting outcome code. */
         public static final String RESPONSE_CODE = "ResponseCode";
 
         /** MDC reporting outcome description. */
-        public static final String RESPONSE_DESCRIPTION = "ResponseDescription";
+        public static final String RESPONSE_DESCRIPTION = "ResponseDesc";
 
-        /** MDC reporting outcome error level. */
+        /** MDC reporting severity */
         public static final String RESPONSE_SEVERITY = "Severity";
 
-        /** MDC reporting outcome error level. */
+        /** MDC reporting response status code */
         public static final String RESPONSE_STATUS_CODE = "StatusCode";
 
         // Unsorted. ///////////////////////////////////////////////////////////
@@ -204,7 +219,7 @@ public final class ONAPLogConstants {
     public enum ResponseStatus {
 
         /** Success. */
-        COMPLETED,
+        COMPLETE,
 
         /** Not. */
         ERROR,

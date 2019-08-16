@@ -89,7 +89,7 @@ public class ONAPLogConstantsTest {
 
     @Test
     public void testResponseStatus() {
-        assertThat(ONAPLogConstants.ResponseStatus.COMPLETED.toString(), is("COMPLETED"));
+        assertThat(ONAPLogConstants.ResponseStatus.COMPLETE.toString(), is("COMPLETE"));
         assertThat(ONAPLogConstants.ResponseStatus.ERROR.toString(), is("ERROR"));
     }
 

@@ -382,7 +382,7 @@ public class ONAPLogAdapterTest {
         adapter.setResponseCode("code0");
         adapter.setResponseDescription("desc0");
         adapter.setResponseSeverity(Level.INFO);
-        adapter.setResponseStatus(ONAPLogConstants.ResponseStatus.COMPLETED);
+        adapter.setResponseStatus(ONAPLogConstants.ResponseStatus.COMPLETE);
 
         assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_CODE), nullValue());
         assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION), nullValue());
@@ -394,7 +394,7 @@ public class ONAPLogAdapterTest {
         assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_CODE), is("code0"));
         assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION), is("desc0"));
         assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_SEVERITY), is("INFO"));
-        assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE), is("COMPLETED"));
+        assertThat(MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE), is("COMPLETE"));
     }
 
     /**
@@ -432,7 +432,7 @@ public class ONAPLogAdapterTest {
             adapter.getResponseDescriptor()
                     .setResponseCode((String)null)
                     .setResponseSeverity(Level.INFO)
-                    .setResponseStatus(ONAPLogConstants.ResponseStatus.COMPLETED);
+                    .setResponseStatus(ONAPLogConstants.ResponseStatus.COMPLETE);
         }
         finally {
 
