@@ -89,7 +89,7 @@ public class ONAPLogConstantsTest {
 
     @Test
     public void testResponseStatus() {
-        assertThat(ONAPLogConstants.ResponseStatus.COMPLETED.toString(), is("COMPLETED"));
+        assertThat(ONAPLogConstants.ResponseStatus.COMPLETE.toString(), is("COMPLETE"));
         assertThat(ONAPLogConstants.ResponseStatus.ERROR.toString(), is("ERROR"));
     }
 
@@ -105,7 +105,7 @@ public class ONAPLogConstantsTest {
         assertThat(ONAPLogConstants.MDCs.REQUEST_ID.toString(), is("RequestID"));
         assertThat(ONAPLogConstants.MDCs.INVOCATION_ID.toString(), is("InvocationID"));
         assertThat(ONAPLogConstants.MDCs.PARTNER_NAME.toString(), is("PartnerName"));
-        assertThat(ONAPLogConstants.MDCs.INSTANCE_UUID.toString(), is("InstanceUUID"));
+        assertThat(ONAPLogConstants.MDCs.INSTANCE_UUID.toString(), is("InstanceID"));
         assertThat(ONAPLogConstants.MDCs.SERVICE_NAME.toString(), is("ServiceName"));
         assertThat(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME.toString(), is("TargetServiceName"));
 
