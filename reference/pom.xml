@@ -19,6 +19,7 @@
     <module>logging-slf4j</module>
     <module>logging-slf4j-demo</module>
     <module>provider</module>
+	<module>logging-filter</module>
   </modules>
   <build>
       <pluginManagement>
