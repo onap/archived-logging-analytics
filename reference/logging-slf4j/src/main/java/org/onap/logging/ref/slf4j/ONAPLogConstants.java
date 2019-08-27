@@ -160,6 +160,9 @@ public final class ONAPLogConstants {
 
         /** MDC recording elapsed time. */
         public static final String ELAPSED_TIME = "ElapsedTime";
+        
+        /** MDC recording log timestamp. */
+        public static final String LOG_TIMESTAMP = "LogTimestamp";
 
         // Outcomes. ///////////////////////////////////////////////////////////
 
@@ -174,6 +177,12 @@ public final class ONAPLogConstants {
 
         /** MDC reporting response status code */
         public static final String RESPONSE_STATUS_CODE = "StatusCode";
+        
+        /** MDC recording error code. */
+        public static final String ERROR_CODE = "ErrorCode";
+        
+        /** MDC recording error description. */
+        public static final String ERROR_DESC = "ErrorDesc";
 
         // Unsorted. ///////////////////////////////////////////////////////////
 
