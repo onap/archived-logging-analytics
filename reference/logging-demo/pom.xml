@@ -107,6 +107,12 @@
         <groupId>org.glassfish.jersey.media</groupId>
         <artifactId>jersey-media-json-jackson</artifactId>
         <version>2.23</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!-- for spring injection in rest -->
     <dependency>
@@ -151,11 +157,11 @@
 </dependency>
 
 <!-- databinding; ObjectMapper, JsonNode and related classes are here -->
-<dependency>
+<!--<dependency>
   <groupId>com.fasterxml.jackson.core</groupId>
   <artifactId>jackson-databind</artifactId>
   <version>${jackson-2-version}</version>
-</dependency>
+</dependency>-->
 
 <!-- smile (binary JSON). Other artifacts in this group do other formats. -->
 <dependency>
@@ -168,12 +174,24 @@
    <groupId>com.fasterxml.jackson.jaxrs</groupId>
    <artifactId>jackson-jaxrs-json-provider</artifactId>
    <version>${jackson-2-version}</version>
+  <exclusions>
+    <exclusion>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </exclusion>
+  </exclusions>
 </dependency>
 <!-- Support for JAX-B annotations as additional configuration -->
 <dependency>
   <groupId>com.fasterxml.jackson.module</groupId>
   <artifactId>jackson-module-jaxb-annotations</artifactId>
   <version>${jackson-2-version}</version>
+  <exclusions>
+    <exclusion>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </exclusion>
+  </exclusions>
 </dependency>
     <dependency>
         <groupId>com.owlike</groupId>
