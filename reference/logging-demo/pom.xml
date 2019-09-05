@@ -137,6 +137,10 @@
                     <artifactId>spring-beans</artifactId>
                     <groupId>org.springframework</groupId>
                 </exclusion>
+                <exclusion>
+                  <groupId>org.glassfish.hk2.external</groupId>
+                  <artifactId>bean-validator</artifactId>
+                </exclusion>
             </exclusions>
     </dependency>
 
