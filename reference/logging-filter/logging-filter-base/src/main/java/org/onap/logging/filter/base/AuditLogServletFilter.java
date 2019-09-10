@@ -45,15 +45,14 @@ public class AuditLogServletFilter extends AbstractAuditLogFilter<HttpServletReq
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
             throws IOException, ServletException {
-        MDCSetup mdcSetup = new MDCSetup();
         try {
             if (request != null && request instanceof HttpServletRequest) {
-                pre((HttpServletRequest) request, mdcSetup);
+                pre((HttpServletRequest) request);
             }
             filterChain.doFilter(request, response);
         } finally {
             if (request != null && request instanceof HttpServletRequest) {
-                post((HttpServletRequest) request, (HttpServletResponse) response, mdcSetup);
+                post((HttpServletRequest) request, (HttpServletResponse) response);
             }
             MDC.clear();
         }
@@ -64,9 +63,9 @@ public class AuditLogServletFilter extends AbstractAuditLogFilter<HttpServletReq
         // this method does nothing
     }
 
-    protected void pre(HttpServletRequest request, MDCSetup mdcSetup) {
+    protected void pre(HttpServletRequest request) {
         SimpleMap headers = new SimpleServletHeadersMap(request);
-        pre(mdcSetup, headers, request, request);
+        pre(headers, request, request);
     }
 
     @Override
@@ -74,8 +73,8 @@ public class AuditLogServletFilter extends AbstractAuditLogFilter<HttpServletReq
         MDC.put(ONAPLogConstants.MDCs.SERVICE_NAME, request.getRequestURI());
     }
 
-    private void post(HttpServletRequest request, HttpServletResponse response, MDCSetup mdcSetup) {
-        post(mdcSetup, response);
+    private void post(HttpServletRequest request, HttpServletResponse response) {
+        post(response);
     }
 
     @Override

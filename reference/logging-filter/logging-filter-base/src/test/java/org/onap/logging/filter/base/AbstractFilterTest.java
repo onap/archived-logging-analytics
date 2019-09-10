@@ -32,28 +32,16 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.Constants;
-import org.onap.logging.filter.base.MDCSetup;
-import org.onap.logging.filter.base.ONAPComponents;
-import org.onap.logging.filter.base.SimpleHashMap;
-import org.onap.logging.filter.base.SimpleJaxrsHeadersMap;
-import org.onap.logging.filter.base.SimpleMap;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MDCSetupTest {
+public class AbstractFilterTest extends AbstractFilter {
 
     @Mock
     private HttpServletRequest httpServletRequest;
-
-    @Spy
-    @InjectMocks
-    private MDCSetup mdcSetup = new MDCSetup();
 
     private String requestId = "4d31fe02-4918-4975-942f-fe51a44e6a9b";
     private String invocationId = "4d31fe02-4918-4975-942f-fe51a44e6a9a";
@@ -61,6 +49,7 @@ public class MDCSetupTest {
     @After
     public void tearDown() {
         MDC.clear();
+        System.clearProperty("partnerName");
     }
 
     @Test
@@ -69,7 +58,7 @@ public class MDCSetupTest {
         MDC.put(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP, "2019-06-18T02:09:06.024Z");
         MDC.put(ONAPLogConstants.MDCs.LOG_TIMESTAMP, "2019-06-18T02:09:06.342Z");
 
-        mdcSetup.setElapsedTime();
+        setElapsedTime();
         assertEquals(expected, MDC.get(ONAPLogConstants.MDCs.ELAPSED_TIME));
     }
 
@@ -79,7 +68,7 @@ public class MDCSetupTest {
         MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP, "2019-06-18T02:09:06.024Z");
         MDC.put(ONAPLogConstants.MDCs.LOG_TIMESTAMP, "2019-06-18T02:09:06.342Z");
 
-        mdcSetup.setElapsedTimeInvokeTimestamp();
+        setElapsedTimeInvokeTimestamp();
         assertEquals(expected, MDC.get(ONAPLogConstants.MDCs.ELAPSED_TIME));
     }
 
@@ -87,7 +76,7 @@ public class MDCSetupTest {
     public void setRequestIdTest() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(ONAPLogConstants.Headers.REQUEST_ID, requestId);
-        String fetchedRequestId = mdcSetup.getRequestId(new SimpleHashMap(headers));
+        String fetchedRequestId = getRequestId(new SimpleHashMap(headers));
         assertEquals(requestId, fetchedRequestId);
     }
 
@@ -95,7 +84,7 @@ public class MDCSetupTest {
     public void setRequestIdRequestIdHeaderTest() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Constants.HttpHeaders.HEADER_REQUEST_ID, requestId);
-        String fetchedRequestId = mdcSetup.getRequestId(new SimpleHashMap(headers));
+        String fetchedRequestId = getRequestId(new SimpleHashMap(headers));
         assertEquals(requestId, fetchedRequestId);
     }
 
@@ -103,7 +92,7 @@ public class MDCSetupTest {
     public void setRequestIdTransactionIdHeaderTest() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Constants.HttpHeaders.TRANSACTION_ID, requestId);
-        String fetchedRequestId = mdcSetup.getRequestId(new SimpleHashMap(headers));
+        String fetchedRequestId = getRequestId(new SimpleHashMap(headers));
         assertEquals(requestId, fetchedRequestId);
     }
 
@@ -111,14 +100,14 @@ public class MDCSetupTest {
     public void setRequestIdEcompRequestIdHeaderTest() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(Constants.HttpHeaders.ECOMP_REQUEST_ID, requestId);
-        String fetchedRequestId = mdcSetup.getRequestId(new SimpleHashMap(headers));
+        String fetchedRequestId = getRequestId(new SimpleHashMap(headers));
         assertEquals(requestId, fetchedRequestId);
     }
 
     @Test
     public void setRequestIdNoHeaderTest() {
         HashMap<String, String> headers = new HashMap<>();
-        String fetchedRequestId = mdcSetup.getRequestId(new SimpleHashMap(headers));
+        String fetchedRequestId = getRequestId(new SimpleHashMap(headers));
         assertNotNull(fetchedRequestId);
     }
 
@@ -126,40 +115,40 @@ public class MDCSetupTest {
     public void setInvocationIdTest() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(ONAPLogConstants.Headers.INVOCATION_ID, invocationId);
-        mdcSetup.setInvocationId(new SimpleHashMap(headers));
+        setInvocationId(new SimpleHashMap(headers));
         assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test
     public void setInvocationIdNoHeaderTest() {
         HashMap<String, String> headers = new HashMap<>();
-        mdcSetup.setInvocationId(new SimpleHashMap(headers));
+        setInvocationId(new SimpleHashMap(headers));
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test
     public void setInvovationIdFromMDCTest() {
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "7b77143c-9b50-410c-ac2f-05758a68e3e8");
-        mdcSetup.setInvocationIdFromMDC();
+        setInvocationIdFromMDC();
         assertEquals("7b77143c-9b50-410c-ac2f-05758a68e3e8", MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test
     public void setInvocationIdFromMDCNoInvocationIdTest() {
-        mdcSetup.setInvocationIdFromMDC();
+        setInvocationIdFromMDC();
         // InvocationId is set to a random UUID
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test
     public void setResponseStatusCodeTest() {
-        mdcSetup.setResponseStatusCode(200);
+        setResponseStatusCode(200);
         assertEquals("COMPLETE", MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE));
     }
 
     @Test
     public void setResponseStatusCodeErrorTest() {
-        mdcSetup.setResponseStatusCode(400);
+        setResponseStatusCode(400);
         assertEquals("ERROR", MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE));
         assertEquals("400", MDC.get(ONAPLogConstants.MDCs.ERROR_CODE));
         assertEquals("Bad Request", MDC.get(ONAPLogConstants.MDCs.ERROR_DESC));
@@ -177,7 +166,7 @@ public class MDCSetupTest {
         MDC.put(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME, "SDNC");
         MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP, "2019-06-18T02:09:06.024Z");
 
-        mdcSetup.clearClientMDCs();
+        clearClientMDCs();
         assertNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
         assertNull(MDC.get(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION));
         assertNull(MDC.get(ONAPLogConstants.MDCs.ERROR_CODE));
@@ -191,13 +180,13 @@ public class MDCSetupTest {
 
     @Test
     public void setTargetEntityTest() {
-        mdcSetup.setTargetEntity(ONAPComponents.SO);
+        setTargetEntity(ONAPComponents.SO);
         assertEquals("SO", MDC.get(ONAPLogConstants.MDCs.TARGET_ENTITY));
     }
 
     @Test
     public void setResponseDescriptionTest() {
-        mdcSetup.setResponseDescription(502);
+        setResponseDescription(502);
         assertEquals("Bad Gateway", MDC.get(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION));
     }
 
@@ -207,7 +196,7 @@ public class MDCSetupTest {
         headerMap.putSingle(ONAPLogConstants.Headers.PARTNER_NAME, "SO");
         SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
 
-        mdcSetup.setMDCPartnerName(headers);
+        setMDCPartnerName(headers);
 
         assertEquals("SO", MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
     }
@@ -218,7 +207,7 @@ public class MDCSetupTest {
         headerMap.putSingle(HttpHeaders.USER_AGENT, "Apache-HttpClient/4.5.8 (Java/1.8.0_191)");
         SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
 
-        mdcSetup.setMDCPartnerName(headers);
+        setMDCPartnerName(headers);
 
         assertEquals("Apache-HttpClient/4.5.8 (Java/1.8.0_191)", MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
     }
@@ -229,7 +218,7 @@ public class MDCSetupTest {
         headerMap.putSingle(Constants.HttpHeaders.CLIENT_ID, "SO");
         SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
 
-        mdcSetup.setMDCPartnerName(headers);
+        setMDCPartnerName(headers);
 
         assertEquals("SO", MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
     }
@@ -239,14 +228,14 @@ public class MDCSetupTest {
         MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
         SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
 
-        mdcSetup.setMDCPartnerName(headers);
+        setMDCPartnerName(headers);
 
         assertEquals("UNKNOWN", MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
     }
 
     @Test
     public void setServerFQDNTest() {
-        mdcSetup.setServerFQDN();
+        setServerFQDN();
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS));
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.SERVER_FQDN));
     }
@@ -254,7 +243,7 @@ public class MDCSetupTest {
     @Test
     public void setClientIPAddressTest() {
         when(httpServletRequest.getHeader("X-Forwarded-For")).thenReturn("127.0.0.2");
-        mdcSetup.setClientIPAddress(httpServletRequest);
+        setClientIPAddress(httpServletRequest);
 
         assertEquals("127.0.0.2", MDC.get(ONAPLogConstants.MDCs.CLIENT_IP_ADDRESS));
     }
@@ -262,45 +251,51 @@ public class MDCSetupTest {
     @Test
     public void setClientIPAddressNoHeaderTest() {
         when(httpServletRequest.getRemoteAddr()).thenReturn("127.0.0.1");
-        mdcSetup.setClientIPAddress(httpServletRequest);
+        setClientIPAddress(httpServletRequest);
 
         assertEquals("127.0.0.1", MDC.get(ONAPLogConstants.MDCs.CLIENT_IP_ADDRESS));
     }
 
     @Test
     public void setClientIPAddressNullTest() {
-        mdcSetup.setClientIPAddress(null);
+        setClientIPAddress(null);
 
         assertEquals("", MDC.get(ONAPLogConstants.MDCs.CLIENT_IP_ADDRESS));
     }
 
     @Test
     public void setEntryTimeStampTest() {
-        mdcSetup.setEntryTimeStamp();
+        setEntryTimeStamp();
 
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP));
     }
 
     @Test
     public void setLogTimestampTest() {
-        mdcSetup.setLogTimestamp();
+        setLogTimestamp();
 
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.LOG_TIMESTAMP));
     }
 
     @Test
     public void setInstanceIDTest() {
-        mdcSetup.setInstanceID();
+        setInstanceID();
 
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.INSTANCE_UUID));
     }
 
     @Test
-    public void setServiceNameTest() {
-        String requestUri = "onap/so/serviceInstances";
-        when(httpServletRequest.getRequestURI()).thenReturn(requestUri);
-        mdcSetup.setServiceName(httpServletRequest);
+    public void getPropertyTest() {
+        System.setProperty("partnerName", "partnerName");
 
-        assertEquals("onap/so/serviceInstances", MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME));
+        String partnerName = getProperty("partnerName");
+        assertEquals("partnerName", partnerName);
     }
+
+    @Test
+    public void getPropertyNullTest() {
+        String partnerName = getProperty("partner");
+        assertEquals("UNKNOWN", partnerName);
+    }
+
 }

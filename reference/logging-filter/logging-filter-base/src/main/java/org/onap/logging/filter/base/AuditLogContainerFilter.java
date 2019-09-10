@@ -48,18 +48,16 @@ public class AuditLogContainerFilter extends AbstractAuditLogFilter<ContainerReq
     @Context
     private Providers providers;
 
-    private MDCSetup mdcSetup = new MDCSetup();
-
     @Override
     public void filter(ContainerRequestContext containerRequest) {
         SimpleMap headers = new SimpleJaxrsHeadersMap(containerRequest.getHeaders());
-        pre(mdcSetup, headers, containerRequest, httpServletRequest);
+        pre(headers, containerRequest, httpServletRequest);
     }
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
             throws IOException {
-        post(mdcSetup, responseContext);
+        post(responseContext);
     }
 
     @Override

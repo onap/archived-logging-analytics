@@ -21,8 +21,7 @@
 package org.onap.logging.filter.spring;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertNotNull;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
@@ -31,8 +30,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.MDCSetup;
-import org.onap.logging.filter.base.SimpleMap;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 
@@ -48,18 +45,14 @@ public class LoggingInterceptorTest {
     @Mock
     private Object handler;
 
-    @Mock
-    private MDCSetup mdcSetup;
-
     @Spy
     @InjectMocks
     private LoggingInterceptor loggingInterceptor;
 
     @Test
     public void preHandleTest() throws Exception {
-        when(mdcSetup.getRequestId(any(SimpleMap.class))).thenReturn("428443e6-eeb2-4e4a-9a8c-2ca9e2bc8067");
         loggingInterceptor.preHandle(request, response, handler);
         assertEquals(MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE), "INPROGRESS");
-        assertEquals("428443e6-eeb2-4e4a-9a8c-2ca9e2bc8067", MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+        assertNotNull(MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
     }
 }

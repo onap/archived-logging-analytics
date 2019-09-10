@@ -56,10 +56,6 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
         this.maxEntitySize = Integer.min(maxPayloadSize, 1024 * 1024);
     }
 
-    private void log(StringBuilder sb) {
-        logger.debug(sb.toString());
-    }
-
     protected InputStream logInboundEntity(final StringBuilder b, InputStream stream, final Charset charset)
             throws IOException {
         if (!stream.markSupported()) {
@@ -87,9 +83,8 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
             requestContext.setProperty(ENTITY_STREAM_PROPERTY, stream);
         }
         String method = formatMethod(requestContext);
-        log(new StringBuilder("Making " + method + " request to: " + requestContext.getUri() + "\nRequest Headers: "
-                + getHeaders(requestContext.getHeaders())));
-
+        logger.debug("Sending HTTP {} to:{} with request headers:{}", method, requestContext.getUri(),
+                getHeaders(requestContext.getHeaders()));
     }
 
     protected String getHeaders(MultivaluedMap<String, Object> headers) {
@@ -107,10 +102,10 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
         final StringBuilder sb = new StringBuilder();
         if (responseContext.hasEntity()) {
             responseContext.setEntityStream(logInboundEntity(sb, responseContext.getEntityStream(), DEFAULT_CHARSET));
-            String method = formatMethod(requestContext);
-            log(sb.insert(0, "Response from " + method + ": " + requestContext.getUri() + "\nResponse Headers: "
-                    + responseContext.getHeaders().toString()));
         }
+        String method = formatMethod(requestContext);
+        logger.debug("Response from method:{} performed on uri:{} has http status code:{} and response headers:{}",
+                method, requestContext.getUri(), responseContext.getStatus(), responseContext.getHeaders().toString());
     }
 
     @Override
@@ -118,7 +113,7 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
         final LoggingStream stream = (LoggingStream) context.getProperty(ENTITY_STREAM_PROPERTY);
         context.proceed();
         if (stream != null) {
-            log(stream.getStringBuilder(DEFAULT_CHARSET));
+            logger.debug(stream.getStringBuilder(DEFAULT_CHARSET).toString());
         }
     }
 

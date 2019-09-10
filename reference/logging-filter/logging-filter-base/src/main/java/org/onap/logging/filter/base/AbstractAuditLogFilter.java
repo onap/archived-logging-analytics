@@ -26,39 +26,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> {
+public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> extends AbstractFilter {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractAuditLogFilter.class);
 
-    protected void pre(MDCSetup mdcSetup, SimpleMap headers, GenericRequest request,
-            HttpServletRequest httpServletRequest) {
+    protected void pre(SimpleMap headers, GenericRequest request, HttpServletRequest httpServletRequest) {
         try {
-            String requestId = mdcSetup.getRequestId(headers);
+            String requestId = getRequestId(headers);
             MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
-            mdcSetup.setInvocationId(headers);
+            setInvocationId(headers);
             setServiceName(request);
-            mdcSetup.setMDCPartnerName(headers);
-            mdcSetup.setServerFQDN();
-            mdcSetup.setClientIPAddress(httpServletRequest);
-            mdcSetup.setInstanceID();
-            mdcSetup.setEntryTimeStamp();
+            setMDCPartnerName(headers);
+            setServerFQDN();
+            setClientIPAddress(httpServletRequest);
+            setInstanceID();
+            setEntryTimeStamp();
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, ONAPLogConstants.ResponseStatus.INPROGRESS.toString());
             additionalPreHandling(request);
-            mdcSetup.setLogTimestamp();
-            mdcSetup.setElapsedTime();
+            setLogTimestamp();
+            setElapsedTime();
             logger.info(ONAPLogConstants.Markers.ENTRY, "Entering");
         } catch (Exception e) {
             logger.warn("Error in AbstractInboundFilter pre", e);
         }
     }
 
-    protected void post(MDCSetup mdcSetup, GenericResponse response) {
+    protected void post(GenericResponse response) {
         try {
             int responseCode = getResponseCode(response);
-            mdcSetup.setResponseStatusCode(responseCode);
+            setResponseStatusCode(responseCode);
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, String.valueOf(responseCode));
-            mdcSetup.setResponseDescription(responseCode);
-            mdcSetup.setLogTimestamp();
-            mdcSetup.setElapsedTime();
+            setResponseDescription(responseCode);
+            setLogTimestamp();
+            setElapsedTime();
             logger.info(ONAPLogConstants.Markers.EXIT, "Exiting.");
             additionalPostHandling(response);
         } catch (Exception e) {

@@ -21,11 +21,11 @@
 package org.onap.logging.filter.base;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import org.junit.After;
 import org.junit.Test;
@@ -34,23 +34,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.AuditLogContainerFilter;
-import org.onap.logging.filter.base.MDCSetup;
-import org.onap.logging.filter.base.SimpleMap;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AuditLogContainerFilterTest {
+    protected static final Logger logger = LoggerFactory.getLogger(AbstractMetricLogFilter.class);
 
     @Mock
     private ContainerRequestContext containerRequest;
 
     @Mock
     private ContainerResponseContext containerResponse;
-
-    @Mock
-    private MDCSetup mdcSetup;
 
     @Mock
     private UriInfo uriInfo;
@@ -64,11 +61,14 @@ public class AuditLogContainerFilterTest {
         MDC.clear();
     }
 
+
     @Test
     public void filterTest() {
-        when(mdcSetup.getRequestId(any(SimpleMap.class))).thenReturn("e3b08fa3-535f-4c1b-8228-91318d2bb4ee");
+        MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
+        headerMap.putSingle(ONAPLogConstants.Headers.REQUEST_ID, "e3b08fa3-535f-4c1b-8228-91318d2bb4ee");
+        when(containerRequest.getHeaders()).thenReturn(headerMap);
         when(uriInfo.getPath()).thenReturn("onap/so/serviceInstances");
-        doReturn(uriInfo).when(containerRequest).getUriInfo();
+        when(containerRequest.getUriInfo()).thenReturn(uriInfo);
         auditLogContainerFilter.filter(containerRequest);
 
         assertEquals("e3b08fa3-535f-4c1b-8228-91318d2bb4ee", MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));

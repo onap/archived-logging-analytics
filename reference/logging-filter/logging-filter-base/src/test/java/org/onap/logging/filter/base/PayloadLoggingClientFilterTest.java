@@ -33,8 +33,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.Constants;
-import org.onap.logging.filter.base.PayloadLoggingClientFilter;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PayloadLoggingClientFilterTest {

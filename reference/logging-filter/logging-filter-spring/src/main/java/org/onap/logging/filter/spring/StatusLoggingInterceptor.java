@@ -1,0 +1,74 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP - Logging
+ * ================================================================================
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+
+package org.onap.logging.filter.spring;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.ext.Providers;
+import org.onap.logging.filter.base.PayloadLoggingServletFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+// TODO do we want this class to log message payloads? In the previous implementation it did not
+@Component
+public class StatusLoggingInterceptor extends PayloadLoggingServletFilter implements HandlerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(StatusLoggingInterceptor.class);
+
+    @Context
+    private Providers providers;
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+            throws Exception {
+        if (logger.isDebugEnabled()) {
+            logRequestInformation(request);
+        }
+        return true;
+    }
+
+    protected void logRequestInformation(HttpServletRequest request) {
+        logger.debug("===========================request begin================================================");
+        logger.debug("URI         : {}", request.getRequestURI());
+        logger.debug("Method      : {}", request.getMethod());
+        logger.debug("Headers     : {}", getSecureRequestHeaders(request));
+        logger.debug("==========================request end================================================");
+    }
+
+    // TODO previously no response information was being logged, I followed the format in SpringClientPayloadFilter
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+            ModelAndView modelAndView) throws Exception {
+        if (logger.isDebugEnabled()) {
+            logger.debug("============================response begin==========================================");
+            logger.debug("Status code  : {}", response.getStatus());
+            logger.debug("Status text  : {}", Response.Status.fromStatusCode(response.getStatus()));
+            logger.debug("Headers      : {}", formatResponseHeaders(response));
+            logger.debug("=======================response end=================================================");
+        }
+    }
+}
