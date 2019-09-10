@@ -23,9 +23,11 @@ package org.onap.logging.filter.base;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -36,18 +38,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.Constants;
-import org.onap.logging.filter.base.MDCSetup;
-import org.onap.logging.filter.base.MetricLogClientFilter;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MetricLogClientFilterTest {
-
-    @Mock
-    private MDCSetup mdcSetup;
-
     @Mock
     private ClientRequestContext clientRequest;
 
@@ -64,10 +59,9 @@ public class MetricLogClientFilterTest {
     public void setupHeadersTest() {
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "8819bfb4-69d2-43fc-b0d6-81d2690533ea");
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
-        when(clientRequest.getHeaders()).thenReturn(headers);
-        doReturn("0a908a5d-e774-4558-96ff-6edcbba65483").when(metricLogClientFilter).extractRequestID(clientRequest);
+        doReturn("0a908a5d-e774-4558-96ff-6edcbba65483").when(metricLogClientFilter).extractRequestID();
 
-        metricLogClientFilter.setupHeaders(clientRequest);
+        metricLogClientFilter.setupHeaders(clientRequest, headers);
 
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(ONAPLogConstants.Headers.REQUEST_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.HEADER_REQUEST_ID));
@@ -80,6 +74,7 @@ public class MetricLogClientFilterTest {
 
     @Test
     public void setupMDCTest() throws URISyntaxException {
+        // TODO ingest change from upstream
         MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, "SO");
         URI uri = new URI("onap/so/serviceInstances");
         doReturn(uri).when(clientRequest).getUri();
@@ -110,15 +105,15 @@ public class MetricLogClientFilterTest {
     @Test
     public void extractRequestIDTest() {
         MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, "0a908a5d-e774-4558-96ff-6edcbba65483");
-        String requestId = metricLogClientFilter.extractRequestID(clientRequest);
+        String requestId = metricLogClientFilter.extractRequestID();
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", requestId);
     }
 
     @Test
     public void extractRequestIDNullTest() throws URISyntaxException {
-        URI uri = new URI("onap/so/serviceInstances");
-        doReturn(uri).when(clientRequest).getUri();
-        String requestId = metricLogClientFilter.extractRequestID(clientRequest);
+        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
+                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
+        String requestId = metricLogClientFilter.extractRequestID();
         assertNotNull(requestId);
         assertNotNull(ONAPLogConstants.MDCs.LOG_TIMESTAMP);
         assertNotNull(ONAPLogConstants.MDCs.ELAPSED_TIME);

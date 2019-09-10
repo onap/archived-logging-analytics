@@ -21,7 +21,7 @@
 package org.onap.logging.filter.base;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -34,9 +34,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.AuditLogServletFilter;
-import org.onap.logging.filter.base.MDCSetup;
-import org.onap.logging.filter.base.SimpleMap;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 
@@ -48,9 +45,6 @@ public class AuditLogServletFilterTest {
 
     @Mock
     private ServletResponse response;
-
-    @Mock
-    private MDCSetup mdcSetup;
 
     @Mock
     private HttpServletRequest servletRequest;
@@ -69,11 +63,10 @@ public class AuditLogServletFilterTest {
 
     @Test
     public void preTest() {
-        when(mdcSetup.getRequestId(any(SimpleMap.class))).thenReturn("e3b08fa3-535f-4c1b-8228-91318d2bb4ee");
         when(servletRequest.getRequestURI()).thenReturn("onap/so/serviceInstances");
-        auditLogServletFilter.pre(servletRequest, mdcSetup);
+        auditLogServletFilter.pre(servletRequest);
 
-        assertEquals("e3b08fa3-535f-4c1b-8228-91318d2bb4ee", MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
+        assertNotNull(MDC.get(ONAPLogConstants.MDCs.REQUEST_ID));
         assertEquals("onap/so/serviceInstances", MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME));
         assertEquals("INPROGRESS", MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE));
     }
@@ -85,4 +78,5 @@ public class AuditLogServletFilterTest {
 
         assertEquals(200, responseCode);
     }
+
 }

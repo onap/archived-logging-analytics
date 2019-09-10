@@ -22,12 +22,14 @@ package org.onap.logging.filter.spring;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +37,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.onap.logging.filter.base.AbstractFilter;
 import org.onap.logging.filter.base.Constants;
-import org.onap.logging.filter.base.MDCSetup;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 import org.springframework.http.HttpHeaders;
@@ -45,10 +47,10 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpResponse;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SpringClientFilterTest {
+public class SpringClientFilterTest extends SpringClientFilter {
 
     @Mock
-    private MDCSetup mdcSetup;
+    private AbstractFilter mdcSetup;
 
     @Mock
     private ClientHttpResponse response;
@@ -70,8 +72,7 @@ public class SpringClientFilterTest {
 
     @Test
     public void processResponseTest() throws IOException {
-        String partnerName = springClientFilter.getPartnerName();
-
+        String partnerName = getPartnerName();
         assertEquals("UNKNOWN", partnerName);
     }
 
@@ -81,7 +82,7 @@ public class SpringClientFilterTest {
         headers.add(Constants.HttpHeaders.TARGET_ENTITY_HEADER, "SO");
         when(clientRequest.getHeaders()).thenReturn(headers);
 
-        String targetEntity = springClientFilter.extractTargetEntity(clientRequest);
+        String targetEntity = springClientFilter.getTargetEntity(clientRequest);
         assertEquals("SO", targetEntity);
     }
 
@@ -91,7 +92,7 @@ public class SpringClientFilterTest {
         HttpHeaders headers = new HttpHeaders();
         when(clientRequest.getHeaders()).thenReturn(headers);
 
-        String targetEntity = springClientFilter.extractTargetEntity(clientRequest);
+        String targetEntity = springClientFilter.getTargetEntity(clientRequest);
         assertEquals("SO", targetEntity);
     }
 
@@ -100,20 +101,17 @@ public class SpringClientFilterTest {
         HttpHeaders headers = new HttpHeaders();
         when(clientRequest.getHeaders()).thenReturn(headers);
 
-        String targetEntity = springClientFilter.extractTargetEntity(clientRequest);
+        String targetEntity = springClientFilter.getTargetEntity(clientRequest);
         assertEquals("Unknown-Target-Entity", targetEntity);
     }
 
     @Test
     public void setupMDCTest() throws URISyntaxException {
-        doReturn("SO").when(springClientFilter).extractTargetEntity(clientRequest);
         URI uri = new URI("onap/so/serviceInstances");
         when(clientRequest.getURI()).thenReturn(uri);
-
-        springClientFilter.setupMDC(clientRequest);
-
+        when(clientRequest.getHeaders()).thenReturn(new HttpHeaders());
+        setupMDC(clientRequest);
         assertEquals("onap/so/serviceInstances", MDC.get(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME));
-        assertEquals("SO", MDC.get(ONAPLogConstants.MDCs.TARGET_ENTITY));
         assertEquals("INPROGRESS", MDC.get(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE));
         assertNotNull(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE);
         assertNotNull(ONAPLogConstants.MDCs.SERVICE_NAME);
@@ -123,11 +121,10 @@ public class SpringClientFilterTest {
     @Test
     public void setupHeadersTest() {
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "8819bfb4-69d2-43fc-b0d6-81d2690533ea");
-        HttpHeaders headers = new HttpHeaders();
-        when(clientRequest.getHeaders()).thenReturn(headers);
-        doReturn("0a908a5d-e774-4558-96ff-6edcbba65483").when(springClientFilter).extractRequestID(clientRequest);
+        MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, "0a908a5d-e774-4558-96ff-6edcbba65483");
 
-        springClientFilter.setupHeaders(clientRequest);
+        HttpHeaders headers = new HttpHeaders();
+        setupHeaders(clientRequest, headers);
 
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(ONAPLogConstants.Headers.REQUEST_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.HEADER_REQUEST_ID));
@@ -141,13 +138,16 @@ public class SpringClientFilterTest {
     @Test
     public void extractRequestIDTest() {
         MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, "0a908a5d-e774-4558-96ff-6edcbba65483");
-        String requestId = springClientFilter.extractRequestID(clientRequest);
+        String requestId = extractRequestID();
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", requestId);
     }
 
     @Test
     public void extractRequestIDNullTest() {
-        String requestId = springClientFilter.extractRequestID(clientRequest);
+        // NPE exception will occur when extractRequestID is called if INVOKE_TIMESTAMP is null
+        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
+                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
+        String requestId = extractRequestID();
         assertNotNull(requestId);
         assertNotNull(ONAPLogConstants.MDCs.LOG_TIMESTAMP);
         assertNotNull(ONAPLogConstants.MDCs.ELAPSED_TIME);
@@ -156,10 +156,7 @@ public class SpringClientFilterTest {
     @Test
     public void interceptTest() throws IOException {
         byte[] body = new byte[3];
-        doNothing().when(springClientFilter).processRequest(clientRequest, body);
         doReturn(response).when(execution).execute(clientRequest, body);
-        doNothing().when(springClientFilter).processResponse(response);
-
         ClientHttpResponse httpResponse = springClientFilter.intercept(clientRequest, body, execution);
         assertEquals(response, httpResponse);
     }

@@ -18,32 +18,25 @@
  * ============LICENSE_END=========================================================
  */
 
+
 package org.onap.logging.filter.spring;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Providers;
-import org.onap.logging.filter.base.MDCSetup;
+import org.onap.logging.filter.base.AbstractAuditLogFilter;
 import org.onap.logging.filter.base.SimpleMap;
 import org.onap.logging.filter.base.SimpleServletHeadersMap;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 @Component
-public class LoggingInterceptor extends HandlerInterceptorAdapter {
-
-    private static final Logger logger = LoggerFactory.getLogger(LoggingInterceptor.class);
-
-    private MDCSetup mdcSetup = new MDCSetup();
+public class LoggingInterceptor extends AbstractAuditLogFilter<HttpServletRequest, HttpServletResponse>
+        implements HandlerInterceptor {
 
     @Context
     private Providers providers;
@@ -52,45 +45,24 @@ public class LoggingInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         SimpleMap headers = new SimpleServletHeadersMap(request);
-        String requestId = mdcSetup.getRequestId(headers);
-        MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
-        mdcSetup.setInvocationId(headers);
-        mdcSetup.setServiceName(request);
-        mdcSetup.setMDCPartnerName(headers);
-        mdcSetup.setClientIPAddress(request);
-        mdcSetup.setEntryTimeStamp();
-        mdcSetup.setInstanceID();
-        mdcSetup.setServerFQDN();
-        MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, ONAPLogConstants.ResponseStatus.INPROGRESS.toString());
-        mdcSetup.setLogTimestamp();
-        mdcSetup.setElapsedTime();
-        logger.info(ONAPLogConstants.Markers.ENTRY, "Entering");
-        if (logger.isDebugEnabled())
-            logRequestInformation(request);
+        pre(headers, request, request);
         return true;
-    }
-
-    protected void logRequestInformation(HttpServletRequest request) {
-        Map<String, String> headers = Collections.list((request).getHeaderNames()).stream()
-                .collect(Collectors.toMap(h -> h, request::getHeader));
-
-        logger.debug("===========================request begin================================================");
-        logger.debug("URI         : {}", request.getRequestURI());
-        logger.debug("Method      : {}", request.getMethod());
-        logger.debug("Headers     : {}", headers);
-        logger.debug("==========================request end================================================");
-
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-        mdcSetup.setResponseStatusCode(response.getStatus());
-        mdcSetup.setLogTimestamp();
-        mdcSetup.setElapsedTime();
-        mdcSetup.setResponseDescription(response.getStatus());
-        MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, String.valueOf(response.getStatus()));
-        logger.info(ONAPLogConstants.Markers.EXIT, "Exiting.");
-        MDC.clear();
+        post(response);
     }
+
+    @Override
+    protected int getResponseCode(HttpServletResponse response) {
+        return response.getStatus();
+    }
+
+    @Override
+    protected void setServiceName(HttpServletRequest request) {
+        MDC.put(ONAPLogConstants.MDCs.SERVICE_NAME, request.getRequestURI());
+    }
+
 }

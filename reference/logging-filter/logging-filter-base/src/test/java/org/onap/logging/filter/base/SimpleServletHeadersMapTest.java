@@ -29,7 +29,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.SimpleServletHeadersMap;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleServletHeadersMapTest {

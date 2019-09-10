@@ -205,18 +205,7 @@ public class PayloadLoggingServletFilter implements Filter {
         requestHeaders.append(":");
         requestHeaders.append(httpRequest.getRequestURL().toString());
         requestHeaders.append("|");
-        String header;
-        for (Enumeration<String> e = httpRequest.getHeaderNames(); e.hasMoreElements();) {
-            header = e.nextElement();
-            requestHeaders.append(header);
-            requestHeaders.append(":");
-            if (header.equalsIgnoreCase(HttpHeaders.AUTHORIZATION)) {
-                requestHeaders.append(REDACTED);
-            } else {
-                requestHeaders.append(httpRequest.getHeader(header));
-            }
-            requestHeaders.append(";");
-        }
+        requestHeaders.append(getSecureRequestHeaders(httpRequest));
         log.info(requestHeaders.toString());
 
         log.info("REQUEST BODY|" + new String(bufferedRequest.getBuffer()));
@@ -259,13 +248,7 @@ public class PayloadLoggingServletFilter implements Filter {
             try {
                 byte[] bytes = baos.toByteArray();
                 StringBuilder responseHeaders = new StringBuilder("RESPONSE HEADERS|");
-
-                for (String headerName : response.getHeaderNames()) {
-                    responseHeaders.append(headerName);
-                    responseHeaders.append(":");
-                    responseHeaders.append(response.getHeader(headerName));
-                    responseHeaders.append(";");
-                }
+                responseHeaders.append(formatResponseHeaders(response));
                 responseHeaders.append("Status:");
                 responseHeaders.append(response.getStatus());
                 responseHeaders.append(";IsCommited:" + wrappedResp.isCommitted());
@@ -345,5 +328,33 @@ public class PayloadLoggingServletFilter implements Filter {
                 }
         }
         return str.toString();
+    }
+
+    protected String getSecureRequestHeaders(HttpServletRequest httpRequest) {
+        StringBuilder sb = new StringBuilder();
+        String header;
+        for (Enumeration<String> e = httpRequest.getHeaderNames(); e.hasMoreElements();) {
+            header = e.nextElement();
+            sb.append(header);
+            sb.append(":");
+            if (header.equalsIgnoreCase(HttpHeaders.AUTHORIZATION)) {
+                sb.append(REDACTED);
+            } else {
+                sb.append(httpRequest.getHeader(header));
+            }
+            sb.append(";");
+        }
+        return sb.toString();
+    }
+
+    protected String formatResponseHeaders(HttpServletResponse response) {
+        StringBuilder sb = new StringBuilder();
+        for (String headerName : response.getHeaderNames()) {
+            sb.append(headerName);
+            sb.append(":");
+            sb.append(response.getHeader(headerName));
+            sb.append(";");
+        }
+        return sb.toString();
     }
 }

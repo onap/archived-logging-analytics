@@ -24,8 +24,6 @@ import static org.junit.Assert.assertEquals;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import org.junit.Test;
-import org.onap.logging.filter.base.SimpleJaxrsHeadersMap;
-import org.onap.logging.filter.base.SimpleMap;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 
 public class LoggingContainerFilterTest {

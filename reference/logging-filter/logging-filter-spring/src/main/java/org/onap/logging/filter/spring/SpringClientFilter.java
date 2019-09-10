@@ -21,99 +21,69 @@
 package org.onap.logging.filter.spring;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
+import org.onap.logging.filter.base.AbstractMetricLogFilter;
 import org.onap.logging.filter.base.Constants;
-import org.onap.logging.filter.base.MDCSetup;
-import org.onap.logging.filter.base.PropertyUtil;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.util.StreamUtils;
 
-public class SpringClientFilter implements ClientHttpRequestInterceptor {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private static final String TRACE = "trace-#";
-    private MDCSetup mdcSetup = new MDCSetup();
-    private final String partnerName;
-    private static final Marker INVOKE_RETURN = MarkerFactory.getMarker("INVOKE-RETURN");
+public class SpringClientFilter extends AbstractMetricLogFilter<HttpRequest, ClientHttpResponse, HttpHeaders>
+        implements ClientHttpRequestInterceptor {
 
     public SpringClientFilter() {
-        this.partnerName = getPartnerName();
+
     }
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
             throws IOException {
-        processRequest(request, body);
+        pre(request, request.getHeaders());
         ClientHttpResponse response = execution.execute(request, body);
-        processResponse(response);
+        post(request, response);
         return response;
     }
 
-    protected void processRequest(HttpRequest request, byte[] body) throws IOException {
-        mdcSetup.setInvocationIdFromMDC();
-        setupMDC(request);
-        setupHeaders(request);
-        if (logger.isDebugEnabled()) {
-            logger.debug("===========================request begin================================================");
-            logger.debug("URI         : {}", request.getURI());
-            logger.debug("Method      : {}", request.getMethod());
-            logger.debug("Headers     : {}", request.getHeaders());
-            logger.debug("Request body: {}", new String(body, StandardCharsets.UTF_8));
-            logger.debug("==========================request end================================================");
+    @Override
+    protected void addHeader(HttpHeaders requestHeaders, String headerName, String headerValue) {
+        requestHeaders.add(headerName, headerValue);
+    }
+
+    @Override
+    protected String getTargetServiceName(HttpRequest request) {
+        return request.getURI().toString();
+    }
+
+    @Override
+    protected String getServiceName(HttpRequest request) {
+        return request.getURI().getPath();
+    }
+
+    @Override
+    protected int getHttpStatusCode(ClientHttpResponse response) {
+        try {
+            return response.getStatusCode().value();
+        } catch (IOException e) {
+            // TODO figure out the right thing to do here
+            return 500;
         }
     }
 
-    protected void setupHeaders(HttpRequest clientRequest) {
-        HttpHeaders headers = clientRequest.getHeaders();
-        String requestId = extractRequestID(clientRequest);
-        headers.add(ONAPLogConstants.Headers.REQUEST_ID, requestId);
-        headers.add(Constants.HttpHeaders.HEADER_REQUEST_ID, requestId);
-        headers.add(Constants.HttpHeaders.TRANSACTION_ID, requestId);
-        headers.add(Constants.HttpHeaders.ECOMP_REQUEST_ID, requestId);
-        headers.add(ONAPLogConstants.Headers.INVOCATION_ID, MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
-        headers.add(ONAPLogConstants.Headers.PARTNER_NAME, partnerName);
-    }
-
-    protected String extractRequestID(HttpRequest clientRequest) {
-        String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
-        if (requestId == null || requestId.isEmpty() || requestId.equals(TRACE)) {
-            requestId = UUID.randomUUID().toString();
-            mdcSetup.setLogTimestamp();
-            mdcSetup.setElapsedTimeInvokeTimestamp();
-            logger.warn("Could not Find Request ID Generating New One: {}", clientRequest.getURI());
-            MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
+    @Override
+    protected String getResponseCode(ClientHttpResponse response) {
+        try {
+            return response.getStatusCode().toString();
+        } catch (IOException e) {
+            return "500";
         }
-        return requestId;
     }
 
-    protected void setupMDC(HttpRequest clientRequest) {
-        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
-                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
-        MDC.put(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME, clientRequest.getURI().toString());
-        MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, ONAPLogConstants.ResponseStatus.INPROGRESS.toString());
-        MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, extractTargetEntity(clientRequest));
-        if (MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME) == null) {
-            MDC.put(ONAPLogConstants.MDCs.SERVICE_NAME, clientRequest.getURI().getPath());
-        }
-        mdcSetup.setServerFQDN();
-    }
-
-    protected String extractTargetEntity(HttpRequest clientRequest) {
+    @Override
+    protected String getTargetEntity(HttpRequest clientRequest) {
         HttpHeaders headers = clientRequest.getHeaders();
         String headerTargetEntity = null;
         List<String> headerTargetEntityList = headers.get(Constants.HttpHeaders.TARGET_ENTITY_HEADER);
@@ -131,27 +101,4 @@ public class SpringClientFilter implements ClientHttpRequestInterceptor {
         return targetEntity;
     }
 
-    protected void processResponse(ClientHttpResponse response) throws IOException {
-        if (logger.isDebugEnabled()) {
-            logger.debug("============================response begin==========================================");
-            logger.debug("Status code  : {}", response.getStatusCode());
-            logger.debug("Status text  : {}", response.getStatusText());
-            logger.debug("Headers      : {}", response.getHeaders());
-            logger.debug("Response body: {}", StreamUtils.copyToString(response.getBody(), Charset.defaultCharset()));
-            logger.debug("=======================response end=================================================");
-        }
-        mdcSetup.setLogTimestamp();
-        mdcSetup.setElapsedTimeInvokeTimestamp();
-        mdcSetup.setResponseStatusCode(response.getRawStatusCode());
-        int statusCode = response.getRawStatusCode();
-        MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, String.valueOf(statusCode));
-        mdcSetup.setResponseDescription(statusCode);
-        logger.info(INVOKE_RETURN, "InvokeReturn");
-        mdcSetup.clearClientMDCs();
-    }
-
-    protected String getPartnerName() {
-        PropertyUtil p = new PropertyUtil();
-        return p.getProperty(Constants.Property.PARTNER_NAME);
-    }
 }
