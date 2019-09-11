@@ -35,17 +35,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-public abstract class AbstractFilter {
+public class MDCSetup {
 
-    protected static Logger logger = LoggerFactory.getLogger(AbstractFilter.class);
+    protected static Logger logger = LoggerFactory.getLogger(MDCSetup.class);
 
     private static final String INSTANCE_UUID = UUID.randomUUID().toString();
 
-    protected void setInstanceID() {
+    public void setInstanceID() {
         MDC.put(ONAPLogConstants.MDCs.INSTANCE_UUID, INSTANCE_UUID);
     }
 
-    protected void setServerFQDN() {
+    public void setServerFQDN() {
         String serverFQDN = "";
         InetAddress addr = null;
         try {
@@ -59,7 +59,7 @@ public abstract class AbstractFilter {
         MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFQDN);
     }
 
-    protected void setClientIPAddress(HttpServletRequest httpServletRequest) {
+    public void setClientIPAddress(HttpServletRequest httpServletRequest) {
         String clientIpAddress = "";
         if (httpServletRequest != null) {
             // This logic is to avoid setting the client ip address to that of the load
@@ -74,12 +74,12 @@ public abstract class AbstractFilter {
         MDC.put(ONAPLogConstants.MDCs.CLIENT_IP_ADDRESS, clientIpAddress);
     }
 
-    protected void setEntryTimeStamp() {
+    public void setEntryTimeStamp() {
         MDC.put(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP,
                 ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
     }
 
-    protected String getRequestId(SimpleMap headers) {
+    public String getRequestId(SimpleMap headers) {
         logger.trace("Checking X-ONAP-RequestID header for requestId.");
         String requestId = headers.get(ONAPLogConstants.Headers.REQUEST_ID);
         if (requestId != null && !requestId.isEmpty()) {
@@ -108,21 +108,21 @@ public abstract class AbstractFilter {
         return UUID.randomUUID().toString();
     }
 
-    protected void setInvocationId(SimpleMap headers) {
+    public void setInvocationId(SimpleMap headers) {
         String invocationId = headers.get(ONAPLogConstants.Headers.INVOCATION_ID);
         if (invocationId == null || invocationId.isEmpty())
             invocationId = UUID.randomUUID().toString();
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
     }
 
-    protected void setInvocationIdFromMDC() {
+    public void setInvocationIdFromMDC() {
         String invocationId = MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID);
         if (invocationId == null || invocationId.isEmpty())
             invocationId = UUID.randomUUID().toString();
         MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
     }
 
-    protected void setMDCPartnerName(SimpleMap headers) {
+    public void setMDCPartnerName(SimpleMap headers) {
         logger.trace("Checking X-ONAP-PartnerName header for partnerName.");
         String partnerName = headers.get(ONAPLogConstants.Headers.PARTNER_NAME);
         if (partnerName == null || partnerName.isEmpty()) {
@@ -140,12 +140,12 @@ public abstract class AbstractFilter {
         MDC.put(ONAPLogConstants.MDCs.PARTNER_NAME, partnerName);
     }
 
-    protected void setLogTimestamp() {
+    public void setLogTimestamp() {
         MDC.put(ONAPLogConstants.MDCs.LOG_TIMESTAMP,
                 ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
     }
 
-    protected void setElapsedTime() {
+    public void setElapsedTime() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
         ZonedDateTime entryTimestamp =
                 ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP), timeFormatter);
@@ -155,7 +155,7 @@ public abstract class AbstractFilter {
                 Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
     }
 
-    protected void setElapsedTimeInvokeTimestamp() {
+    public void setElapsedTimeInvokeTimestamp() {
         DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
         ZonedDateTime entryTimestamp =
                 ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP), timeFormatter);
@@ -165,7 +165,7 @@ public abstract class AbstractFilter {
                 Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
     }
 
-    protected void setResponseStatusCode(int code) {
+    public void setResponseStatusCode(int code) {
         String statusCode;
         if (Response.Status.Family.familyOf(code).equals(Response.Status.Family.SUCCESSFUL)) {
             statusCode = ONAPLogConstants.ResponseStatus.COMPLETE.toString();
@@ -177,11 +177,11 @@ public abstract class AbstractFilter {
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, statusCode);
     }
 
-    protected void setTargetEntity(ONAPComponents targetEntity) {
+    public void setTargetEntity(ONAPComponents targetEntity) {
         MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, targetEntity.toString());
     }
 
-    protected void clearClientMDCs() {
+    public void clearClientMDCs() {
         MDC.remove(ONAPLogConstants.MDCs.INVOCATION_ID);
         MDC.remove(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION);
         MDC.remove(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE);
@@ -193,19 +193,19 @@ public abstract class AbstractFilter {
         MDC.remove(ONAPLogConstants.MDCs.ERROR_DESC);
     }
 
-    protected void setResponseDescription(int statusCode) {
+    public void setResponseDescription(int statusCode) {
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION, Response.Status.fromStatusCode(statusCode).toString());
     }
 
-    protected void setErrorCode(int statusCode) {
+    public void setErrorCode(int statusCode) {
         MDC.put(ONAPLogConstants.MDCs.ERROR_CODE, String.valueOf(statusCode));
     }
 
-    protected void setErrorDesc(int statusCode) {
+    public void setErrorDesc(int statusCode) {
         MDC.put(ONAPLogConstants.MDCs.ERROR_DESC, Response.Status.fromStatusCode(statusCode).toString());
     }
 
-    protected String getProperty(String property) {
+    public String getProperty(String property) {
         logger.info("Checking for system property [{}]", property);
         String propertyValue = System.getProperty(property);
         if (propertyValue == null || propertyValue.isEmpty()) {
