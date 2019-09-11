@@ -37,7 +37,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.onap.logging.filter.base.AbstractFilter;
+import org.onap.logging.filter.base.MDCSetup;
 import org.onap.logging.filter.base.Constants;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
@@ -50,7 +50,7 @@ import org.springframework.http.client.ClientHttpResponse;
 public class SpringClientFilterTest extends SpringClientFilter {
 
     @Mock
-    private AbstractFilter mdcSetup;
+    private MDCSetup mdcSetup;
 
     @Mock
     private ClientHttpResponse response;

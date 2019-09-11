@@ -35,9 +35,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-public abstract class AbstractFilter {
+public class MDCSetup {
 
-    protected static Logger logger = LoggerFactory.getLogger(AbstractFilter.class);
+    protected static Logger logger = LoggerFactory.getLogger(MDCSetup.class);
 
     private static final String INSTANCE_UUID = UUID.randomUUID().toString();
 

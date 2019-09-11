@@ -31,7 +31,7 @@ import org.slf4j.MDC;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
-public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders> extends AbstractFilter {
+public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders> extends MDCSetup {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractMetricLogFilter.class);
     private final String partnerName;
     private static final Marker INVOKE_RETURN = MarkerFactory.getMarker("INVOKE-RETURN");

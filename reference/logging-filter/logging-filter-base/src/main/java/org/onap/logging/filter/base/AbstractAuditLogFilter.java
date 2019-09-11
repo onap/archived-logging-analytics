@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
-public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> extends AbstractFilter {
+public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> extends MDCSetup {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractAuditLogFilter.class);
 
     protected void pre(SimpleMap headers, GenericRequest request, HttpServletRequest httpServletRequest) {

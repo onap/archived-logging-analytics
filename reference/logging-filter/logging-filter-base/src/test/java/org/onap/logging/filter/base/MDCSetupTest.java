@@ -38,7 +38,7 @@ import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AbstractFilterTest extends AbstractFilter {
+public class MDCSetupTest extends MDCSetup {
 
     @Mock
     private HttpServletRequest httpServletRequest;
