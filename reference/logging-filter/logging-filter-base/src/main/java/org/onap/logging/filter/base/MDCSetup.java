@@ -177,7 +177,7 @@ public class MDCSetup {
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, statusCode);
     }
 
-    public void setTargetEntity(ONAPComponents targetEntity) {
+    public void setTargetEntity(ONAPComponentsList targetEntity) {
         MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, targetEntity.toString());
     }
 
