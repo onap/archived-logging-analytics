@@ -26,16 +26,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Providers;
-import org.onap.logging.filter.base.PayloadLoggingServletFilter;
+import org.onap.logging.filter.base.AbstractServletFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-// TODO do we want this class to log message payloads? In the previous implementation it did not
 @Component
-public class StatusLoggingInterceptor extends PayloadLoggingServletFilter implements HandlerInterceptor {
+public class StatusLoggingInterceptor extends AbstractServletFilter implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(StatusLoggingInterceptor.class);
 

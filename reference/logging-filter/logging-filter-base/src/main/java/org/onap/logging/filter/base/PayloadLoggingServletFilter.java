@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import java.util.zip.GZIPInputStream;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -45,12 +44,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import javax.ws.rs.core.HttpHeaders;
 
-public class PayloadLoggingServletFilter implements Filter {
+public class PayloadLoggingServletFilter extends AbstractServletFilter implements Filter {
 
     private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PayloadLoggingServletFilter.class);
-    private static final String REDACTED = "***REDACTED***";
 
     private static class ByteArrayServletStream extends ServletOutputStream {
         ByteArrayOutputStream baos;
@@ -330,31 +327,4 @@ public class PayloadLoggingServletFilter implements Filter {
         return str.toString();
     }
 
-    protected String getSecureRequestHeaders(HttpServletRequest httpRequest) {
-        StringBuilder sb = new StringBuilder();
-        String header;
-        for (Enumeration<String> e = httpRequest.getHeaderNames(); e.hasMoreElements();) {
-            header = e.nextElement();
-            sb.append(header);
-            sb.append(":");
-            if (header.equalsIgnoreCase(HttpHeaders.AUTHORIZATION)) {
-                sb.append(REDACTED);
-            } else {
-                sb.append(httpRequest.getHeader(header));
-            }
-            sb.append(";");
-        }
-        return sb.toString();
-    }
-
-    protected String formatResponseHeaders(HttpServletResponse response) {
-        StringBuilder sb = new StringBuilder();
-        for (String headerName : response.getHeaderNames()) {
-            sb.append(headerName);
-            sb.append(":");
-            sb.append(response.getHeader(headerName));
-            sb.append(";");
-        }
-        return sb.toString();
-    }
 }
