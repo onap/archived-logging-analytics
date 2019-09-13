@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34b8d4f5_037cbbf1",
+        "filename": "releases/1.5.1.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2019-09-13T00:27:12Z",
+      "side": 1,
+      "message": "I think we should release version 1.5.0 as the pom file is at 1.5.0-SNAPSHOT.",
+      "revId": "161bb07653d1635228a0c24585b610bc72002628",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
