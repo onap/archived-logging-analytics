@@ -69,6 +69,6 @@ public class PayloadLoggingClientFilterTest {
 
         String printHeaders = payloadLoggingClientFilter.getHeaders(headers);
 
-        assertEquals("{X-ONAP-PartnerName=[SO]}", printHeaders);
+        assertEquals("{Authorization=[***REDACTED***], X-ONAP-PartnerName=[SO]}", printHeaders);
     }
 }
