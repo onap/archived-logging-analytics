@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
 
 public abstract class AbstractServletFilter {
-    protected static final String REDACTED = "***REDACTED***";
 
     protected String getSecureRequestHeaders(HttpServletRequest httpRequest) {
         StringBuilder sb = new StringBuilder();
@@ -36,7 +35,7 @@ public abstract class AbstractServletFilter {
             sb.append(header);
             sb.append(":");
             if (header.equalsIgnoreCase(HttpHeaders.AUTHORIZATION)) {
-                sb.append(REDACTED);
+                sb.append(Constants.REDACTED);
             } else {
                 sb.append(httpRequest.getHeader(header));
             }
