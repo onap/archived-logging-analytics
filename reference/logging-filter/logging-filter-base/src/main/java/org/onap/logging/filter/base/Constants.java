@@ -21,6 +21,7 @@
 package org.onap.logging.filter.base;
 
 public class Constants {
+    protected static final String REDACTED = "***REDACTED***";
 
     public static final class DefaultValues {
         public static final String UNKNOWN = "UNKNOWN";

@@ -92,6 +92,8 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
         for (String header : headers.keySet()) {
             if (!header.equals(HttpHeaders.AUTHORIZATION)) {
                 printHeaders.add(header, headers.getFirst(header));
+            } else {
+                printHeaders.add(header, Constants.REDACTED);;
             }
         }
         return printHeaders.toString();
@@ -99,13 +101,14 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
 
     @Override
     public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        final StringBuilder sb = new StringBuilder();
-        if (responseContext.hasEntity()) {
-            responseContext.setEntityStream(logInboundEntity(sb, responseContext.getEntityStream(), DEFAULT_CHARSET));
-        }
         String method = formatMethod(requestContext);
         logger.debug("Response from method:{} performed on uri:{} has http status code:{} and response headers:{}",
                 method, requestContext.getUri(), responseContext.getStatus(), responseContext.getHeaders().toString());
+        if (responseContext.hasEntity()) {
+            final StringBuilder sb = new StringBuilder();
+            responseContext.setEntityStream(logInboundEntity(sb, responseContext.getEntityStream(), DEFAULT_CHARSET));
+            logger.debug(sb.toString());
+        }
     }
 
     @Override
