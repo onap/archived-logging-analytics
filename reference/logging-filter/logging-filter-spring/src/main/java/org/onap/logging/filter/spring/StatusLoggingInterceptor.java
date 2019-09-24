@@ -55,7 +55,7 @@ public class StatusLoggingInterceptor extends AbstractServletFilter implements H
         logger.debug("URI         : {}", request.getRequestURI());
         logger.debug("Method      : {}", request.getMethod());
         logger.debug("Headers     : {}", getSecureRequestHeaders(request));
-        logger.debug("==========================request end================================================");
+        logger.debug("===========================request end==================================================");
     }
 
     // TODO previously no response information was being logged, I followed the format in SpringClientPayloadFilter
@@ -67,7 +67,7 @@ public class StatusLoggingInterceptor extends AbstractServletFilter implements H
             logger.debug("Status code  : {}", response.getStatus());
             logger.debug("Status text  : {}", Response.Status.fromStatusCode(response.getStatus()));
             logger.debug("Headers      : {}", formatResponseHeaders(response));
-            logger.debug("=======================response end=================================================");
+            logger.debug("============================response end============================================");
         }
     }
 }
