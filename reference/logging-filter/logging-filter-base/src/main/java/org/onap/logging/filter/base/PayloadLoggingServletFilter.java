@@ -9,9 +9,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -22,32 +22,18 @@
 
 package org.onap.logging.filter.base;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.zip.GZIPInputStream;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ReadListener;
-import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.WriteListener;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import java.io.*;
+import java.util.zip.GZIPInputStream;
 
 public class PayloadLoggingServletFilter extends AbstractServletFilter implements Filter {
 
-    private static org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PayloadLoggingServletFilter.class);
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PayloadLoggingServletFilter.class);
+
 
     private static class ByteArrayServletStream extends ServletOutputStream {
         ByteArrayOutputStream baos;
@@ -71,6 +57,7 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
             // this method does nothing
         }
     }
+
 
     private static class ByteArrayPrintWriter extends PrintWriter {
         private ByteArrayOutputStream baos;
@@ -112,6 +99,7 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
 
     }
 
+
     private class BufferedServletInputStream extends ServletInputStream {
         ByteArrayInputStream bais;
 
@@ -150,6 +138,7 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
         }
 
     }
+
 
     private class BufferedRequestWrapper extends HttpServletRequestWrapper {
         ByteArrayInputStream bais;
@@ -203,9 +192,9 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
         requestHeaders.append(httpRequest.getRequestURL().toString());
         requestHeaders.append("|");
         requestHeaders.append(getSecureRequestHeaders(httpRequest));
-        log.info(requestHeaders.toString());
 
-        log.info("REQUEST BODY|" + new String(bufferedRequest.getBuffer()));
+        log.info(requestHeaders.toString());
+        log.info("REQUEST BODY|{}", new String(bufferedRequest.getBuffer()));
 
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -226,7 +215,6 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
             public void sendError(int sc) throws IOException {
                 super.sendError(sc);
                 pw.setError(sc);
-
             }
 
             @Override
@@ -244,27 +232,24 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
         } finally {
             try {
                 byte[] bytes = baos.toByteArray();
-                StringBuilder responseHeaders = new StringBuilder("RESPONSE HEADERS|");
-                responseHeaders.append(formatResponseHeaders(response));
-                responseHeaders.append("Status:");
-                responseHeaders.append(response.getStatus());
-                responseHeaders.append(";IsCommited:" + wrappedResp.isCommitted());
+                StringBuilder responseHeaders = new StringBuilder();
+                responseHeaders.append("RESPONSE HEADERS|").append(formatResponseHeaders(response));
+                responseHeaders.append("Status:").append(response.getStatus());
+                responseHeaders.append(";IsCommitted:").append(wrappedResp.isCommitted());
 
                 log.info(responseHeaders.toString());
 
                 if ("gzip".equals(response.getHeader("Content-Encoding"))) {
-                    log.info("UNGZIPED RESPONSE BODY|" + decompressGZIPByteArray(bytes));
+                    log.info("UNGZIPED RESPONSE BODY|{}", decompressGZIPByteArray(bytes));
                 } else {
-                    log.info("RESPONSE BODY|" + new String(bytes));
+                    log.info("RESPONSE BODY|{}", new String(bytes));
                 }
 
                 if (pw.hasErrored()) {
-                    log.info("ERROR RESPONSE|" + pw.getErrorCode() + ":" + pw.getErrorMsg());
-                } else {
-                    if (!wrappedResp.isCommitted()) {
-                        response.getOutputStream().write(bytes);
-                        response.getOutputStream().flush();
-                    }
+                    log.info("ERROR RESPONSE|{}:{}", pw.getErrorCode(), pw.getErrorMsg());
+                } else if (!wrappedResp.isCommitted()) {
+                    response.getOutputStream().write(bytes);
+                    response.getOutputStream().flush();
                 }
             } catch (Exception e) {
                 log.error("Exception in response filter", e);
@@ -278,51 +263,15 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
     }
 
     private String decompressGZIPByteArray(byte[] bytes) {
-        BufferedReader in = null;
-        InputStreamReader inR = null;
-        ByteArrayInputStream byteS = null;
-        GZIPInputStream gzS = null;
         StringBuilder str = new StringBuilder();
-        try {
-            byteS = new ByteArrayInputStream(bytes);
-            gzS = new GZIPInputStream(byteS);
-            inR = new InputStreamReader(gzS);
-            in = new BufferedReader(inR);
-
-            if (in != null) {
-                String content;
-                while ((content = in.readLine()) != null) {
-                    str.append(content);
-                }
+        try (BufferedReader in =
+                new BufferedReader(new InputStreamReader(new GZIPInputStream(new ByteArrayInputStream(bytes))))) {
+            String content;
+            while ((content = in.readLine()) != null) {
+                str.append(content);
             }
-
         } catch (Exception e) {
             log.error("Failed get read GZIPInputStream", e);
-        } finally {
-            if (byteS != null)
-                try {
-                    byteS.close();
-                } catch (IOException e1) {
-                    log.error("Failed to close ByteStream", e1);
-                }
-            if (gzS != null)
-                try {
-                    gzS.close();
-                } catch (IOException e2) {
-                    log.error("Failed to close GZStream", e2);
-                }
-            if (inR != null)
-                try {
-                    inR.close();
-                } catch (IOException e3) {
-                    log.error("Failed to close InputReader", e3);
-                }
-            if (in != null)
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    log.error("Failed to close BufferedReader", e);
-                }
         }
         return str.toString();
     }
