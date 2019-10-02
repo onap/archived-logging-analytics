@@ -298,4 +298,16 @@ public class MDCSetupTest extends MDCSetup {
         assertEquals("UNKNOWN", partnerName);
     }
 
+    @Test
+    public void setElapsedTimeNullEntryTimestamp() {
+        setElapsedTime();
+        assertEquals("5000", MDC.get(ONAPLogConstants.MDCs.ELAPSED_TIME));
+    }
+
+    @Test
+    public void setElapsedTimeNullInvokeTimestamp() {
+        setElapsedTimeInvokeTimestamp();
+        assertEquals("5000", MDC.get(ONAPLogConstants.MDCs.ELAPSED_TIME));
+    }
+
 }
