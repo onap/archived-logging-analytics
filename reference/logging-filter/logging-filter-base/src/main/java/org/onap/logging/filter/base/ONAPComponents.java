@@ -51,7 +51,8 @@ public enum ONAPComponents implements ONAPComponentsList {
     DBC,
     DR,
     MR,
-    OPTF;
+    OPTF,
+    OOF;
 
 
     public static Set<ONAPComponents> getSOInternalComponents() {
