@@ -146,23 +146,33 @@ public class MDCSetup {
     }
 
     public void setElapsedTime() {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-        ZonedDateTime entryTimestamp =
-                ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP), timeFormatter);
-        ZonedDateTime endTimestamp = ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.LOG_TIMESTAMP), timeFormatter);
+        try {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            ZonedDateTime entryTimestamp =
+                    ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP), timeFormatter);
+            ZonedDateTime endTimestamp =
+                    ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.LOG_TIMESTAMP), timeFormatter);
 
-        MDC.put(ONAPLogConstants.MDCs.ELAPSED_TIME,
-                Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
+            MDC.put(ONAPLogConstants.MDCs.ELAPSED_TIME,
+                    Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
+        } catch (Exception e) {
+            logger.warn("Unable to calculate elapsed time due to error: {}", e.getMessage());
+        }
     }
 
     public void setElapsedTimeInvokeTimestamp() {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
-        ZonedDateTime entryTimestamp =
-                ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP), timeFormatter);
-        ZonedDateTime endTimestamp = ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.LOG_TIMESTAMP), timeFormatter);
+        try {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_ZONED_DATE_TIME;
+            ZonedDateTime entryTimestamp =
+                    ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP), timeFormatter);
+            ZonedDateTime endTimestamp =
+                    ZonedDateTime.parse(MDC.get(ONAPLogConstants.MDCs.LOG_TIMESTAMP), timeFormatter);
 
-        MDC.put(ONAPLogConstants.MDCs.ELAPSED_TIME,
-                Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
+            MDC.put(ONAPLogConstants.MDCs.ELAPSED_TIME,
+                    Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
+        } catch (Exception e) {
+            logger.warn("Unable to calculate elapsed time due to error: {}", e.getMessage());
+        }
     }
 
     public void setResponseStatusCode(int code) {
