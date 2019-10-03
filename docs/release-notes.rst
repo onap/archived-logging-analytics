@@ -7,6 +7,105 @@
 
 Log Enhancements Release Notes
 ==============================
+Version: 5.0.1 El Alto Release
+------------------------------
+El Alto
+-------
+   - logging-analytics Version: 1.5.0
+
+:Release Date: 2019-10-01
+
+**New Features**
+      None
+
+**Bug Fixes**
+   - `LOG-826 <https://jira.onap.org/browse/LOG-826>`_ Vulnerability issue: removed jackson-databind
+   - `LOG-1060 <https://jira.onap.org/browse/LOG-1060>`_ Vulnerability issue: Logging CLM: fix/address/red-flag jackson-databind-2.8.6 SEC
+   - `LOG-836 <https://jira.onap.org/browse/LOG-836>`_ Vulnerability issue: glassfish bean-validator-2.4.0-b34.jar SEC
+   - `LOG-874 <https://jira.onap.org/browse/LOG-874>`_ Vulnerability issue: fix/address/red-flag License org.json:json-20140107.jar
+
+**Known Issues**
+
+**Security Notes**
+
+LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
+
+Quick Links:
+ 	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
+
+ 	- `Passing Badge information for LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+
+ 	- `Project Vulnerability Review Table for LOG <https://wiki.onap.org/pages/viewpage.action?pageId=68541351>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
+
+POMBA Release Notes
+-------------------
+POMBA is sub-project of the Logging Enhancements Project.
+
+El Alto
+-------
+   - pomba-audit-common Version: 1.5.1
+   - pomba-aai-context-builder Version: 1.5.1
+   - pomba-context-aggregator Version: 1.5.1
+   - pomba-network-discovery-context-builder Version: 1.5.1
+   - pomba-sdc-context-builder Version: 1.5.1
+   - pomba-sdnc-context-builder Version: 1.5.1
+
+:Release Date:  2019-10-01
+
+**New Features**
+   - None
+
+**Bug Fixes**
+   - `LOG-826 <https://jira.onap.org/browse/LOG-826>`_ Vulnerability issue: upgraded jackson-databind to version 2.9.9
+   - `LOG-1067 <https://jira.onap.org/browse/LOG-1067>`_ Vulnerability issue: confirm rather or not commons-codec is needed for logging projects
+   - `LOG-832 <https://jira.onap.org/browse/LOG-832>`_ Vulnerability issue:  removed jackson-databind-2.4.5.jar from pomba-audit-common
+   - `LOG-831 <https://jira.onap.org/browse/LOG-831>`_ Vulnerability issue:  pomba-context-aggregator with javax.jms:jms-1.1.jar
+   - `LOG-1061 <https://jira.onap.org/browse/LOG-1061>`_ Vulnerability issue: POMBA-AUDIT-COMMON fix/address/red-flag jackson-databind-2.4.5
+   - `LOG-1063 <https://jira.onap.org/browse/LOG-1063>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER: upgraded plexus-utils to version 3.1.0
+   - `LOG-1064 <https://jira.onap.org/browse/LOG-1064>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER: removed commons-beanutils : 1.9.3
+   - `LOG-1116 <https://jira.onap.org/browse/LOG-1116>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER: removed commons-beanutils : 1.9.3
+   - `LOG-1062 <https://jira.onap.org/browse/LOG-1062>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER: removed struts-core
+   - `LOG-1121 <https://jira.onap.org/browse/LOG-1121>`_ Vulnerability issue: POMBA-CONTEXT-AGGREGATOR and POMBA-SDNC-CONTEXT-BUILDER: upgraded logback-classic to version 1.2.3
+   - `LOG-830 <https://jira.onap.org/browse/LOG-830>`_ Vulnerability issue: Logging/POMBA CLM: fix/address/red-flag License org.json:json-20140107.jar
+
+**Known Issues**
+
+   - `LOG-1017 <https://jira.onap.org/browse/LOG-1017>`_ Violations are thrown on attributes that are same (or missing)
+   - `LOG-1016 <https://jira.onap.org/browse/LOG-1016>`_ When comparing attributes from multiple sources, violations thrown do not accurately show the issue.
+   - `LOG-769 <https://jira.onap.org/browse/LOG-769>`_ POMBA aai ctx pod reports HD full - but DF shows HD is OK
+   - `LOG-827 <https://jira.onap.org/browse/LOG-827>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER handlebars 2.0.0
+   - `LOG-1118 <https://jira.onap.org/browse/LOG-1118>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER js-yaml
+   - `LOG-1117 <https://jira.onap.org/browse/LOG-1117>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER uikit
+
+**Security Notes**
+   - all nodeports for Kibana, context builders and data-router are open by default for now
+
+POMBA code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
+
+Quick Links:
+   - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
+   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
+   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=68541351>`_
+
+**Upgrade Notes**
+      None
+
+**Deprecation Notes**
+      None
+
+**Other**
+      None
+
 Version: 5.0.0 El Alto Early Drop Release
 -----------------------------------------
 El Alto Early Drop
