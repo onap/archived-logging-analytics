@@ -28,7 +28,7 @@ El Alto
 
 **Security Notes**
 
-LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
+  - LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
 
 Quick Links:
  	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
@@ -94,8 +94,6 @@ POMBA code has been formally scanned during build time using NexusIQ and all Cri
 
 Quick Links:
    - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
-   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
-   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=68541351>`_
 
 **Upgrade Notes**
       None
@@ -191,8 +189,6 @@ POMBA code has been formally scanned during build time using NexusIQ and all Cri
 
 Quick Links:
    - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
-   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
-   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=68541351>`_
 
 **Upgrade Notes**
       None
@@ -214,12 +210,11 @@ Dublin
 **New Features**
 
 **Bug Fixes**
-   
+
 **Known Issues**
 
 **Security Notes**
-
-LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=64008625>`_.
+   - LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=64008625>`_.
 
 Quick Links:
  	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
@@ -285,8 +280,6 @@ POMBA code has been formally scanned during build time using NexusIQ and all Cri
 
 Quick Links:
    - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
-   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
-   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=51282493>`_
 
 **Upgrade Notes**
       None
@@ -303,7 +296,6 @@ Casablanca
 -----------
    - logging-analytics Version: 1.2.6
 
---------------
 :Release Date: 2019-02-08
 
 **New Features**
@@ -351,7 +343,6 @@ Casablanca
    - pomba-network-discovery-context-builder Version: 1.3.1
    - pomba-sdc-context-builder Version: 1.3.2
 
---------------
 :Release Date:  2019-02-08
 
 **New Features**
@@ -374,8 +365,6 @@ POMBA code has been formally scanned during build time using NexusIQ and all Cri
 
 Quick Links:
    - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
-   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
-   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
 
 **Upgrade Notes**
       None
@@ -456,8 +445,6 @@ POMBA code has been formally scanned during build time using NexusIQ and all Cri
 
 Quick Links:
    - `POMBA project page <https://wiki.onap.org/display/DW/POMBA>`_
-   - `See the result from LOG <https://bestpractices.coreinfrastructure.org/en/projects/1578>`_
-   - `See the result from LOG <https://wiki.onap.org/pages/viewpage.action?pageId=28378692>`_
 
 **Upgrade Notes**
       None
