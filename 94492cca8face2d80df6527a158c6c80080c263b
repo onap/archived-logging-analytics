@@ -1,0 +1,10 @@
+Code-Review+1: Brittany Plummer <bp896r@att.com>
+Code-Review+2: Brian Freeman <bf1936@att.com>
+Code-Review+2: Marcus Williams <marcus.williams@intel.com>
+Code-Review+2: Prudence Au <prudence.au@amdocs.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Prudence Au <prudence.au@amdocs.com>
+Submitted-at: Thu, 03 Oct 2019 20:09:40 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/logging-analytics/+/96527
+Project: logging-analytics
+Branch: refs/heads/master
