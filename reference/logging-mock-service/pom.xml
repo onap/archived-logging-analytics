@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-library</artifactId>
-            <version>1.5.0-SNAPSHOT</version>
+            <version>1.5.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
