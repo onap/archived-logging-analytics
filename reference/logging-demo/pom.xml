@@ -3,7 +3,7 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.5.0-SNAPSHOT</version>
+      <version>1.5.1-SNAPSHOT</version>
   </parent>
   <artifactId>logging-demo</artifactId>
   <packaging>war</packaging>
