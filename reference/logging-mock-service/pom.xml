@@ -3,7 +3,7 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.5.1-SNAPSHOT</version>
+      <version>1.5.1</version>
   </parent>
   <artifactId>logging-mock-service</artifactId>
   <packaging>jar</packaging>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>org.onap.logging-analytics</groupId>
             <artifactId>logging-library</artifactId>
-            <version>1.5.1-SNAPSHOT</version>
+            <version>1.5.1</version>
         </dependency>
     </dependencies>
 </project>

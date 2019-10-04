@@ -4,7 +4,7 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-analytics</artifactId>
-      <version>1.5.1-SNAPSHOT</version>
+      <version>1.5.1</version>
   </parent>
   <artifactId>logging-reference</artifactId>
   <packaging>pom</packaging>
