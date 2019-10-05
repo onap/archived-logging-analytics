@@ -11,9 +11,9 @@ Version: 5.0.1 El Alto Release
 ------------------------------
 El Alto
 -------
-   - logging-analytics Version: 1.5.0
+   - logging-analytics Version: 1.5.1
 
-:Release Date: 2019-10-01
+:Release Date: 2019-10-04
 
 **New Features**
       None
@@ -25,6 +25,7 @@ El Alto
    - `LOG-874 <https://jira.onap.org/browse/LOG-874>`_ Vulnerability issue: fix/address/red-flag License org.json:json-20140107.jar
 
 **Known Issues**
+   - `LOG-1159 <https://jira.onap.org/browse/LOG-1159>`_ Vulnerability issue: logging-analytics version 5.0.9.RELEASE
 
 **Security Notes**
 
@@ -60,7 +61,7 @@ El Alto
    - pomba-sdc-context-builder Version: 1.5.1
    - pomba-sdnc-context-builder Version: 1.5.1
 
-:Release Date:  2019-10-01
+:Release Date:  2019-10-04
 
 **New Features**
    - None
@@ -86,6 +87,7 @@ El Alto
    - `LOG-827 <https://jira.onap.org/browse/LOG-827>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER handlebars 2.0.0
    - `LOG-1118 <https://jira.onap.org/browse/LOG-1118>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER js-yaml
    - `LOG-1117 <https://jira.onap.org/browse/LOG-1117>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER uikit
+   - `LOG-1160 <https://jira.onap.org/browse/LOG-1160>`_ Vulnerability issue: jackson-databind 2.9.9
 
 **Security Notes**
    - all nodeports for Kibana, context builders and data-router are open by default for now
