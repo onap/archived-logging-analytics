@@ -23,6 +23,10 @@ package org.onap.logging.filter.base;
 public class Constants {
     protected static final String REDACTED = "***REDACTED***";
 
+    public static final class MDC {
+        public static final String BASIC_AUTH_USER_NAME = "Basic-Auth-Username";
+    }
+
     public static final class DefaultValues {
         public static final String UNKNOWN = "UNKNOWN";
         public static final String UNKNOWN_TARGET_ENTITY = "Unknown-Target-Entity";
