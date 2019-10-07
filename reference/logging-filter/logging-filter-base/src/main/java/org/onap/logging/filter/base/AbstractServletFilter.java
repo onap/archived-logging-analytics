@@ -20,12 +20,15 @@
 
 package org.onap.logging.filter.base;
 
+import java.util.Base64;
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
+import org.slf4j.MDC;
 
 public abstract class AbstractServletFilter {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AbstractServletFilter.class);
 
     protected String getSecureRequestHeaders(HttpServletRequest httpRequest) {
         StringBuilder sb = new StringBuilder();
@@ -35,6 +38,13 @@ public abstract class AbstractServletFilter {
             sb.append(header);
             sb.append(":");
             if (header.equalsIgnoreCase(HttpHeaders.AUTHORIZATION)) {
+                String value = httpRequest.getHeader(header);
+                if (value != null) {
+                    String basicAuthUsername = getBasicAuthUserName(value);
+                    if (basicAuthUsername != null) {
+                        MDC.put(Constants.MDC.BASIC_AUTH_USER_NAME, basicAuthUsername);
+                    }
+                }
                 sb.append(Constants.REDACTED);
             } else {
                 sb.append(httpRequest.getHeader(header));
@@ -53,5 +63,19 @@ public abstract class AbstractServletFilter {
             sb.append(";");
         }
         return sb.toString();
+    }
+
+    protected String getBasicAuthUserName(String encodedAuthorizationValue) {
+        try {
+            // This will strip the word Basic and single space
+            encodedAuthorizationValue = encodedAuthorizationValue.substring(6);
+            byte[] decodedBytes = Base64.getDecoder().decode(encodedAuthorizationValue);
+            String decodedString = new String(decodedBytes);
+            int idx = decodedString.indexOf(':');
+            return decodedString.substring(0, idx);
+        } catch (IllegalArgumentException e) {
+            log.error("could not decode basic auth value " + encodedAuthorizationValue, e);
+            return null;
+        }
     }
 }
