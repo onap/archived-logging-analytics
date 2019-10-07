@@ -20,10 +20,12 @@
 
 package org.onap.logging.filter.base;
 
+import java.util.Base64;
 import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.HttpHeaders;
+import org.slf4j.MDC;
 
 public abstract class AbstractServletFilter {
 
@@ -35,6 +37,10 @@ public abstract class AbstractServletFilter {
             sb.append(header);
             sb.append(":");
             if (header.equalsIgnoreCase(HttpHeaders.AUTHORIZATION)) {
+                String value = httpRequest.getHeader(header);
+                if (value != null) {
+                    MDC.put(Constants.MDC.BASIC_AUTH_USER_NAME, getBasicAuthUserName(value));
+                }
                 sb.append(Constants.REDACTED);
             } else {
                 sb.append(httpRequest.getHeader(header));
@@ -53,5 +59,12 @@ public abstract class AbstractServletFilter {
             sb.append(";");
         }
         return sb.toString();
+    }
+
+    protected String getBasicAuthUserName(String encodedAuthorizationValue) {
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedAuthorizationValue);
+        String decodedString = new String(decodedBytes);
+        int idx = decodedString.indexOf(':');
+        return decodedString.substring(0, idx);
     }
 }
