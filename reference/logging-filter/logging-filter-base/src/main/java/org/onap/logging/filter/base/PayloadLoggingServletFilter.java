@@ -22,13 +22,28 @@
 
 package org.onap.logging.filter.base;
 
-import javax.servlet.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.zip.GZIPInputStream;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.*;
-import java.util.zip.GZIPInputStream;
 
 public class PayloadLoggingServletFilter extends AbstractServletFilter implements Filter {
 
@@ -242,7 +257,7 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
                 if ("gzip".equals(response.getHeader("Content-Encoding"))) {
                     log.info("UNGZIPED RESPONSE BODY|{}", decompressGZIPByteArray(bytes));
                 } else {
-                    log.info("RESPONSE BODY|{}", new String(bytes));
+                    log.info("RESPONSE BODY|{} bytes {}", bytes.length, new String(bytes));
                 }
 
                 if (pw.hasErrored()) {
