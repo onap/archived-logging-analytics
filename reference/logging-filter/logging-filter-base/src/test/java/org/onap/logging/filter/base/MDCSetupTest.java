@@ -191,6 +191,18 @@ public class MDCSetupTest extends MDCSetup {
     }
 
     @Test
+    public void setMDCPartnerNameFromBasicAuth() {
+        MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
+        String value = "Basic dXNlcjpwYXNz"; // decodes to user:pass
+        headerMap.putSingle(HttpHeaders.AUTHORIZATION, value);
+        SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
+
+        setMDCPartnerName(headers);
+
+        assertEquals("user", MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
+    }
+
+    @Test
     public void setMDCPartnerNameTest() {
         MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
         headerMap.putSingle(ONAPLogConstants.Headers.PARTNER_NAME, "SO");
