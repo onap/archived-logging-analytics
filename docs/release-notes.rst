@@ -27,9 +27,12 @@ El Alto
 **Known Issues**
    - `LOG-1159 <https://jira.onap.org/browse/LOG-1159>`_ Vulnerability issue: logging-analytics version 5.0.9.RELEASE
 
-**Security Notes**
+**Known Security Issues**
 
-  - LOG code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
+  - `OJSI-200 <https://jira.onap.org/browse/OJSI-200>`_ Logging exposes unprotected APIs/UIs (CVE-2019-12125)
+  - `OJSI-155 <https://jira.onap.org/browse/OJSI-155>`_ LOG demo target exposes plain text HTTP endpoint using port 30398
+  - `OJSI-125 <https://jira.onap.org/browse/OJSI-125>`_ log-es exposes plain text HTTP endpoint using port 30254
+  - `OJSI-124 <https://jira.onap.org/browse/OJSI-124>`_ log-kibana exposes plain text HTTP endpoint using port 30253
 
 Quick Links:
  	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
@@ -89,8 +92,9 @@ El Alto
    - `LOG-1117 <https://jira.onap.org/browse/LOG-1117>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER uikit
    - `LOG-1160 <https://jira.onap.org/browse/LOG-1160>`_ Vulnerability issue: jackson-databind 2.9.9
 
-**Security Notes**
-   - all nodeports for Kibana, context builders and data-router are open by default for now
+**Known Security Issues**
+   - `OJSI-123 <https://jira.onap.org/browse/OJSI-123>`_ pomba-data-router exposes plain text HTTP endpoint using port 30249
+   - `OJSI-115 <https://jira.onap.org/browse/OJSI-115>`_ pomba-kibana exposes plain text HTTP endpoint using port 30234
 
 POMBA code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The LOG open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/display/DW/El+Alto+Vulnerabilities>`_.
 
