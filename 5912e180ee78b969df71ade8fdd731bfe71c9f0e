@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Kevin Smokowski <kevin.smokowski@att.com>
+Code-Review+2: Pierre Rioux <pierre.rioux@amdocs.com>
+Submitted-by: Pierre Rioux <pierre.rioux@amdocs.com>
+Submitted-at: Fri, 11 Oct 2019 14:24:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/logging-analytics/+/96525
+Project: logging-analytics
+Branch: refs/heads/master
