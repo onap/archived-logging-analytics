@@ -33,6 +33,7 @@ El Alto
   - `OJSI-155 <https://jira.onap.org/browse/OJSI-155>`_ LOG demo target exposes plain text HTTP endpoint using port 30398
   - `OJSI-125 <https://jira.onap.org/browse/OJSI-125>`_ log-es exposes plain text HTTP endpoint using port 30254
   - `OJSI-124 <https://jira.onap.org/browse/OJSI-124>`_ log-kibana exposes plain text HTTP endpoint using port 30253
+  - `LOG-1114 <https://jira.onap.org/browse/LOG-1114>`_ Need for "ReadWriteMany" access on storage when deploying on Kubernetes?
 
 Quick Links:
  	- `LOG project page <https://wiki.onap.org/display/DW/Logging+Enhancements+Project>`_
@@ -91,6 +92,13 @@ El Alto
    - `LOG-1118 <https://jira.onap.org/browse/LOG-1118>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER js-yaml
    - `LOG-1117 <https://jira.onap.org/browse/LOG-1117>`_ Vulnerability issue: POMBA-SDNC-CONTEXT-BUILDER and POMBA-NETWORK-DISCOVERY-CONTEXT-BUILDER uikit
    - `LOG-1160 <https://jira.onap.org/browse/LOG-1160>`_ Vulnerability issue: jackson-databind 2.9.9
+   - `LOG-1016 <https://jira.onap.org/browse/LOG-1016>`_ When comparing attributes from multiple sources, violations thrown do not accurately show the issue.
+   - `LOG-1017 <https://jira.onap.org/browse/LOG-1017>`_ Violations are thrown on attributes that are same (or missing)
+   - `LOG-1051 <https://jira.onap.org/browse/LOG-1051>`_ pomba-data-router do not start due to wrong AAi configuration (with Dublin release of the data router but works with the Casablanca version)
+   - `LOG-1084 <https://jira.onap.org/browse/LOG-1084>`_ Need authentication for pomba-kibana (node port = 30234)
+   - `LOG-1085 <https://jira.onap.org/browse/LOG-1085>`_ Need authentication for logging-elasticsearch (node port = 30254)
+   - `LOG-1086 <https://jira.onap.org/browse/LOG-1086>`_ Need authentication for logging-kibana (node port = 30253)
+   - `LOG-1114 <https://jira.onap.org/browse/LOG-1114>`_ Need for "ReadWriteMany" access on storage when deploying on Kubernetes?
 
 **Known Security Issues**
    - `OJSI-123 <https://jira.onap.org/browse/OJSI-123>`_ pomba-data-router exposes plain text HTTP endpoint using port 30249
