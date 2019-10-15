@@ -26,6 +26,7 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
@@ -123,21 +124,40 @@ public class MDCSetup {
     }
 
     public void setMDCPartnerName(SimpleMap headers) {
-        logger.trace("Checking X-ONAP-PartnerName header for partnerName.");
-        String partnerName = headers.get(ONAPLogConstants.Headers.PARTNER_NAME);
-        if (partnerName == null || partnerName.isEmpty()) {
-            logger.trace("No valid X-ONAP-PartnerName header value. Checking User-Agent header for partnerName.");
-            partnerName = headers.get(HttpHeaders.USER_AGENT);
-            if (partnerName == null || partnerName.isEmpty()) {
-                logger.trace("No valid User-Agent header value. Checking X-ClientID header for partnerName.");
-                partnerName = headers.get(Constants.HttpHeaders.CLIENT_ID);
-                if (partnerName == null || partnerName.isEmpty()) {
-                    logger.trace("No valid partnerName headers. Defaulting partnerName to UNKNOWN.");
-                    partnerName = Constants.DefaultValues.UNKNOWN;
-                }
-            }
-        }
+        String partnerName = getMDCPartnerName(headers);
         MDC.put(ONAPLogConstants.MDCs.PARTNER_NAME, partnerName);
+    }
+
+    protected String getMDCPartnerName(SimpleMap headers) {
+        String checkHeaderLogPattern = "Checking {} header to determine the value of {}";
+
+        logger.trace(checkHeaderLogPattern, HttpHeaders.AUTHORIZATION, ONAPLogConstants.MDCs.PARTNER_NAME);
+        String partnerName = getBasicAuthUserName(headers);
+        if (partnerName != null && !partnerName.isEmpty()) {
+            return partnerName;
+        }
+
+        logger.trace(checkHeaderLogPattern, ONAPLogConstants.Headers.PARTNER_NAME, ONAPLogConstants.MDCs.PARTNER_NAME);
+        partnerName = headers.get(ONAPLogConstants.Headers.PARTNER_NAME);
+        if (partnerName != null && !partnerName.isEmpty()) {
+            return partnerName;
+        }
+
+        logger.trace(checkHeaderLogPattern, HttpHeaders.USER_AGENT, ONAPLogConstants.MDCs.PARTNER_NAME);
+        partnerName = headers.get(HttpHeaders.USER_AGENT);
+        if (partnerName != null && !partnerName.isEmpty()) {
+            return partnerName;
+        }
+
+        logger.trace(checkHeaderLogPattern, Constants.HttpHeaders.CLIENT_ID, ONAPLogConstants.MDCs.PARTNER_NAME);
+        partnerName = headers.get(Constants.HttpHeaders.CLIENT_ID);
+        if (partnerName != null && !partnerName.isEmpty()) {
+            return partnerName;
+        }
+
+        logger.trace("{} value could not be determined, defaulting partnerName to {}.",
+                ONAPLogConstants.MDCs.PARTNER_NAME, Constants.DefaultValues.UNKNOWN);
+        return Constants.DefaultValues.UNKNOWN;
     }
 
     public void setLogTimestamp() {
@@ -228,5 +248,22 @@ public class MDCSetup {
             }
         }
         return propertyValue;
+    }
+
+    protected String getBasicAuthUserName(SimpleMap headers) {
+        String encodedAuthorizationValue = headers.get(HttpHeaders.AUTHORIZATION);
+        if (encodedAuthorizationValue != null) {
+            try {
+                // This will strip the word Basic and single space
+                encodedAuthorizationValue = encodedAuthorizationValue.substring(6);
+                byte[] decodedBytes = Base64.getDecoder().decode(encodedAuthorizationValue);
+                String decodedString = new String(decodedBytes);
+                int idx = decodedString.indexOf(':');
+                return decodedString.substring(0, idx);
+            } catch (IllegalArgumentException e) {
+                logger.error("could not decode basic auth value " + encodedAuthorizationValue, e);
+            }
+        }
+        return null;
     }
 }
