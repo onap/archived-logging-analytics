@@ -3,7 +3,7 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.5.1-SNAPSHOT</version>
+      <version>1.6.0</version>
   </parent>
   <artifactId>logging-library</artifactId>
   <packaging>jar</packaging>
@@ -65,7 +65,7 @@
        <dependency>
            <groupId>org.onap.logging-analytics</groupId>
            <artifactId>logging-slf4j</artifactId>
-           <version>1.5.1-SNAPSHOT</version>
+           <version>1.6.0</version>
        </dependency>
        <!--  decouple HttpServlet parameters from both this project and slf4j later -->
        <dependency>
