@@ -114,7 +114,7 @@
                         <phase>validate</phase>
                         <id>directories</id>
                         <goals>
-                            <goal>execution-root</goal>
+                            <goal>highest-basedir</goal>
                         </goals>
                         <configuration>
                             <property>baseDirPath</property>
