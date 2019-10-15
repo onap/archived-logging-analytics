@@ -1,0 +1,5 @@
+---
+distribution_type: 'maven'
+version: '1.5.2'
+project: 'logging-analytics'
+log_dir: 'logging-analytics-maven-stage-master/177/'
