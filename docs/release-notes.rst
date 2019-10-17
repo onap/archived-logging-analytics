@@ -11,9 +11,9 @@ Version: 5.0.1 El Alto Release
 ------------------------------
 El Alto
 -------
-   - logging-analytics Version: 1.5.0
+   - logging-analytics Version: 1.5.1
 
-:Release Date: 2019-10-01
+:Release Date: 2019-10-04
 
 **New Features**
       None
