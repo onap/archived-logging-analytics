@@ -205,8 +205,8 @@ public final class ONAPLogConstants {
         /** HTTP <tt>X-ONAP-RequestID</tt> header. */
         public static final String REQUEST_ID = "X-ONAP-RequestID";
 
-        /** HTTP <tt>X-ONAP-InvocationID</tt> header. */
-        public static final String INVOCATION_ID = "X-ONAP-InvocationID";
+        /** HTTP <tt>X-InvocationID</tt> header. */
+        public static final String INVOCATION_ID = "X-InvocationID";
 
         /** HTTP <tt>X-ONAP-PartnerName</tt> header. */
         public static final String PARTNER_NAME = "X-ONAP-PartnerName";

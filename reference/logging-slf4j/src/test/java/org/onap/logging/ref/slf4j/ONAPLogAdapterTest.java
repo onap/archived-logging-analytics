@@ -140,7 +140,7 @@ public class ONAPLogAdapterTest {
         http.setServerName("local123");
         http.setRemoteAddr("remote123");
         http.addHeader("X-ONAP-RequestID", "request123");
-        http.addHeader("X-ONAP-InvocationID", "invocation123");
+        http.addHeader("X-InvocationID", "invocation123");
         http.addHeader("X-ONAP-PartnerName", "partner123");
 
         try {
@@ -180,7 +180,7 @@ public class ONAPLogAdapterTest {
         http.setServerName("local123");
         http.setRemoteAddr("remote123");
         http.addHeader("X-ONAP-RequestID", "request123");
-        http.addHeader("X-ONAP-InvocationID", "invocation123");
+        http.addHeader("X-InvocationID", "invocation123");
         http.addHeader("X-ONAP-PartnerName", "partner123");
 
         try {

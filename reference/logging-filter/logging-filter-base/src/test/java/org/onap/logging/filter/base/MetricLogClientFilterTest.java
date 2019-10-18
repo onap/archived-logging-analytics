@@ -68,7 +68,7 @@ public class MetricLogClientFilterTest {
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.TRANSACTION_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.TRANSACTION_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.ECOMP_REQUEST_ID));
-        assertEquals("8819bfb4-69d2-43fc-b0d6-81d2690533ea", headers.getFirst(ONAPLogConstants.Headers.INVOCATION_ID));
+        assertNotNull(headers.getFirst(ONAPLogConstants.Headers.INVOCATION_ID));
         assertEquals("UNKNOWN", headers.getFirst(ONAPLogConstants.Headers.PARTNER_NAME));
     }
 

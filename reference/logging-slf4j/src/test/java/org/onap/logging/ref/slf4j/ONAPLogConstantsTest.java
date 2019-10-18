@@ -60,7 +60,7 @@ public class ONAPLogConstantsTest {
     @Test
     public void testHeaders() {
         assertThat(ONAPLogConstants.Headers.REQUEST_ID, is("X-ONAP-RequestID"));
-        assertThat(ONAPLogConstants.Headers.INVOCATION_ID, is("X-ONAP-InvocationID"));
+        assertThat(ONAPLogConstants.Headers.INVOCATION_ID, is("X-InvocationID"));
         assertThat(ONAPLogConstants.Headers.PARTNER_NAME, is("X-ONAP-PartnerName"));
     }
 
