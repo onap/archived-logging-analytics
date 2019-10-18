@@ -56,10 +56,15 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
         try {
             setupMDC(request);
             setupHeaders(request, requestHeaders);
+            additionalPre(request, requestHeaders);
             logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter pre", e);
         }
+    }
+
+    protected void additionalPre(Request request, RequestHeaders requestHeaders) {
+        // override to add application specific logic
     }
 
     protected void setupHeaders(Request clientRequest, RequestHeaders requestHeaders) {
@@ -114,11 +119,16 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             setResponseStatusCode(getHttpStatusCode(response));
             setResponseDescription(getHttpStatusCode(response));
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, getResponseCode(response));
+            additionalPost(request, response);
             logger.info(INVOKE_RETURN, "InvokeReturn");
             clearClientMDCs();
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter post", e);
         }
+    }
+
+    protected void additionalPost(Request request, Response response) {
+        // override to add application specific logic
     }
 
     protected String getPartnerName() {
