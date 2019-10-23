@@ -69,6 +69,24 @@
       "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ab5a0b_070906f3",
+        "filename": "version.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2019-10-23T18:49:43Z",
+      "side": 1,
+      "message": "my bad, I meant patch\u003d0 and release job should update it to 1.",
+      "parentUuid": "2f31af1e_64e9c7bb",
+      "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
