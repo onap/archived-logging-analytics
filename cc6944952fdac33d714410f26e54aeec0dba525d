@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b848119c_cc45c651",
+        "filename": "pylog/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2019-10-23T19:21:57Z",
+      "side": 1,
+      "message": "It has direct reference to oparent pom, instead logging-analytics (root) pom.\nMay be we should change parent reference and keep version in sync with module\u0027s root pom.",
+      "parentUuid": "896ce054_2fe44f1d",
+      "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d805fe56_040a5695",
         "filename": "version.properties",
         "patchSetId": 3
