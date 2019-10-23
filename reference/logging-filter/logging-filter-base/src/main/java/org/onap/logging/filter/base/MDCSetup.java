@@ -236,14 +236,10 @@ public class MDCSetup {
     }
 
     public String getProperty(String property) {
-        logger.info("Checking for system property [{}]", property);
         String propertyValue = System.getProperty(property);
         if (propertyValue == null || propertyValue.isEmpty()) {
-            logger.info("System property was null or empty. Checking environment variable for: {}", property);
             propertyValue = System.getenv(property);
             if (propertyValue == null || propertyValue.isEmpty()) {
-                logger.info("Environment variable: {} was null or empty. Returning value: {}", property,
-                        Constants.DefaultValues.UNKNOWN);
                 propertyValue = Constants.DefaultValues.UNKNOWN;
             }
         }
