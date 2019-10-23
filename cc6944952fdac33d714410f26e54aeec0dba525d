@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ceda50f6_d33eeb56",
+        "filename": "pylog/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2019-10-23T19:49:01Z",
+      "side": 1,
+      "message": "Even though the parent is different it does not explain to me why this particular artifact does not use snapshots.\n\nI am fine with changing it back to a release version if we know that is the right thing to do. At this point I really just want to get a release version of filters.",
+      "parentUuid": "b848119c_cc45c651",
+      "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d805fe56_040a5695",
         "filename": "version.properties",
         "patchSetId": 3
