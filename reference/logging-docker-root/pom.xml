@@ -4,7 +4,7 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.6.0</version>
+      <version>1.6.1-SNAPSHOT</version>
   </parent>  
   <artifactId>logging-docker-root</artifactId>
   <packaging>pom</packaging>
