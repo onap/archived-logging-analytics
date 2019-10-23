@@ -51,6 +51,24 @@
       "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f31af1e_64e9c7bb",
+        "filename": "version.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2019-10-23T18:36:48Z",
+      "side": 1,
+      "message": "are you talking about minor or patch? Prudence told me next release would be 1.6.0, I skipped to 1.6.1 in this review because the last release failed",
+      "parentUuid": "d805fe56_040a5695",
+      "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
