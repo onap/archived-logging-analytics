@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e774624f_9a917190",
+        "filename": "releases/1.6.1.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2019-10-23T18:05:53Z",
+      "side": 1,
+      "message": "I would suggest we don\u0027t mix the pom file updates with the release yaml file.",
+      "revId": "b78f155c5ff378700a80018a6dbfdc8b5706df43",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
