@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "2f9d083f_c199ff4d",
+        "filename": "pylog/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3479
+      },
+      "writtenOn": "2019-10-24T00:22:27Z",
+      "side": 1,
+      "message": "Kevin you are right that it doesn\u0027t make sense for this one to be different from the other ones.\n\nThe issue is (at least seem to be) with the global JJB where it doesn\u0027t know to strip out \"-SNAPSHOT\" for python artifact for some unknown reason.  However, it works fine with the Java ones.",
+      "parentUuid": "ceda50f6_d33eeb56",
+      "revId": "cc6944952fdac33d714410f26e54aeec0dba525d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d805fe56_040a5695",
         "filename": "version.properties",
         "patchSetId": 3
