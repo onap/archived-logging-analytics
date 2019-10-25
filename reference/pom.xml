@@ -4,12 +4,12 @@
   <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-analytics</artifactId>
-      <version>1.6.1-SNAPSHOT</version>
+      <version>1.6.2-SNAPSHOT</version>
   </parent>
   <artifactId>logging-reference</artifactId>
   <packaging>pom</packaging>
   <name>logging-reference</name>
-  <url>http://maven.apache.org</url> 
+  <url>http://maven.apache.org</url>
   <modules>
     <module>logging-demo</module>
     <module>logging-library</module>
@@ -43,7 +43,7 @@
                       </dependency>
                   </dependencies>
               </plugin>
-              
+
               <!-- Checkstyle plugin - used to report on compliance with -->
               <!-- the Google style guide. -->
               <plugin>
@@ -123,6 +123,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 </project>

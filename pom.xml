@@ -9,7 +9,7 @@
   <groupId>org.onap.logging-analytics</groupId>
   <artifactId>logging-analytics</artifactId>
   <packaging>pom</packaging>
-  <version>1.6.1-SNAPSHOT</version>
+  <version>1.6.2-SNAPSHOT</version>
   <name>logging-analytics</name>
   <url>http://maven.apache.org</url>
   <modules>

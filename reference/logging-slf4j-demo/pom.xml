@@ -3,9 +3,9 @@
     <parent>
       <groupId>org.onap.logging-analytics</groupId>
       <artifactId>logging-reference</artifactId>
-      <version>1.6.1-SNAPSHOT</version>
+      <version>1.6.2-SNAPSHOT</version>
       <relativePath>..</relativePath>
-    </parent>   
+    </parent>
     <artifactId>logging-slf4j-demo</artifactId>
     <name>logging-slf4j-demo</name>
     <packaging>war</packaging>
