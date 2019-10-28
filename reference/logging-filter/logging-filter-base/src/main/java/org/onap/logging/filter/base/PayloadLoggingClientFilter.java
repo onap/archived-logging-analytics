@@ -108,6 +108,8 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
             final StringBuilder sb = new StringBuilder();
             responseContext.setEntityStream(logInboundEntity(sb, responseContext.getEntityStream(), DEFAULT_CHARSET));
             logger.debug(sb.toString());
+        } else {
+            logger.debug("Response was returned with an empty entity.");
         }
     }
 
