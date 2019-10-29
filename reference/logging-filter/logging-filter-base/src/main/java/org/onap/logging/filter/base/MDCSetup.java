@@ -248,7 +248,7 @@ public class MDCSetup {
 
     protected String getBasicAuthUserName(SimpleMap headers) {
         String encodedAuthorizationValue = headers.get(HttpHeaders.AUTHORIZATION);
-        if (encodedAuthorizationValue != null) {
+        if (encodedAuthorizationValue != null && encodedAuthorizationValue.startsWith("Basic")) {
             try {
                 // This will strip the word Basic and single space
                 encodedAuthorizationValue = encodedAuthorizationValue.substring(6);
