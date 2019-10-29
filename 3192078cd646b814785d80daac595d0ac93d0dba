@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4156f48d_3d14265f",
+        "filename": "reference/logging-filter/logging-filter-base/src/main/java/org/onap/logging/filter/base/MDCSetup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2019-10-29T20:41:50Z",
+      "side": 1,
+      "message": "condition can be clubbed with parent if condition at line #251",
+      "revId": "3192078cd646b814785d80daac595d0ac93d0dba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
