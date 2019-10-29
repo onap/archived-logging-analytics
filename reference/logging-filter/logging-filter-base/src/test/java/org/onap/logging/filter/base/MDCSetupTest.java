@@ -191,6 +191,18 @@ public class MDCSetupTest extends MDCSetup {
     }
 
     @Test
+    public void setMDCPartnerNameBearerToken() {
+        MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
+        String value = "Bearer some-compex-token";
+        headerMap.putSingle(HttpHeaders.AUTHORIZATION, value);
+        SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
+
+        setMDCPartnerName(headers);
+
+        assertEquals(Constants.DefaultValues.UNKNOWN, MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
+    }
+
+    @Test
     public void setMDCPartnerNameFromBasicAuth() {
         MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
         String value = "Basic dXNlcjpwYXNz"; // decodes to user:pass

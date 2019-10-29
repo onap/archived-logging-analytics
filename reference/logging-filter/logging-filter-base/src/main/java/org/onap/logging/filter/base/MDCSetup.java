@@ -250,12 +250,14 @@ public class MDCSetup {
         String encodedAuthorizationValue = headers.get(HttpHeaders.AUTHORIZATION);
         if (encodedAuthorizationValue != null) {
             try {
-                // This will strip the word Basic and single space
-                encodedAuthorizationValue = encodedAuthorizationValue.substring(6);
-                byte[] decodedBytes = Base64.getDecoder().decode(encodedAuthorizationValue);
-                String decodedString = new String(decodedBytes);
-                int idx = decodedString.indexOf(':');
-                return decodedString.substring(0, idx);
+                if (encodedAuthorizationValue.startsWith("Basic")) {
+                    // This will strip the word Basic and single space
+                    encodedAuthorizationValue = encodedAuthorizationValue.substring(6);
+                    byte[] decodedBytes = Base64.getDecoder().decode(encodedAuthorizationValue);
+                    String decodedString = new String(decodedBytes);
+                    int idx = decodedString.indexOf(':');
+                    return decodedString.substring(0, idx);
+                }
             } catch (IllegalArgumentException e) {
                 logger.error("could not decode basic auth value " + encodedAuthorizationValue, e);
             }
