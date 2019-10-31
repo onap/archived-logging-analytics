@@ -58,11 +58,6 @@ public class MetricLogClientFilter
     }
 
     @Override
-    protected String getServiceName(ClientRequestContext request) {
-        return request.getUri().getPath();
-    }
-
-    @Override
     protected int getHttpStatusCode(ClientResponseContext response) {
         return response.getStatus();
     }

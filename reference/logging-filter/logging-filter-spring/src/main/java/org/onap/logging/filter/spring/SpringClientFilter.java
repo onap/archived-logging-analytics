@@ -59,11 +59,6 @@ public class SpringClientFilter extends AbstractMetricLogFilter<HttpRequest, Cli
     }
 
     @Override
-    protected String getServiceName(HttpRequest request) {
-        return request.getURI().getPath();
-    }
-
-    @Override
     protected int getHttpStatusCode(ClientHttpResponse response) {
         try {
             return response.getStatusCode().value();

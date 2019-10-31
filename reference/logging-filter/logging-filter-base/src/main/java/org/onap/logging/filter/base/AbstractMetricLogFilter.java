@@ -44,8 +44,6 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
 
     protected abstract String getTargetServiceName(Request request);
 
-    protected abstract String getServiceName(Request request);
-
     protected abstract int getHttpStatusCode(Response response);
 
     protected abstract String getResponseCode(Response response);
@@ -94,10 +92,6 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             } else {
                 MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, Constants.DefaultValues.UNKNOWN_TARGET_ENTITY);
             }
-        }
-
-        if (MDC.get(ONAPLogConstants.MDCs.SERVICE_NAME) == null) {
-            MDC.put(ONAPLogConstants.MDCs.SERVICE_NAME, getServiceName(request));
         }
         setServerFQDN();
     }
