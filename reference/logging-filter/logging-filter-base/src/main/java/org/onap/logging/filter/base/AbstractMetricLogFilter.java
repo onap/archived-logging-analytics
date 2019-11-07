@@ -73,7 +73,7 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
         addHeader(requestHeaders, Constants.HttpHeaders.TRANSACTION_ID, requestId);
         addHeader(requestHeaders, Constants.HttpHeaders.ECOMP_REQUEST_ID, requestId);
         addHeader(requestHeaders, ONAPLogConstants.Headers.PARTNER_NAME, partnerName);
-        logger.info("Setting X-InvocationID header for outgoing request: {}", invocationId);
+        logger.trace("Setting X-InvocationID header for outgoing request: {}", invocationId);
         addHeader(requestHeaders, ONAPLogConstants.Headers.INVOCATION_ID, invocationId);
 
     }
