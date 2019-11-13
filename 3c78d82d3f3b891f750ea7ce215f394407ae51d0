@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd949f6d_4894eae4",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2019-11-13T16:41:35Z",
+      "side": 1,
+      "message": "Why are you changing the version like this?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "3c78d82d3f3b891f750ea7ce215f394407ae51d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
