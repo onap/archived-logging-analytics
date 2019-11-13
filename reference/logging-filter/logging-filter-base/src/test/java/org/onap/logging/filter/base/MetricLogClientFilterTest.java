@@ -57,7 +57,6 @@ public class MetricLogClientFilterTest {
 
     @Test
     public void setupHeadersTest() {
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "8819bfb4-69d2-43fc-b0d6-81d2690533ea");
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
         doReturn("0a908a5d-e774-4558-96ff-6edcbba65483").when(metricLogClientFilter).extractRequestID();
 
@@ -70,6 +69,13 @@ public class MetricLogClientFilterTest {
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.ECOMP_REQUEST_ID));
         assertNotNull(headers.getFirst(ONAPLogConstants.Headers.INVOCATION_ID));
         assertEquals("UNKNOWN", headers.getFirst(ONAPLogConstants.Headers.PARTNER_NAME));
+    }
+
+    @Test
+    public void setInvocationIdTest() {
+        String invocationId = metricLogClientFilter.setInvocationId();
+
+        assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID));
     }
 
     @Test

@@ -67,7 +67,7 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
 
     protected void setupHeaders(Request clientRequest, RequestHeaders requestHeaders) {
         String requestId = extractRequestID();
-        String invocationId = UUID.randomUUID().toString();
+        String invocationId = setInvocationId();
         addHeader(requestHeaders, ONAPLogConstants.Headers.REQUEST_ID, requestId);
         addHeader(requestHeaders, Constants.HttpHeaders.HEADER_REQUEST_ID, requestId);
         addHeader(requestHeaders, Constants.HttpHeaders.TRANSACTION_ID, requestId);
@@ -78,12 +78,17 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
 
     }
 
+    protected String setInvocationId() {
+        String invocationId = UUID.randomUUID().toString();
+        MDC.put(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID, invocationId);
+        return invocationId;
+    }
+
     protected void setupMDC(Request request) {
         MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
                 ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
         MDC.put(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME, getTargetServiceName(request));
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, ONAPLogConstants.ResponseStatus.INPROGRESS.toString());
-        setInvocationIdFromMDC();
 
         if (MDC.get(ONAPLogConstants.MDCs.TARGET_ENTITY) == null) {
             String targetEntity = getTargetEntity(request);
