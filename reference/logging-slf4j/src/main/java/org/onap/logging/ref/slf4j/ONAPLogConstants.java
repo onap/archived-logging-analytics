@@ -102,6 +102,10 @@ public final class ONAPLogConstants {
 
         /** MDC correlating messages for an invocation. */
         public static final String INVOCATION_ID = "InvocationID";
+        
+        public static final String SERVER_INVOCATION_ID = "ServerInvocationId";
+        
+        public static final String CLIENT_INVOCATION_ID = "ClientInvocationId";
 
         /** MDC correlating messages for a logical transaction. */
         public static final String REQUEST_ID = "RequestID";
