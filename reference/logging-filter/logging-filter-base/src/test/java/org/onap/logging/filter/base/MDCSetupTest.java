@@ -116,28 +116,14 @@ public class MDCSetupTest extends MDCSetup {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(ONAPLogConstants.Headers.INVOCATION_ID, invocationId);
         setInvocationId(new SimpleHashMap(headers));
-        assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
+        assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID));
     }
 
     @Test
     public void setInvocationIdNoHeaderTest() {
         HashMap<String, String> headers = new HashMap<>();
         setInvocationId(new SimpleHashMap(headers));
-        assertNotNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
-    }
-
-    @Test
-    public void setInvovationIdFromMDCTest() {
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "7b77143c-9b50-410c-ac2f-05758a68e3e8");
-        setInvocationIdFromMDC();
-        assertEquals("7b77143c-9b50-410c-ac2f-05758a68e3e8", MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
-    }
-
-    @Test
-    public void setInvocationIdFromMDCNoInvocationIdTest() {
-        setInvocationIdFromMDC();
-        // InvocationId is set to a random UUID
-        assertNotNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
+        assertNotNull(MDC.get(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID));
     }
 
     @Test
@@ -156,7 +142,7 @@ public class MDCSetupTest extends MDCSetup {
 
     @Test
     public void clearClientMDCsTest() {
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "7b77143c-9b50-410c-ac2f-05758a68e3e9");
+        MDC.put(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID, "7b77143c-9b50-410c-ac2f-05758a68e3e9");
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION, "Bad Gateway");
         MDC.put(ONAPLogConstants.MDCs.ERROR_DESC, "Bad Gateway");
         MDC.put(ONAPLogConstants.MDCs.ERROR_CODE, "502");
@@ -167,7 +153,7 @@ public class MDCSetupTest extends MDCSetup {
         MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP, "2019-06-18T02:09:06.024Z");
 
         clearClientMDCs();
-        assertNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
+        assertNull(MDC.get(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID));
         assertNull(MDC.get(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION));
         assertNull(MDC.get(ONAPLogConstants.MDCs.ERROR_CODE));
         assertNull(MDC.get(ONAPLogConstants.MDCs.ERROR_DESC));

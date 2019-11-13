@@ -120,7 +120,6 @@ public class SpringClientFilterTest extends SpringClientFilter {
 
     @Test
     public void setupHeadersTest() {
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, "8819bfb4-69d2-43fc-b0d6-81d2690533ea");
         MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, "0a908a5d-e774-4558-96ff-6edcbba65483");
 
         HttpHeaders headers = new HttpHeaders();

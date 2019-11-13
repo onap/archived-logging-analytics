@@ -113,14 +113,7 @@ public class MDCSetup {
         String invocationId = headers.get(ONAPLogConstants.Headers.INVOCATION_ID);
         if (invocationId == null || invocationId.isEmpty())
             invocationId = UUID.randomUUID().toString();
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
-    }
-
-    public void setInvocationIdFromMDC() {
-        String invocationId = MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID);
-        if (invocationId == null || invocationId.isEmpty())
-            invocationId = UUID.randomUUID().toString();
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
+        MDC.put(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID, invocationId);
     }
 
     public void setMDCPartnerName(SimpleMap headers) {
@@ -212,7 +205,7 @@ public class MDCSetup {
     }
 
     public void clearClientMDCs() {
-        MDC.remove(ONAPLogConstants.MDCs.INVOCATION_ID);
+        MDC.remove(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID);
         MDC.remove(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION);
         MDC.remove(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE);
         MDC.remove(ONAPLogConstants.MDCs.RESPONSE_CODE);
