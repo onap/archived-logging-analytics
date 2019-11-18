@@ -46,6 +46,30 @@
       "revId": "3c78d82d3f3b891f750ea7ce215f394407ae51d0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a877253_ca116b5e",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2019-11-18T17:07:58Z",
+      "side": 1,
+      "message": "If you need to bump use 1.6.3-SNAPSHOT not 1.6.2.0-SNAPSHOT.\n\nI think version.properties always need to be kept in synch with the pom files. One time I didn\u0027t do this and the release build got very messed up.\n\nNormally we do a release before rolling a new snapshot. Not sure if skipping the release causes any harm.",
+      "parentUuid": "7c96fa78_78f2eac6",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "3c78d82d3f3b891f750ea7ce215f394407ae51d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
