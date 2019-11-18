@@ -70,6 +70,30 @@
       "revId": "3c78d82d3f3b891f750ea7ce215f394407ae51d0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b83aa66_0c03f0a8",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3371
+      },
+      "writtenOn": "2019-11-18T18:01:48Z",
+      "side": 1,
+      "message": "Okay, sure I\u0027ll update to 1.6.3-SNAPSHOT instead. I wasn\u0027t sure if this was the right way to increase the version because, as you mentioned, we haven\u0027t had a 1.6.2 release yet. I\u0027ll update version.properties as well.",
+      "parentUuid": "9a877253_ca116b5e",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "3c78d82d3f3b891f750ea7ce215f394407ae51d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
