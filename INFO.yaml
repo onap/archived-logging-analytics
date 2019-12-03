@@ -29,12 +29,6 @@ meetings:
       time: '15:00 UTC'
 repositories:
     - 'logging-analytics'
-    - 'logging-analytics-pomba-pomba-aai-context-builder'
-    - 'logging-analytics-pomba-pomba-audit-common'
-    - 'logging-analytics-pomba-pomba-context-aggregator'
-    - 'logging-analytics-pomba-pomba-network-discovery-context-builder'
-    - 'logging-analytics-pomba-pomba-sdc-context-builder'
-    - 'logging-analytics-pomba-pomba-sdnc-context-builder'
 committers:
     - <<: *onap_logging-analytics_ptl
     - name: 'Avdhut Kholkar'
@@ -57,6 +51,11 @@ committers:
       company: 'Amdocs'
       id: 'prioux'
       timezone: 'Canada/Eastern'
+    - name: 'Kevin Smokowski'
+      email: 'ks6305@att.com'
+      company: 'ATT'
+      id: 'nullop'
+      timezone: 'America/New York'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -87,3 +86,6 @@ tsc:
         - type: 'Addition'
           name: 'Pierre Rioux'
           link: 'https://lists.onap.org/g/onap-tsc/message/5359'
+        - type: 'Addition'
+          name: Kevin Smokowski
+          link: 'https://lists.onap.org/g/onap-tsc/message/5722'
