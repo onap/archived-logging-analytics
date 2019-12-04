@@ -114,6 +114,7 @@ public class MDCSetup {
         if (invocationId == null || invocationId.isEmpty())
             invocationId = UUID.randomUUID().toString();
         MDC.put(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID, invocationId);
+        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
     }
 
     public void setMDCPartnerName(SimpleMap headers) {

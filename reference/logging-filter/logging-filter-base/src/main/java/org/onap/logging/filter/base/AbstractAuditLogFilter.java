@@ -52,6 +52,7 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
 
     protected void post(GenericResponse response) {
         try {
+            MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, MDC.get(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID));
             int responseCode = getResponseCode(response);
             setResponseStatusCode(responseCode);
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, String.valueOf(responseCode));

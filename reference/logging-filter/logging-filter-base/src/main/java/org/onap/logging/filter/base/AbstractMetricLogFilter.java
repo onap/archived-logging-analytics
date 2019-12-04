@@ -81,6 +81,7 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
     protected String setInvocationId() {
         String invocationId = UUID.randomUUID().toString();
         MDC.put(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID, invocationId);
+        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
         return invocationId;
     }
 

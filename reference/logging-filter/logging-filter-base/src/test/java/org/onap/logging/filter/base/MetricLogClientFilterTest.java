@@ -76,6 +76,7 @@ public class MetricLogClientFilterTest {
         String invocationId = metricLogClientFilter.setInvocationId();
 
         assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID));
+        assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test

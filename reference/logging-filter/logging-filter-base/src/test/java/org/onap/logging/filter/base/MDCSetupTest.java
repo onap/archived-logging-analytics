@@ -117,6 +117,7 @@ public class MDCSetupTest extends MDCSetup {
         headers.put(ONAPLogConstants.Headers.INVOCATION_ID, invocationId);
         setInvocationId(new SimpleHashMap(headers));
         assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID));
+        assertEquals(invocationId, MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test
@@ -124,6 +125,7 @@ public class MDCSetupTest extends MDCSetup {
         HashMap<String, String> headers = new HashMap<>();
         setInvocationId(new SimpleHashMap(headers));
         assertNotNull(MDC.get(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID));
+        assertNotNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
     }
 
     @Test
