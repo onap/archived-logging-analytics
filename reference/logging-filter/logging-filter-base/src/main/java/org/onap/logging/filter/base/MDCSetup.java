@@ -114,6 +114,7 @@ public class MDCSetup {
         if (invocationId == null || invocationId.isEmpty())
             invocationId = UUID.randomUUID().toString();
         MDC.put(ONAPLogConstants.MDCs.SERVER_INVOCATION_ID, invocationId);
+        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
     }
 
     public void setMDCPartnerName(SimpleMap headers) {
@@ -214,6 +215,7 @@ public class MDCSetup {
         MDC.remove(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP);
         MDC.remove(ONAPLogConstants.MDCs.ERROR_CODE);
         MDC.remove(ONAPLogConstants.MDCs.ERROR_DESC);
+        MDC.remove(ONAPLogConstants.MDCs.INVOCATION_ID);
     }
 
     public void setResponseDescription(int statusCode) {
