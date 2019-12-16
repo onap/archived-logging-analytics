@@ -143,12 +143,6 @@ public class MDCSetup {
             return partnerName;
         }
 
-        logger.trace(checkHeaderLogPattern, Constants.HttpHeaders.CLIENT_ID, ONAPLogConstants.MDCs.PARTNER_NAME);
-        partnerName = headers.get(Constants.HttpHeaders.CLIENT_ID);
-        if (partnerName != null && !partnerName.isEmpty()) {
-            return partnerName;
-        }
-
         logger.trace("{} value could not be determined, defaulting partnerName to {}.",
                 ONAPLogConstants.MDCs.PARTNER_NAME, Constants.DefaultValues.UNKNOWN);
         return Constants.DefaultValues.UNKNOWN;

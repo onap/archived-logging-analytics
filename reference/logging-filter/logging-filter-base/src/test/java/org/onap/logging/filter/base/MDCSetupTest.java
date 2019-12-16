@@ -225,17 +225,6 @@ public class MDCSetupTest extends MDCSetup {
     }
 
     @Test
-    public void setMDCPartnerNameClientIdHeaderTest() {
-        MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
-        headerMap.putSingle(Constants.HttpHeaders.CLIENT_ID, "SO");
-        SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);
-
-        setMDCPartnerName(headers);
-
-        assertEquals("SO", MDC.get(ONAPLogConstants.MDCs.PARTNER_NAME));
-    }
-
-    @Test
     public void setMDCPartnerNameNoHeaderTest() {
         MultivaluedMap<String, String> headerMap = new MultivaluedHashMap<>();
         SimpleMap headers = new SimpleJaxrsHeadersMap(headerMap);

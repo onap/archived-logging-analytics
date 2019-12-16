@@ -35,7 +35,6 @@ public class Constants {
         public static final String TRANSACTION_ID = "X-TransactionID";
         public static final String ECOMP_REQUEST_ID = "X-ECOMP-RequestID";
         public static final String ONAP_REQUEST_ID = "X-ONAP-RequestID";
-        public static final String CLIENT_ID = "X-ClientID";
         public static final String INVOCATION_ID_HEADER = "X-InvocationID";
         public static final String TARGET_ENTITY_HEADER = "X-Target-Entity";
     }
