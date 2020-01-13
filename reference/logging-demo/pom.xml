@@ -1,112 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
-      <groupId>org.onap.logging-analytics</groupId>
-      <artifactId>logging-reference</artifactId>
-      <version>1.6.3-SNAPSHOT</version>
+    <groupId>org.onap.logging-analytics</groupId>
+    <artifactId>logging-reference</artifactId>
+    <version>1.6.3-SNAPSHOT</version>
   </parent>
+
   <artifactId>logging-demo</artifactId>
   <packaging>war</packaging>
+
   <name>logging-demo</name>
+
   <properties>
-       <jackson-2-version>2.8.6</jackson-2-version>
-       <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop/5.0.5.RELEASE -->
-       <spring.version>5.1.2.RELEASE</spring.version>
-       <logback.version>1.2.3</logback.version>
+    <jackson-2-version>2.8.6</jackson-2-version>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop/5.0.5.RELEASE -->
+    <spring.version>5.1.2.RELEASE</spring.version>
+    <logback.version>1.2.3</logback.version>
   </properties>
-  <build>
-      <plugins>
-                    <!-- Checkstyle plugin - used to report on compliance with -->
-              <!-- the Google style guide. -->
-              <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-site-plugin</artifactId>
-              </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.2</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-      <pluginManagement>
-      	<plugins>
-      		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-      		<plugin>
-      			<groupId>org.eclipse.m2e</groupId>
-      			<artifactId>lifecycle-mapping</artifactId>
-      			<version>1.0.0</version>
-      			<configuration>
-      				<lifecycleMappingMetadata>
-      					<pluginExecutions>
-      						<pluginExecution>
-      							<pluginExecutionFilter>
-      								<groupId>
-      									org.apache.maven.plugins
-      								</groupId>
-      								<artifactId>
-      									maven-compiler-plugin
-      								</artifactId>
-      								<versionRange>
-      									[3.2,)
-      								</versionRange>
-      								<goals>
-      									<goal>testCompile</goal>
-      								</goals>
-      							</pluginExecutionFilter>
-      							<action>
-      								<ignore></ignore>
-      							</action>
-      						</pluginExecution>
-      					</pluginExecutions>
-      				</lifecycleMappingMetadata>
-      			</configuration>
-      		</plugin>
-      	</plugins>
-      </pluginManagement>
-  </build>
-    <dependencies>
-        <dependency>
-            <groupId>org.onap.logging-analytics</groupId>
-            <artifactId>logging-mock-service</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
-
-            <!-- https://jersey.java.net/documentation/latest/modules-and-dependencies.html -->
+  <dependencies>
     <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>javax.ws.rs-api</artifactId>
-        <version>2.0.1</version>
+      <groupId>org.onap.logging-analytics</groupId>
+      <artifactId>logging-mock-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <!-- https://jersey.java.net/documentation/latest/modules-and-dependencies.html -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.0.1</version>
     </dependency>
     <dependency>
-        <groupId>org.glassfish.jersey.containers</groupId>
-        <artifactId>jersey-container-servlet</artifactId>
-        <version>2.23</version>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-servlet</artifactId>
+      <version>2.23</version>
     </dependency>
     <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-server</artifactId>
-        <version>2.23</version>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>2.23</version>
     </dependency>
     <dependency>
-        <groupId>org.glassfish.jersey.core</groupId>
-        <artifactId>jersey-client</artifactId>
-        <version>2.23</version>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>2.23</version>
     </dependency>
     <dependency>
-        <groupId>org.glassfish.jersey.media</groupId>
-        <artifactId>jersey-media-multipart</artifactId>
-        <version>2.23</version>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-multipart</artifactId>
+      <version>2.23</version>
     </dependency>
     <!-- fixes http://stackoverflow.com/questions/23442440/messagebodyreader-not-found-for-media-type-application-json -->
     <dependency>
-        <groupId>org.glassfish.jersey.media</groupId>
-        <artifactId>jersey-media-json-jackson</artifactId>
-        <version>2.23</version>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
+      <version>2.23</version>
       <exclusions>
         <exclusion>
           <groupId>com.fasterxml.jackson.core</groupId>
@@ -116,183 +66,181 @@
     </dependency>
     <!-- for spring injection in rest -->
     <dependency>
-        <groupId>org.glassfish.jersey.ext</groupId>
-        <artifactId>jersey-spring3</artifactId>
-        <version>2.23</version>
-        <!-- for https://github.com/JakubStas/SpringWithSwagger/issues/2 -->
-        <exclusions>
-                <exclusion>
-                    <artifactId>spring-context</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-core</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-web</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-beans</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                  <groupId>org.glassfish.hk2.external</groupId>
-                  <artifactId>bean-validator</artifactId>
-                </exclusion>
-            </exclusions>
+      <groupId>org.glassfish.jersey.ext</groupId>
+      <artifactId>jersey-spring3</artifactId>
+      <version>2.23</version>
+      <!-- for https://github.com/JakubStas/SpringWithSwagger/issues/2 -->
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-core</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-web</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>spring-beans</artifactId>
+          <groupId>org.springframework</groupId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.glassfish.hk2.external</groupId>
+          <artifactId>bean-validator</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
-        <!-- json parsing -->
-<!-- the core, which includes Streaming API, shared low-level abstractions (but NOT data-binding) -->
- <dependency>
-   <groupId>com.fasterxml.jackson.core</groupId>
-   <artifactId>jackson-core</artifactId>
-   <version>${jackson-2-version}</version>
- </dependency>
-
- <!-- Just the annotations; use this dependency if you want to attach annotations
-      to classes without connecting them to the code. -->
- <dependency>
-   <groupId>com.fasterxml.jackson.core</groupId>
-   <artifactId>jackson-annotations</artifactId>
-   <version>${jackson-2-version}</version>
-</dependency>
-
-<!-- databinding; ObjectMapper, JsonNode and related classes are here -->
-<!--<dependency>
-  <groupId>com.fasterxml.jackson.core</groupId>
-  <artifactId>jackson-databind</artifactId>
-  <version>${jackson-2-version}</version>
-</dependency>-->
-
-<!-- smile (binary JSON). Other artifacts in this group do other formats. -->
-<dependency>
-  <groupId>com.fasterxml.jackson.dataformat</groupId>
-  <artifactId>jackson-dataformat-smile</artifactId>
-  <version>${jackson-2-version}</version>
-</dependency>
-<!-- JAX-RS provider -->
-<dependency>
-   <groupId>com.fasterxml.jackson.jaxrs</groupId>
-   <artifactId>jackson-jaxrs-json-provider</artifactId>
-   <version>${jackson-2-version}</version>
-  <exclusions>
-    <exclusion>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </exclusion>
-  </exclusions>
-</dependency>
-<!-- Support for JAX-B annotations as additional configuration -->
-<dependency>
-  <groupId>com.fasterxml.jackson.module</groupId>
-  <artifactId>jackson-module-jaxb-annotations</artifactId>
-  <version>${jackson-2-version}</version>
-  <exclusions>
-    <exclusion>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-    </exclusion>
-  </exclusions>
-</dependency>
+    <!-- json parsing -->
+    <!-- the core, which includes Streaming API, shared low-level abstractions (but NOT data-binding) -->
     <dependency>
-        <groupId>com.owlike</groupId>
-        <artifactId>genson</artifactId>
-        <version>1.1</version>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${jackson-2-version}</version>
     </dependency>
-    <!-- dependency>
-        <groupId>org.eclipse.persistence</groupId>
-        <artifactId>javax.persistence</artifactId>
-        <version>2.0.0</version>
-    </dependency-->
-
+    <!-- Just the annotations; use this dependency if you want to attach annotations to classes without connecting them to the code. -->
     <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
-        <version>3.0.1</version>
-        <scope>provided</scope>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson-2-version}</version>
     </dependency>
+    <!-- databinding; ObjectMapper, JsonNode and related classes are here -->
+    <!--<dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-databind</artifactId> <version>${jackson-2-version}</version> </dependency> -->
+    <!-- smile (binary JSON). Other artifacts in this group do other formats. -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-smile</artifactId>
+      <version>${jackson-2-version}</version>
+    </dependency>
+    <!-- JAX-RS provider -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.jaxrs</groupId>
+      <artifactId>jackson-jaxrs-json-provider</artifactId>
+      <version>${jackson-2-version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- Support for JAX-B annotations as additional configuration -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.module</groupId>
+      <artifactId>jackson-module-jaxb-annotations</artifactId>
+      <version>${jackson-2-version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.owlike</groupId>
+      <artifactId>genson</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-oxm</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+      <!--scope>test</scope -->
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <!-- JUnit 4.12 used to come with EELF -->
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.6.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-       <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <!--scope>test</scope-->
-        </dependency>
-        <dependency>
-     <groupId>org.springframework</groupId>
-     <artifactId>spring-aspects</artifactId>
-     <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.9.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <!-- JUnit 4.12 used to come with EELF -->
-        <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>1.6.4</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>
