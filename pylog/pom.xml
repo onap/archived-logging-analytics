@@ -22,7 +22,7 @@
 
     <groupId>org.onap.logging-analytics</groupId>
     <artifactId>logging-pylog</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>logging-pylog</name>
