@@ -22,18 +22,51 @@
 
 package org.onap.logging.filter.base;
 
-import javax.servlet.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.zip.GZIPInputStream;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.WriteListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import java.io.*;
-import java.util.zip.GZIPInputStream;
 
 public class PayloadLoggingServletFilter extends AbstractServletFilter implements Filter {
 
     private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(PayloadLoggingServletFilter.class);
+    private static final int defaultMaxSize = 100000;
+    private static Integer maxResponseSize;
+    private static Integer maxRequestSize;
 
+    public PayloadLoggingServletFilter() {
+        String maxRequestSizeOverride = System.getProperty("FILTER_MAX_REQUEST_SIZE");
+        if (maxRequestSizeOverride != null) {
+            maxRequestSize = Integer.valueOf(maxRequestSizeOverride);
+        } else {
+            maxRequestSize = defaultMaxSize;
+        }
+
+        String maxResponseSizeOverride = System.getProperty("FILTER_MAX_RESPONSE_SIZE");
+        if (maxResponseSizeOverride != null) {
+            maxResponseSize = Integer.valueOf(maxResponseSizeOverride);
+        } else {
+            maxResponseSize = defaultMaxSize;
+        }
+    }
 
     private static class ByteArrayServletStream extends ServletOutputStream {
         ByteArrayOutputStream baos;
@@ -194,7 +227,13 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
         requestHeaders.append(getSecureRequestHeaders(httpRequest));
 
         log.info(requestHeaders.toString());
-        log.info("REQUEST BODY|{}", new String(bufferedRequest.getBuffer()));
+
+        byte[] buffer = bufferedRequest.getBuffer();
+        if (buffer.length < maxRequestSize) {
+            log.info("REQUEST BODY|{}", new String(buffer));
+        } else {
+            log.info("REQUEST BODY|{}", new String(buffer, 0, maxRequestSize));
+        }
 
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -242,7 +281,11 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
                 if ("gzip".equals(response.getHeader("Content-Encoding"))) {
                     log.info("UNGZIPED RESPONSE BODY|{}", decompressGZIPByteArray(bytes));
                 } else {
-                    log.info("RESPONSE BODY|{}", new String(bytes));
+                    if (bytes.length < maxResponseSize) {
+                        log.info("RESPONSE BODY|{}", new String(bytes));
+                    } else {
+                        log.info("RESPONSE BODY|{}", new String(bytes, 0, maxResponseSize));
+                    }
                 }
 
                 if (pw.hasErrored()) {
