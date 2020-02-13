@@ -1,0 +1,5 @@
+---
+version: '1.6.4'
+pypi_project: 'logging-analytics'
+python_version: '3.6'
+log_dir: 'logging-analytics-pylog-python-staging-master/7/'
