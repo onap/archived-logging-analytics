@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "981adbc8_787e473d",
+        "filename": ".gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2020-02-13T20:38:05Z",
+      "side": 0,
+      "message": "this makes files with those endings not included at any level",
+      "revId": "14b43762d64cdda2e90a59807f2b61ce499be4a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbcc4ace_59ec876f",
+        "filename": ".gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2020-02-13T20:38:05Z",
+      "side": 0,
+      "message": "this makes any directory target not included",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "14b43762d64cdda2e90a59807f2b61ce499be4a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
