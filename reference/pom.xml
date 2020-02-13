@@ -11,7 +11,7 @@
   <artifactId>logging-reference</artifactId>
   <packaging>pom</packaging>
 
-  <name>logging-reference</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 
   <modules>
     <module>logging-demo</module>

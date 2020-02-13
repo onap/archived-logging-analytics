@@ -11,6 +11,8 @@
   <artifactId>logging-filter-parent</artifactId>
   <packaging>pom</packaging>
 
+  <name>logging-analytics :: ${project.artifactId}</name>
+
   <modules>
     <module>logging-filter-base</module>
     <module>logging-filter-spring</module>
@@ -100,13 +102,13 @@
       </plugin>
 
       <!-- Plugin to Generate/Validate Copyright License header -->
-      <!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>license-maven-plugin</artifactId> <version>1.20</version> <configuration> <processStartTag>============LICENSE_START=======================================================</processStartTag> 
-        <sectionDelimiter>================================================================================</sectionDelimiter> <processEndTag>============LICENSE_END=========================================================</processEndTag> 
-        <licenseName>apache_v2</licenseName> <inceptionYear>2019</inceptionYear> <organizationName>AT&amp;T Intellectual Property. All rights reserved.</organizationName> <projectName>ONAP 
-        - Logging</projectName> <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage> <skipUpdateLicense>${format.skipExecute}</skipUpdateLicense> <skipCheckLicense>${format.skipValidate}</skipCheckLicense> 
-        </configuration> <executions> <execution> <id>update-headers</id> <goals> <goal>update-file-header</goal> </goals> <phase>process-sources</phase> <configuration> <canUpdateCopyright>true</canUpdateCopyright> 
-        <canUpdateDescription>true</canUpdateDescription> <canUpdateLicense>true</canUpdateLicense> <emptyLineAfterHeader>true</emptyLineAfterHeader> </configuration> </execution> <execution> 
-        <id>check-headers</id> <goals> <goal>check-file-header</goal> </goals> <phase>validate</phase> <configuration> <failOnNotUptodateHeader>true</failOnNotUptodateHeader> <failOnMissingHeader>true</failOnMissingHeader> 
+      <!-- <plugin> <groupId>org.codehaus.mojo</groupId> <artifactId>license-maven-plugin</artifactId> <version>1.20</version> <configuration> <processStartTag>============LICENSE_START=======================================================</processStartTag>
+        <sectionDelimiter>================================================================================</sectionDelimiter> <processEndTag>============LICENSE_END=========================================================</processEndTag>
+        <licenseName>apache_v2</licenseName> <inceptionYear>2019</inceptionYear> <organizationName>AT&amp;T Intellectual Property. All rights reserved.</organizationName> <projectName>ONAP
+        - Logging</projectName> <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage> <skipUpdateLicense>${format.skipExecute}</skipUpdateLicense> <skipCheckLicense>${format.skipValidate}</skipCheckLicense>
+        </configuration> <executions> <execution> <id>update-headers</id> <goals> <goal>update-file-header</goal> </goals> <phase>process-sources</phase> <configuration> <canUpdateCopyright>true</canUpdateCopyright>
+        <canUpdateDescription>true</canUpdateDescription> <canUpdateLicense>true</canUpdateLicense> <emptyLineAfterHeader>true</emptyLineAfterHeader> </configuration> </execution> <execution>
+        <id>check-headers</id> <goals> <goal>check-file-header</goal> </goals> <phase>validate</phase> <configuration> <failOnNotUptodateHeader>true</failOnNotUptodateHeader> <failOnMissingHeader>true</failOnMissingHeader>
         </configuration> </execution> </executions> </plugin> -->
 
       <!-- Plugin to Format/Validate Java Classes -->
