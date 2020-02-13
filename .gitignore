@@ -1,13 +1,27 @@
-.idea
-.project
-.classpath
-.settings
+# Maven
+**/target/
+**/build/
+
+# Vagrant
+.vagrant
+
+# IntelliJ
+.idea/
 *.iml
+
+# Eclipse
+**/.project
+**/.classpath
+**/.settings
+
+# Python
+.tox/
+__pycache__/
+*.pyc
+
 npm-debug.log
 node_modules/
 node_install/
 test_output/
 test-output/
-target/
 dist/
-

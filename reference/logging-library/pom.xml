@@ -11,7 +11,7 @@
   <artifactId>logging-library</artifactId>
   <packaging>jar</packaging>
 
-  <name>logging-library</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 
   <properties>
     <spring.version>5.1.2.RELEASE</spring.version>
