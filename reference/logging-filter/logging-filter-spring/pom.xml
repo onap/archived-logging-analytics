@@ -10,6 +10,8 @@
 
   <artifactId>logging-filter-spring</artifactId>
 
+  <name>logging-analytics :: ${project.artifactId}</name>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
