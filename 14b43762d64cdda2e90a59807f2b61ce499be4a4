@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbb95892_2ed9496f",
+        "filename": ".gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-02-13T20:43:08Z",
+      "side": 0,
+      "message": ".idea is a directory so required / at last",
+      "parentUuid": "981adbc8_787e473d",
+      "revId": "14b43762d64cdda2e90a59807f2b61ce499be4a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fbcc4ace_59ec876f",
         "filename": ".gitignore",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "14b43762d64cdda2e90a59807f2b61ce499be4a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "060d95f7_810c4c2e",
+        "filename": ".gitignore",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-02-13T20:43:08Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "fbcc4ace_59ec876f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 1
+      },
+      "revId": "14b43762d64cdda2e90a59807f2b61ce499be4a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
