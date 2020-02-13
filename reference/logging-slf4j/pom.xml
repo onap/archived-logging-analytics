@@ -11,7 +11,7 @@
   <artifactId>logging-slf4j</artifactId>
   <packaging>jar</packaging>
 
-  <name>logging-slf4j</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 
   <properties>
     <spring.version>5.0.9.RELEASE</spring.version>

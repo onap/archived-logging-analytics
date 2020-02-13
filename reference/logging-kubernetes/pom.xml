@@ -11,5 +11,5 @@
   <artifactId>logging-kubernetes</artifactId>
   <packaging>pom</packaging>
 
-  <name>logging-kubernetes</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 </project>

@@ -11,7 +11,7 @@
   <artifactId>logging-mock-service</artifactId>
   <packaging>jar</packaging>
 
-  <name>logging-mock-service</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 
   <properties>
   </properties>

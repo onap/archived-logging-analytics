@@ -11,5 +11,5 @@
   <artifactId>logging-provider</artifactId>
   <packaging>pom</packaging>
 
-  <name>logging-provider</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 </project>

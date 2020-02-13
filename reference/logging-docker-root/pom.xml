@@ -11,5 +11,5 @@
   <artifactId>logging-docker-root</artifactId>
   <packaging>pom</packaging>
 
-  <name>logging-docker-root</name>
+  <name>logging-analytics :: ${project.artifactId}</name>
 </project>
