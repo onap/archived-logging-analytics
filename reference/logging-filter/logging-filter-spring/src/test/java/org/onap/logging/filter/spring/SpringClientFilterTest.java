@@ -120,10 +120,9 @@ public class SpringClientFilterTest extends SpringClientFilter {
 
     @Test
     public void setupHeadersTest() {
-        MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, "0a908a5d-e774-4558-96ff-6edcbba65483");
-
         HttpHeaders headers = new HttpHeaders();
-        setupHeaders(clientRequest, headers);
+        setupHeaders(clientRequest, headers, "0a908a5d-e774-4558-96ff-6edcbba65483",
+                "4d93e6e2-ff27-4818-9752-1cfe3090d3f1");
 
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(ONAPLogConstants.Headers.REQUEST_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.HEADER_REQUEST_ID));
@@ -131,8 +130,6 @@ public class SpringClientFilterTest extends SpringClientFilter {
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.TRANSACTION_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.ECOMP_REQUEST_ID));
         assertNotNull(headers.getFirst(ONAPLogConstants.Headers.INVOCATION_ID));
-        assertNotNull(MDC.get(ONAPLogConstants.MDCs.INVOCATION_ID));
-        assertNotNull(MDC.get(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID));
         assertEquals("UNKNOWN", headers.getFirst(ONAPLogConstants.Headers.PARTNER_NAME));
     }
 

@@ -58,9 +58,8 @@ public class MetricLogClientFilterTest {
     @Test
     public void setupHeadersTest() {
         MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
-        doReturn("0a908a5d-e774-4558-96ff-6edcbba65483").when(metricLogClientFilter).extractRequestID();
 
-        metricLogClientFilter.setupHeaders(clientRequest, headers);
+        metricLogClientFilter.setupHeaders(clientRequest, headers, "0a908a5d-e774-4558-96ff-6edcbba65483", "hello");
 
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(ONAPLogConstants.Headers.REQUEST_ID));
         assertEquals("0a908a5d-e774-4558-96ff-6edcbba65483", headers.getFirst(Constants.HttpHeaders.HEADER_REQUEST_ID));
