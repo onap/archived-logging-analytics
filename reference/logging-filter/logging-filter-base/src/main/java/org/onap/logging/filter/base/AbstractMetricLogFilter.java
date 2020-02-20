@@ -20,42 +20,27 @@
 
 package org.onap.logging.filter.base;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
-public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders> extends MDCSetup {
+public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
+        extends AbstractBaseMetricLogFilter<Request, Response> {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractMetricLogFilter.class);
-    private final String partnerName;
-    private static final Marker INVOKE_RETURN = MarkerFactory.getMarker("INVOKE-RETURN");
 
     public AbstractMetricLogFilter() {
-        partnerName = getPartnerName();
+        super();
     }
 
     protected abstract void addHeader(RequestHeaders requestHeaders, String headerName, String headerValue);
 
-    protected abstract String getTargetServiceName(Request request);
-
-    protected abstract int getHttpStatusCode(Response response);
-
-    protected abstract String getResponseCode(Response response);
-
-    protected abstract String getTargetEntity(Request request);
-
     protected void pre(Request request, RequestHeaders requestHeaders) {
         try {
             setupMDC(request);
-            setupHeaders(request, requestHeaders);
+            setupHeaders(request, requestHeaders, extractRequestID(), setInvocationId());
+            additionalPre(request);
             additionalPre(request, requestHeaders);
-            logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");
+            logRequest();
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter pre", e);
         }
@@ -65,9 +50,8 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
         // override to add application specific logic
     }
 
-    protected void setupHeaders(Request clientRequest, RequestHeaders requestHeaders) {
-        String requestId = extractRequestID();
-        String invocationId = setInvocationId();
+    protected void setupHeaders(Request clientRequest, RequestHeaders requestHeaders, String requestId,
+            String invocationId) {
         addHeader(requestHeaders, ONAPLogConstants.Headers.REQUEST_ID, requestId);
         addHeader(requestHeaders, Constants.HttpHeaders.HEADER_REQUEST_ID, requestId);
         addHeader(requestHeaders, Constants.HttpHeaders.TRANSACTION_ID, requestId);
@@ -75,67 +59,6 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
         addHeader(requestHeaders, ONAPLogConstants.Headers.PARTNER_NAME, partnerName);
         logger.trace("Setting X-InvocationID header for outgoing request: {}", invocationId);
         addHeader(requestHeaders, ONAPLogConstants.Headers.INVOCATION_ID, invocationId);
-
-    }
-
-    protected String setInvocationId() {
-        String invocationId = UUID.randomUUID().toString();
-        MDC.put(ONAPLogConstants.MDCs.CLIENT_INVOCATION_ID, invocationId);
-        MDC.put(ONAPLogConstants.MDCs.INVOCATION_ID, invocationId);
-        return invocationId;
-    }
-
-    protected void setupMDC(Request request) {
-        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
-                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
-        MDC.put(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME, getTargetServiceName(request));
-        MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, ONAPLogConstants.ResponseStatus.INPROGRESS.toString());
-
-        if (MDC.get(ONAPLogConstants.MDCs.TARGET_ENTITY) == null) {
-            String targetEntity = getTargetEntity(request);
-            if (targetEntity != null) {
-                MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, targetEntity);
-            } else {
-                MDC.put(ONAPLogConstants.MDCs.TARGET_ENTITY, Constants.DefaultValues.UNKNOWN_TARGET_ENTITY);
-            }
-        }
-        setServerFQDN();
-    }
-
-    protected String extractRequestID() {
-        String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
-        if (requestId == null || requestId.isEmpty()) {
-            requestId = UUID.randomUUID().toString();
-            setLogTimestamp();
-            setElapsedTimeInvokeTimestamp();
-            logger.warn("No value found in MDC when checking key {} value will be set to {}",
-                    ONAPLogConstants.MDCs.REQUEST_ID, requestId);
-            MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
-        }
-        return requestId;
-    }
-
-    protected void post(Request request, Response response) {
-        try {
-            setLogTimestamp();
-            setElapsedTimeInvokeTimestamp();
-            setResponseStatusCode(getHttpStatusCode(response));
-            setResponseDescription(getHttpStatusCode(response));
-            MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, getResponseCode(response));
-            additionalPost(request, response);
-            logger.info(INVOKE_RETURN, "InvokeReturn");
-            clearClientMDCs();
-        } catch (Exception e) {
-            logger.warn("Error in AbstractMetricLogFilter post", e);
-        }
-    }
-
-    protected void additionalPost(Request request, Response response) {
-        // override to add application specific logic
-    }
-
-    protected String getPartnerName() {
-        return getProperty(Constants.Property.PARTNER_NAME);
     }
 
 }

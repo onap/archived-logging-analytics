@@ -54,7 +54,7 @@ public class MDCSetup {
             serverFQDN = addr.getCanonicalHostName();
             MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, addr.getHostAddress());
         } catch (UnknownHostException e) {
-            logger.warn("Cannot Resolve Host Name");
+            logger.trace("Cannot Resolve Host Name");
             serverFQDN = "";
         }
         MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFQDN);
@@ -164,7 +164,7 @@ public class MDCSetup {
             MDC.put(ONAPLogConstants.MDCs.ELAPSED_TIME,
                     Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
         } catch (Exception e) {
-            logger.warn("Unable to calculate elapsed time due to error: {}", e.getMessage());
+            logger.trace("Unable to calculate elapsed time due to error: {}", e.getMessage());
         }
     }
 
@@ -179,7 +179,7 @@ public class MDCSetup {
             MDC.put(ONAPLogConstants.MDCs.ELAPSED_TIME,
                     Long.toString(ChronoUnit.MILLIS.between(entryTimestamp, endTimestamp)));
         } catch (Exception e) {
-            logger.warn("Unable to calculate elapsed time due to error: {}", e.getMessage());
+            logger.trace("Unable to calculate elapsed time due to error: {}", e.getMessage());
         }
     }
 
