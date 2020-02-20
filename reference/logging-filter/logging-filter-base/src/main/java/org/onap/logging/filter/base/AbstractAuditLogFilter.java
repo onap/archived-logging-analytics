@@ -44,7 +44,7 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
             additionalPreHandling(request);
             setLogTimestamp();
             setElapsedTime();
-            logger.info(ONAPLogConstants.Markers.ENTRY, "Entering");
+            logEntering();
         } catch (Exception e) {
             logger.warn("Error in AbstractInboundFilter pre", e);
         }
@@ -59,8 +59,8 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
             setResponseDescription(responseCode);
             setLogTimestamp();
             setElapsedTime();
-            logger.info(ONAPLogConstants.Markers.EXIT, "Exiting.");
             additionalPostHandling(response);
+            logExiting();
         } catch (Exception e) {
             logger.warn("Error in AbstractInboundFilter post", e);
         } finally {
@@ -78,6 +78,14 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
 
     protected void additionalPostHandling(GenericResponse response) {
         // override to add additional post handling
+    }
+
+    protected void logEntering() {
+        logger.info(ONAPLogConstants.Markers.ENTRY, "Entering");
+    }
+
+    protected void logExiting() {
+        logger.info(ONAPLogConstants.Markers.EXIT, "Exiting.");
     }
 
 }

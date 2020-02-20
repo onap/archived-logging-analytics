@@ -51,6 +51,7 @@ public class PayloadLoggingServletFilter extends AbstractServletFilter implement
     private static final int defaultMaxSize = 100000;
     private static Integer maxResponseSize;
     private static Integer maxRequestSize;
+    protected static Boolean LOG_INVOKE;
 
     public PayloadLoggingServletFilter() {
         String maxRequestSizeOverride = System.getProperty("FILTER_MAX_REQUEST_SIZE");
