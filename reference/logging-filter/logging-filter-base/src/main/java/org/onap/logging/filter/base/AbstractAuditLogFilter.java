@@ -28,6 +28,17 @@ import org.slf4j.MDC;
 
 public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> extends MDCSetup {
     protected static final Logger logger = LoggerFactory.getLogger(AbstractAuditLogFilter.class);
+    protected static Boolean LOG_INVOKE;
+
+    public AbstractAuditLogFilter() {
+        String logInvoke = System.getProperty("LOG_INVOKE");
+        if (logInvoke != null && "false".equalsIgnoreCase(logInvoke)) {
+            LOG_INVOKE = false;
+        } else {
+            LOG_INVOKE = true;
+        }
+    }
+
 
     protected void pre(SimpleMap headers, GenericRequest request, HttpServletRequest httpServletRequest) {
         try {
@@ -44,7 +55,9 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
             additionalPreHandling(request);
             setLogTimestamp();
             setElapsedTime();
-            logger.info(ONAPLogConstants.Markers.ENTRY, "Entering");
+            if (LOG_INVOKE) {
+                logEntering();
+            }
         } catch (Exception e) {
             logger.warn("Error in AbstractInboundFilter pre", e);
         }
@@ -59,8 +72,8 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
             setResponseDescription(responseCode);
             setLogTimestamp();
             setElapsedTime();
-            logger.info(ONAPLogConstants.Markers.EXIT, "Exiting.");
             additionalPostHandling(response);
+            logExiting();
         } catch (Exception e) {
             logger.warn("Error in AbstractInboundFilter post", e);
         } finally {
@@ -78,6 +91,14 @@ public abstract class AbstractAuditLogFilter<GenericRequest, GenericResponse> ex
 
     protected void additionalPostHandling(GenericResponse response) {
         // override to add additional post handling
+    }
+
+    protected void logEntering() {
+        logger.info(ONAPLogConstants.Markers.ENTRY, "Entering");
+    }
+
+    protected void logExiting() {
+        logger.info(ONAPLogConstants.Markers.EXIT, "Exiting.");
     }
 
 }
