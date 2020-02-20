@@ -67,14 +67,6 @@ public class HttpURLConnectionMetricUtil
         return Constants.DefaultValues.UNKNOWN_TARGET_ENTITY;
     }
 
-    public void pre(HttpURLConnection request) {
-        pre(request, null);
-    }
-
-    public void filter(HttpURLConnection request, HttpURLConnection response) {
-        post(request, response);
-    }
-
     @Override
     protected void addHeader(HttpURLConnection request, String headerName, String headerValue) {
         request.setRequestProperty(headerName, headerValue);
