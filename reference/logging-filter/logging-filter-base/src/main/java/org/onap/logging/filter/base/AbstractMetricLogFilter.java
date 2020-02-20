@@ -55,7 +55,7 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             setupMDC(request);
             setupHeaders(request, requestHeaders);
             additionalPre(request, requestHeaders);
-            logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");
+            logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");           
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter pre", e);
         }
@@ -108,7 +108,7 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             requestId = UUID.randomUUID().toString();
             setLogTimestamp();
             setElapsedTimeInvokeTimestamp();
-            logger.warn("No value found in MDC when checking key {} value will be set to {}",
+            logger.trace("No value found in MDC when checking key {} value will be set to {}",
                     ONAPLogConstants.MDCs.REQUEST_ID, requestId);
             MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
         }
@@ -123,7 +123,8 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             setResponseDescription(getHttpStatusCode(response));
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, getResponseCode(response));
             additionalPost(request, response);
-            logger.info(INVOKE_RETURN, "InvokeReturn");
+                logger.info(INVOKE_RETURN, "InvokeReturn");
+            
             clearClientMDCs();
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter post", e);
