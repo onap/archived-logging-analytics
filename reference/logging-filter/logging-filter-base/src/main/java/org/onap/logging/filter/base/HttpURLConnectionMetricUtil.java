@@ -68,7 +68,7 @@ public class HttpURLConnectionMetricUtil
     }
 
     public void pre(HttpURLConnection request) {
-        pre(request, null);
+        pre(request, request);
     }
 
     public void filter(HttpURLConnection request, HttpURLConnection response) {

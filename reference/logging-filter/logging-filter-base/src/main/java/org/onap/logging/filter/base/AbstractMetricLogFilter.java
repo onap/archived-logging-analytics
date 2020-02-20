@@ -55,13 +55,31 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             setupMDC(request);
             setupHeaders(request, requestHeaders);
             additionalPre(request, requestHeaders);
-            logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");
+            if (shouldLogRequest(request, requestHeaders)) {
+                logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");
+            }
+        } catch (Exception e) {
+            logger.warn("Error in AbstractMetricLogFilter pre", e);
+        }
+    }
+
+    protected void pre(Request request) {
+        try {
+            setupMDC(request);
+            additionalPre(request);
+            if (shouldLogRequest(request)) {
+                logger.info(ONAPLogConstants.Markers.INVOKE, "Invoke");
+            }
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter pre", e);
         }
     }
 
     protected void additionalPre(Request request, RequestHeaders requestHeaders) {
+        // override to add application specific logic
+    }
+
+    protected void additionalPre(Request request) {
         // override to add application specific logic
     }
 
@@ -123,11 +141,17 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             setResponseDescription(getHttpStatusCode(response));
             MDC.put(ONAPLogConstants.MDCs.RESPONSE_CODE, getResponseCode(response));
             additionalPost(request, response);
-            logger.info(INVOKE_RETURN, "InvokeReturn");
+            if (shouldLogResponse(request, response)) {
+                logger.info(INVOKE_RETURN, "InvokeReturn");
+            }
             clearClientMDCs();
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter post", e);
         }
+    }
+
+    protected Boolean shouldLogResponse(Request request, Response response) {
+        return true;
     }
 
     protected void additionalPost(Request request, Response response) {
@@ -138,4 +162,11 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
         return getProperty(Constants.Property.PARTNER_NAME);
     }
 
+    protected Boolean shouldLogRequest(Request request) {
+        return true;
+    }
+
+    protected Boolean shouldLogRequest(Request request, RequestHeaders requestHeaders) {
+        return true;
+    }
 }
