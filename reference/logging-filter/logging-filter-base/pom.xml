@@ -13,6 +13,10 @@
   <name>logging-analytics :: ${project.artifactId}</name>
 
   <dependencies>
+  	<dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+  	</dependency>
     <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
