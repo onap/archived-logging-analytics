@@ -21,7 +21,7 @@ setup(
     long_description="python-package onappylog could be used in any python"
                      "project to record MDC information and reload logging"
                      "at runtime",
-    version="1.6.6",
+    version="1.6.7",
     license="Apache 2.0",
     author='ke liang',
     author_email="lokyse@163.com",
