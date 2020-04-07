@@ -1,6 +1,7 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. Copyright 2017 Bell Canada & Amdocs Intellectual Property.  All rights reserved.
+.. _release_notes:
 
 .. Links
 .. _release-notes-label:
@@ -370,7 +371,7 @@ Casablanca
 **Known Issues**
 
    - `LOG-913 <https://jira.onap.org/browse/LOG-913>`_ POMBA: 1 of 11 pods failing on sequenced startup on 3.0.0-ONAP - pomba is 22 on the order - looks timing related
-   - `LOG-950 <https://jira.onap.org/browse/LOG-950>`_ LOG-950 upped the numbers from 10 to 30 – for intermittent deploy timing – this is an issue for several projects since 3.0.0-ONAP - the solution is a sequenced 5h deploy via `cd.sh <https://git.onap.org/logging-analytics/tree/deploy/cd.sh#n228>`_ and/or better vms for now until the `dependencies <https://wiki.onap.org/display/DW/Log+Streaming+Compliance+and+API#LogStreamingComplianceandAPI-DeploymentDependencyTree-Containerlevel>`_ and jobs are refactored into helm hooks
+   - `LOG-950 <https://jira.onap.org/browse/LOG-950>`_ LOG-950 upped the numbers from 10 to 30 - for intermittent deploy timing - this is an issue for several projects since 3.0.0-ONAP - the solution is a sequenced 5h deploy via `cd.sh <https://git.onap.org/logging-analytics/tree/deploy/cd.sh#n228>`_ and/or better vms for now until the `dependencies <https://wiki.onap.org/display/DW/Log+Streaming+Compliance+and+API#LogStreamingComplianceandAPI-DeploymentDependencyTree-Containerlevel>`_ and jobs are refactored into helm hooks
 
 **Security Notes**
    - all three nodeports for kibana, context builder and data-router are open by default for now
