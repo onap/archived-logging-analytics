@@ -54,6 +54,8 @@ public abstract class AbstractBaseMetricLogFilter<Request, Response> extends MDC
             extractRequestID();
             setInvocationId();
             additionalPre(request);
+            setLogTimestamp();
+            setElapsedTimeInvokeTimestamp();
             logRequest();
         } catch (Exception e) {
             logger.warn("Error in AbstractBaseMetricLogFilter pre", e);

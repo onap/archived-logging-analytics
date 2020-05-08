@@ -40,6 +40,8 @@ public abstract class AbstractMetricLogFilter<Request, Response, RequestHeaders>
             setupHeaders(request, requestHeaders, extractRequestID(), setInvocationId());
             additionalPre(request);
             additionalPre(request, requestHeaders);
+            setLogTimestamp();
+            setElapsedTimeInvokeTimestamp();
             logRequest();
         } catch (Exception e) {
             logger.warn("Error in AbstractMetricLogFilter pre", e);
