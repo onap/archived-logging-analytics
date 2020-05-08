@@ -86,14 +86,14 @@ public abstract class AbstractBaseMetricLogFilter<Request, Response> extends MDC
             }
         }
         setServerFQDN();
+        setLogTimestamp();
+        setElapsedTimeInvokeTimestamp();
     }
 
     protected String extractRequestID() {
         String requestId = MDC.get(ONAPLogConstants.MDCs.REQUEST_ID);
         if (requestId == null || requestId.isEmpty()) {
             requestId = UUID.randomUUID().toString();
-            setLogTimestamp();
-            setElapsedTimeInvokeTimestamp();
             logger.trace("No value found in MDC when checking key {} value will be set to {}",
                     ONAPLogConstants.MDCs.REQUEST_ID, requestId);
             MDC.put(ONAPLogConstants.MDCs.REQUEST_ID, requestId);
