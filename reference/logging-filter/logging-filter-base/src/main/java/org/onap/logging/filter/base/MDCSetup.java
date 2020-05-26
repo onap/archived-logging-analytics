@@ -20,21 +20,20 @@
 
 package org.onap.logging.filter.base;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import org.onap.logging.ref.slf4j.ONAPLogConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import org.onap.logging.ref.slf4j.ONAPLogConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 
 public class MDCSetup {
 
@@ -47,17 +46,9 @@ public class MDCSetup {
     }
 
     public void setServerFQDN() {
-        String serverFQDN = "";
-        InetAddress addr = null;
-        try {
-            addr = InetAddress.getLocalHost();
-            serverFQDN = addr.getCanonicalHostName();
-            MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, addr.getHostAddress());
-        } catch (UnknownHostException e) {
-            logger.trace("Cannot Resolve Host Name");
-            serverFQDN = "";
-        }
-        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFQDN);
+        ServerLogging serverLogging = ServerLogging.getInstance();
+        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverLogging.getServerFQDN());
+        MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, serverLogging.getServerAddr());
     }
 
     public void setClientIPAddress(HttpServletRequest httpServletRequest) {
