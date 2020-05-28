@@ -147,7 +147,7 @@ deploy_onap() {
   if [[ "$CLONE_NEW_OOM" != false ]]; then
     rm -rf oom
     echo "pull new oom"
-    git clone -b $BRANCH http://gerrit.onap.org/r/oom
+    git clone --depth 1 -b $BRANCH http://gerrit.onap.org/r/oom
   fi
 
   # https://wiki.onap.org/display/DW/OOM+Helm+%28un%29Deploy+plugins

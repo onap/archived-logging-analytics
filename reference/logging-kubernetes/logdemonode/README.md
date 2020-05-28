@@ -1,7 +1,7 @@
 Running the logdemonode pod:
 - oom and logging-analytics cloned
-sudo git clone https://gerrit.onap.org/r/oom
-sudo git clone https://gerrit.onap.org/r/logging-analytics
+sudo git clone --depth 1 https://gerrit.onap.org/r/oom
+sudo git clone --depth 1 https://gerrit.onap.org/r/logging-analytics
 
 install onap log:
 cd oom/kubernetes
