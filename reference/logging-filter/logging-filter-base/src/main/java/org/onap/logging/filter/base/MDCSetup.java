@@ -39,25 +39,43 @@ import org.slf4j.MDC;
 public class MDCSetup {
 
     protected static Logger logger = LoggerFactory.getLogger(MDCSetup.class);
-
     private static final String INSTANCE_UUID = UUID.randomUUID().toString();
+    protected static final String serverIpAddressOverride = "SERVER_IP_ADDRESS_OVERRIDE";
+    protected static final String serverFqdnOverride = "SERVER_FQDN_OVERRIDE";
+    protected String serverFqdn;
+    protected String serverIpAddress;
+
+    public MDCSetup() {
+        initServerFqdnandIp();
+    }
 
     public void setInstanceID() {
         MDC.put(ONAPLogConstants.MDCs.INSTANCE_UUID, INSTANCE_UUID);
     }
 
-    public void setServerFQDN() {
-        String serverFQDN = "";
-        InetAddress addr = null;
-        try {
-            addr = InetAddress.getLocalHost();
-            serverFQDN = addr.getCanonicalHostName();
-            MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, addr.getHostAddress());
-        } catch (UnknownHostException e) {
-            logger.trace("Cannot Resolve Host Name");
-            serverFQDN = "";
+    protected void initServerFqdnandIp() {
+        serverFqdn = getProperty(serverFqdnOverride);
+        serverIpAddress = getProperty(serverIpAddressOverride);
+
+        if (serverIpAddress.equals(Constants.DefaultValues.UNKNOWN)
+                || serverFqdn.equals(Constants.DefaultValues.UNKNOWN)) {
+            try {
+                InetAddress addr = InetAddress.getLocalHost();
+                if (serverFqdn.equals(Constants.DefaultValues.UNKNOWN)) {
+                    serverFqdn = addr.getCanonicalHostName();
+                }
+                if (serverIpAddress.equals(Constants.DefaultValues.UNKNOWN)) {
+                    serverIpAddress = addr.getHostAddress();
+                }
+            } catch (UnknownHostException e) {
+                logger.trace("Cannot Resolve Host Name." + e.getMessage());
+            }
         }
-        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFQDN);
+    }
+
+    public void setServerFQDN() {
+        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFqdn);
+        MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, serverIpAddress);
     }
 
     public void setClientIPAddress(HttpServletRequest httpServletRequest) {
