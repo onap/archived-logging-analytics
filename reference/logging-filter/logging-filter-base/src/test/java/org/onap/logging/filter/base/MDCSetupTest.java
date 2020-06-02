@@ -299,4 +299,20 @@ public class MDCSetupTest extends MDCSetup {
         assertEquals("UNKNOWN", partnerName);
     }
 
+    @Test
+    public void overrideServerIp() {
+        String ip = "127.0.0.1";
+        System.setProperty(serverIpAddressOverride, ip);
+        MDCSetup m = new MDCSetup();
+        assertEquals(ip, m.serverIpAddress);
+    }
+
+    @Test
+    public void overrideServerFqdn() {
+        String nodeName = "node300";
+        System.setProperty(serverFqdnOverride, nodeName);
+        MDCSetup m = new MDCSetup();
+        assertEquals(nodeName, m.serverFqdn);
+    }
+
 }

@@ -39,25 +39,47 @@ import org.slf4j.MDC;
 public class MDCSetup {
 
     protected static Logger logger = LoggerFactory.getLogger(MDCSetup.class);
-
     private static final String INSTANCE_UUID = UUID.randomUUID().toString();
+    protected static final String serverIpAddressOverride = "SERVER_IP_ADDRESS_OVERRIDE";
+    protected static final String serverFqdnOverride = "SERVER_FQDN_OVERRIDE";
+    protected String serverFqdn;
+    protected String serverIpAddress;
+    protected String[] prioritizedHeadersNames;
+
+    public MDCSetup() {
+        this.prioritizedHeadersNames =
+                new String[] {ONAPLogConstants.Headers.REQUEST_ID, Constants.HttpHeaders.HEADER_REQUEST_ID,
+                        Constants.HttpHeaders.TRANSACTION_ID, Constants.HttpHeaders.ECOMP_REQUEST_ID};
+        initServerFqdnandIp();
+    }
 
     public void setInstanceID() {
         MDC.put(ONAPLogConstants.MDCs.INSTANCE_UUID, INSTANCE_UUID);
     }
 
-    public void setServerFQDN() {
-        String serverFQDN = "";
-        InetAddress addr = null;
-        try {
-            addr = InetAddress.getLocalHost();
-            serverFQDN = addr.getCanonicalHostName();
-            MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, addr.getHostAddress());
-        } catch (UnknownHostException e) {
-            logger.trace("Cannot Resolve Host Name");
-            serverFQDN = "";
+    protected void initServerFqdnandIp() {
+        serverFqdn = getProperty(serverFqdnOverride);
+        serverIpAddress = getProperty(serverIpAddressOverride);
+
+        if (serverIpAddress.equals(Constants.DefaultValues.UNKNOWN)
+                || serverFqdn.equals(Constants.DefaultValues.UNKNOWN)) {
+            try {
+                InetAddress addr = InetAddress.getLocalHost();
+                if (serverFqdn.equals(Constants.DefaultValues.UNKNOWN)) {
+                    serverFqdn = addr.getCanonicalHostName();
+                }
+                if (serverIpAddress.equals(Constants.DefaultValues.UNKNOWN)) {
+                    serverIpAddress = addr.getHostAddress();
+                }
+            } catch (UnknownHostException e) {
+                logger.trace("Cannot Resolve Host Name." + e.getMessage());
+            }
         }
-        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFQDN);
+    }
+
+    public void setServerFQDN() {
+        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFqdn);
+        MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, serverIpAddress);
     }
 
     public void setClientIPAddress(HttpServletRequest httpServletRequest) {
@@ -81,30 +103,14 @@ public class MDCSetup {
     }
 
     public String getRequestId(SimpleMap headers) {
-        logger.trace("Checking X-ONAP-RequestID header for requestId.");
-        String requestId = headers.get(ONAPLogConstants.Headers.REQUEST_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
+        String requestId = null;
+        for (String headerName : this.prioritizedHeadersNames) {
+            logger.trace("Checking {} header for requestId.", headerName);
+            requestId = headers.get(headerName);
+            if (requestId != null && !requestId.isEmpty()) {
+                return requestId;
+            }
         }
-
-        logger.trace("No valid X-ONAP-RequestID header value. Checking X-RequestID header for requestId.");
-        requestId = headers.get(Constants.HttpHeaders.HEADER_REQUEST_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
-        }
-
-        logger.trace("No valid X-RequestID header value. Checking X-TransactionID header for requestId.");
-        requestId = headers.get(Constants.HttpHeaders.TRANSACTION_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
-        }
-
-        logger.trace("No valid X-TransactionID header value. Checking X-ECOMP-RequestID header for requestId.");
-        requestId = headers.get(Constants.HttpHeaders.ECOMP_REQUEST_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
-        }
-
         logger.trace("No valid requestId headers. Generating requestId: {}", requestId);
         return UUID.randomUUID().toString();
     }
