@@ -39,25 +39,51 @@ import org.slf4j.MDC;
 public class MDCSetup {
 
     protected static Logger logger = LoggerFactory.getLogger(MDCSetup.class);
-
     private static final String INSTANCE_UUID = UUID.randomUUID().toString();
+    protected static final String serverIpAddressOverride = "SERVER_IP_ADDRESS_OVERRIDE";
+    protected static final String serverFqdnOverride = "SERVER_FQDN_OVERRIDE";
+    protected static final String checkHeaderLogPattern = "Checking {} header to determine the value of {}";
+    protected String serverFqdn;
+    protected String serverIpAddress;
+    protected String[] prioritizedIdHeadersNames;
+    protected String[] prioritizedPartnerHeadersNames;
+
+    public MDCSetup() {
+        this.prioritizedIdHeadersNames =
+                new String[] {ONAPLogConstants.Headers.REQUEST_ID, Constants.HttpHeaders.HEADER_REQUEST_ID,
+                        Constants.HttpHeaders.TRANSACTION_ID, Constants.HttpHeaders.ECOMP_REQUEST_ID};
+        this.prioritizedPartnerHeadersNames =
+                new String[] {HttpHeaders.AUTHORIZATION, ONAPLogConstants.Headers.PARTNER_NAME, HttpHeaders.USER_AGENT};
+        initServerFqdnandIp();
+    }
 
     public void setInstanceID() {
         MDC.put(ONAPLogConstants.MDCs.INSTANCE_UUID, INSTANCE_UUID);
     }
 
-    public void setServerFQDN() {
-        String serverFQDN = "";
-        InetAddress addr = null;
-        try {
-            addr = InetAddress.getLocalHost();
-            serverFQDN = addr.getCanonicalHostName();
-            MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, addr.getHostAddress());
-        } catch (UnknownHostException e) {
-            logger.trace("Cannot Resolve Host Name");
-            serverFQDN = "";
+    protected void initServerFqdnandIp() {
+        serverFqdn = getProperty(serverFqdnOverride);
+        serverIpAddress = getProperty(serverIpAddressOverride);
+
+        if (serverIpAddress.equals(Constants.DefaultValues.UNKNOWN)
+                || serverFqdn.equals(Constants.DefaultValues.UNKNOWN)) {
+            try {
+                InetAddress addr = InetAddress.getLocalHost();
+                if (serverFqdn.equals(Constants.DefaultValues.UNKNOWN)) {
+                    serverFqdn = addr.getCanonicalHostName();
+                }
+                if (serverIpAddress.equals(Constants.DefaultValues.UNKNOWN)) {
+                    serverIpAddress = addr.getHostAddress();
+                }
+            } catch (UnknownHostException e) {
+                logger.trace("Cannot Resolve Host Name." + e.getMessage());
+            }
         }
-        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFQDN);
+    }
+
+    public void setServerFQDN() {
+        MDC.put(ONAPLogConstants.MDCs.SERVER_FQDN, serverFqdn);
+        MDC.put(ONAPLogConstants.MDCs.SERVER_IP_ADDRESS, serverIpAddress);
     }
 
     public void setClientIPAddress(HttpServletRequest httpServletRequest) {
@@ -81,30 +107,14 @@ public class MDCSetup {
     }
 
     public String getRequestId(SimpleMap headers) {
-        logger.trace("Checking X-ONAP-RequestID header for requestId.");
-        String requestId = headers.get(ONAPLogConstants.Headers.REQUEST_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
+        String requestId = null;
+        for (String headerName : this.prioritizedIdHeadersNames) {
+            logger.trace(checkHeaderLogPattern, headerName, ONAPLogConstants.Headers.REQUEST_ID);
+            requestId = headers.get(headerName);
+            if (requestId != null && !requestId.isEmpty()) {
+                return requestId;
+            }
         }
-
-        logger.trace("No valid X-ONAP-RequestID header value. Checking X-RequestID header for requestId.");
-        requestId = headers.get(Constants.HttpHeaders.HEADER_REQUEST_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
-        }
-
-        logger.trace("No valid X-RequestID header value. Checking X-TransactionID header for requestId.");
-        requestId = headers.get(Constants.HttpHeaders.TRANSACTION_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
-        }
-
-        logger.trace("No valid X-TransactionID header value. Checking X-ECOMP-RequestID header for requestId.");
-        requestId = headers.get(Constants.HttpHeaders.ECOMP_REQUEST_ID);
-        if (requestId != null && !requestId.isEmpty()) {
-            return requestId;
-        }
-
         logger.trace("No valid requestId headers. Generating requestId: {}", requestId);
         return UUID.randomUUID().toString();
     }
@@ -123,26 +133,19 @@ public class MDCSetup {
     }
 
     protected String getMDCPartnerName(SimpleMap headers) {
-        String checkHeaderLogPattern = "Checking {} header to determine the value of {}";
+        String partnerName = null;
+        for (String headerName : prioritizedPartnerHeadersNames) {
+            logger.trace(checkHeaderLogPattern, headerName, ONAPLogConstants.MDCs.PARTNER_NAME);
+            if (headerName.equals(HttpHeaders.AUTHORIZATION)) {
+                partnerName = getBasicAuthUserName(headers);
+            } else {
+                partnerName = headers.get(headerName);
+            }
+            if (partnerName != null && !partnerName.isEmpty()) {
+                return partnerName;
+            }
 
-        logger.trace(checkHeaderLogPattern, HttpHeaders.AUTHORIZATION, ONAPLogConstants.MDCs.PARTNER_NAME);
-        String partnerName = getBasicAuthUserName(headers);
-        if (partnerName != null && !partnerName.isEmpty()) {
-            return partnerName;
         }
-
-        logger.trace(checkHeaderLogPattern, ONAPLogConstants.Headers.PARTNER_NAME, ONAPLogConstants.MDCs.PARTNER_NAME);
-        partnerName = headers.get(ONAPLogConstants.Headers.PARTNER_NAME);
-        if (partnerName != null && !partnerName.isEmpty()) {
-            return partnerName;
-        }
-
-        logger.trace(checkHeaderLogPattern, HttpHeaders.USER_AGENT, ONAPLogConstants.MDCs.PARTNER_NAME);
-        partnerName = headers.get(HttpHeaders.USER_AGENT);
-        if (partnerName != null && !partnerName.isEmpty()) {
-            return partnerName;
-        }
-
         logger.trace("{} value could not be determined, defaulting partnerName to {}.",
                 ONAPLogConstants.MDCs.PARTNER_NAME, Constants.DefaultValues.UNKNOWN);
         return Constants.DefaultValues.UNKNOWN;
