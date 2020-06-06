@@ -7,7 +7,7 @@ and easy to reload logging at runtime.
 
 ## install package
 ```bash
-  pip install onappylog
+  pip install --no-cache-dir onappylog
 ```
 
 ## Usage
