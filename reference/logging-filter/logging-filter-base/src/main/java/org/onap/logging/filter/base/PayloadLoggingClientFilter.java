@@ -83,8 +83,10 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
             requestContext.setProperty(ENTITY_STREAM_PROPERTY, stream);
         }
         String method = formatMethod(requestContext);
-        logger.debug("Sending HTTP {} to:{} with request headers:{}", method, requestContext.getUri(),
-                getHeaders(requestContext.getHeaders()));
+        logger.debug("============================request begin==========================================");
+        logger.debug("URI         : {}", requestContext.getUri());
+        logger.debug("Method      : {}", method);
+        logger.debug("Headers     : {}", getHeaders(requestContext.getHeaders()));
     }
 
     protected String getHeaders(MultivaluedMap<String, Object> headers) {
@@ -101,16 +103,18 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
 
     @Override
     public void filter(ClientRequestContext requestContext, ClientResponseContext responseContext) throws IOException {
-        String method = formatMethod(requestContext);
-        logger.debug("Response from method:{} performed on uri:{} has http status code:{} and response headers:{}",
-                method, requestContext.getUri(), responseContext.getStatus(), responseContext.getHeaders().toString());
+        final StringBuilder sb = new StringBuilder();
         if (responseContext.hasEntity()) {
-            final StringBuilder sb = new StringBuilder();
             responseContext.setEntityStream(logInboundEntity(sb, responseContext.getEntityStream(), DEFAULT_CHARSET));
-            logger.debug(sb.toString());
         } else {
-            logger.debug("Response was returned with an empty entity.");
+            sb.append("Response was returned with an empty entity.");
         }
+        logger.debug("============================response begin==========================================");
+        logger.debug("Status code  : {}", responseContext.getStatus());
+        logger.debug("Status text  : {}", responseContext.getStatusInfo().toString());
+        logger.debug("Headers      : {}", responseContext.getHeaders().toString());
+        logger.debug("Response body: {}", sb.toString().trim());
+        logger.debug("=======================response end=================================================");
     }
 
     @Override
@@ -118,8 +122,11 @@ public class PayloadLoggingClientFilter implements ClientRequestFilter, ClientRe
         final LoggingStream stream = (LoggingStream) context.getProperty(ENTITY_STREAM_PROPERTY);
         context.proceed();
         if (stream != null) {
-            logger.debug(stream.getStringBuilder(DEFAULT_CHARSET).toString());
+            logger.debug("Request body: {}", stream.getStringBuilder(DEFAULT_CHARSET).toString().trim());
+        } else {
+            logger.debug("Request body: Request was sent without entity.");
         }
+        logger.debug("==========================request end==============================================");
     }
 
     private class LoggingStream extends FilterOutputStream {
