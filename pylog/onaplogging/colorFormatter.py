@@ -14,8 +14,9 @@
 
 import os
 import sys
-import logging
 from logging import Formatter
+
+from .utils import is_above_python_2_7, is_above_python_3_2
 
 
 ATTRIBUTES = {
@@ -57,7 +58,8 @@ COLOR_TAG = "color"
 HIGHLIGHT_TAG = "highlight"
 ATTRIBUTE_TAG = "attribute"
 
-RESET = '\033[0m'
+RESET = "\033[0m"
+FMT_STR = "\033[%dm%s"
 
 
 def colored(text, color=None, on_color=None, attrs=None):
@@ -70,16 +72,15 @@ def colored(text, color=None, on_color=None, attrs=None):
         attrs = [attrs]
 
     if os.getenv('ANSI_COLORS_DISABLED', None) is None:
-        fmt_str = '\033[%dm%s'
         if color is not None and isinstance(color, str):
-            text = fmt_str % (COLORS.get(color, 0), text)
+            text = FMT_STR % (COLORS.get(color, 0), text)
 
         if on_color is not None and isinstance(on_color, str):
-            text = fmt_str % (HIGHLIGHTS.get(on_color, 0), text)
+            text = FMT_STR % (HIGHLIGHTS.get(on_color, 0), text)
 
         if attrs is not None:
             for attr in attrs:
-                text = fmt_str % (ATTRIBUTES.get(attr, 0), text)
+                text = FMT_STR % (ATTRIBUTES.get(attr, 0), text)
 
         #  keep origin color for tail spaces
         text += RESET
@@ -89,20 +90,15 @@ def colored(text, color=None, on_color=None, attrs=None):
 class BaseColorFormatter(Formatter):
 
     def __init__(self, fmt=None, datefmt=None, colorfmt=None, style="%"):
-        if sys.version_info > (3, 2):
+        if is_above_python_3_2():
             super(BaseColorFormatter, self).__init__(
                 fmt=fmt, datefmt=datefmt, style=style)
-        elif sys.version_info > (2, 7):
+        elif is_above_python_2_7():
             super(BaseColorFormatter, self).__init__(fmt, datefmt)
         else:
             Formatter.__init__(self, fmt, datefmt)
 
         self.style = style
-        if sys.version_info > (3, 2):
-            if self.style not in logging._STYLES:
-                raise ValueError('Style must be one of: %s' % ','.join(
-                        logging._STYLES.keys()))
-
         self.colorfmt = colorfmt
 
     def _parseColor(self, record):
