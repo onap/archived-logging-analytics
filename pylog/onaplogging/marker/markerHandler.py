@@ -44,7 +44,7 @@ class MarkerNotifyHandler(SMTPHandler):
 
         if matchMarkerHelp(record, self.markers):
             if sys.version_info > (2, 7):
-                return super(SMTPHandler, self).handle(record)
+                return super(MarkerNotifyHandler, self).handle(record)
             else:
                 return SMTPHandler.handle(self, record)
 

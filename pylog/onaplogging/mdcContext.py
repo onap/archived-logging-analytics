@@ -48,7 +48,7 @@ class MDCContext(threading.local):
 
     def remove(self, key):
 
-        if key in self.localDict:
+        if key in self._localDict:
             del self._localDict[key]
 
     def clear(self):

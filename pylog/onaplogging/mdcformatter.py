@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
 import logging
 from .markerFormatter import MarkerFormatter
+from .utils import is_above_python_2_7, is_above_python_3_2
 
 
 class MDCFormatter(MarkerFormatter):
@@ -33,12 +33,12 @@ class MDCFormatter(MarkerFormatter):
         :param colorfmt: colored output with ANSI escape code on terminal
         :param style: style mapping keys in python3
         """
-        if sys.version_info > (3, 2):
+        if is_above_python_3_2():
             super(MDCFormatter, self).__init__(fmt=fmt,
                                                datefmt=datefmt,
                                                colorfmt=colorfmt,
                                                style=style)
-        elif sys.version_info > (2, 7):
+        elif is_above_python_2_7():
             super(MDCFormatter, self).__init__(fmt=fmt,
                                                datefmt=datefmt,
                                                colorfmt=colorfmt)
@@ -112,7 +112,7 @@ class MDCFormatter(MarkerFormatter):
         """
         mdcIndex = self._fmt.find(self._mdc_tag)
         if mdcIndex == -1:
-            if sys.version_info > (2, 7):
+            if is_above_python_2_7():
                 return super(MDCFormatter, self).format(record)
             else:
                 return MarkerFormatter.format(self, record)
@@ -121,10 +121,10 @@ class MDCFormatter(MarkerFormatter):
 
         if mdcFmtWords is None:
             self._fmt = self._fmt.replace(self._mdc_tag, "")
-            if sys.version_info > (3, 2):
+            if is_above_python_3_2():
                 self._style = logging._STYLES[self.style][0](self._fmt)
 
-            if sys.version_info > (2, 7):
+            if is_above_python_2_7():
                 return super(MDCFormatter, self).format(record)
             else:
                 return MarkerFormatter.format(self, record)
@@ -142,10 +142,10 @@ class MDCFormatter(MarkerFormatter):
             mdcstr = self._replaceStr(keys=mdcFmtkeys).format(**res)
             self._fmt = self._fmt.replace(self._mdc_tag, mdcstr)
 
-            if sys.version_info > (3, 2):
+            if is_above_python_3_2():
                 self._style = logging._STYLES[self.style][0](self._fmt)
 
-            if sys.version_info > (2, 7):
+            if is_above_python_2_7():
                 return super(MDCFormatter, self).format(record)
             else:
                 return MarkerFormatter.format(self, record)
