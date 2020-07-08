@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6951233a_cf14dbf5",
+        "filename": "pylog/onaplogging/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-07-08T13:40:42Z",
+      "side": 1,
+      "message": "If it needs to be true for atleast 3.2 version then condition should be: \nreturn sys.version_info \u003e\u003d (3, 2, 0, \u0027final\u0027, 0)",
+      "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81c62c20_b892ace0",
+        "filename": "pylog/onaplogging/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-07-08T13:40:42Z",
+      "side": 1,
+      "message": "If it needs to be true for atleast 2.7 version then condition should be: \nreturn sys.version_info \u003e\u003d (2, 7, 0, \u0027final\u0027, 0)",
+      "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cdc695b_56afcbdc",
+        "filename": "pylog/tests/test_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-07-08T13:40:42Z",
+      "side": 1,
+      "message": "Please add to peform test with exact value (3, 2) and (2, 7)",
+      "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
