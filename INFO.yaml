@@ -56,6 +56,11 @@ committers:
       company: 'ATT'
       id: 'nullop'
       timezone: 'America/New York'
+    - name: 'Brittany Plummer'
+      email: 'bp896r@att.com'
+      company: 'ATT'
+      id: 'bp896r'
+      timezone: 'America/New York'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -89,3 +94,6 @@ tsc:
         - type: 'Addition'
           name: Kevin Smokowski
           link: 'https://lists.onap.org/g/onap-tsc/message/5722'
+        - type: 'Addition'
+          name: Brittany Plummer
+          link: 'https://lists.onap.org/g/onap-tsc/message/6691'
