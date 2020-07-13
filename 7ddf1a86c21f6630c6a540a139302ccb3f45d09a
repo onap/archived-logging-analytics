@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "455c33d3_de9feac2",
+        "filename": "pylog/onaplogging/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2020-07-13T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6951233a_cf14dbf5",
+      "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81c62c20_b892ace0",
         "filename": "pylog/onaplogging/utils.py",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "48763a93_98061f5f",
+        "filename": "pylog/onaplogging/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2020-07-13T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81c62c20_b892ace0",
+      "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cdc695b_56afcbdc",
         "filename": "pylog/tests/test_utils.py",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a7dcdd9_d2c6fdf5",
+        "filename": "pylog/tests/test_utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6079
+      },
+      "writtenOn": "2020-07-13T08:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cdc695b_56afcbdc",
+      "revId": "7ddf1a86c21f6630c6a540a139302ccb3f45d09a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
