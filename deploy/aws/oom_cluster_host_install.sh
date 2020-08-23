@@ -61,7 +61,7 @@ register_node() {
         sudo curl https://releases.rancher.com/install-docker/$DOCKER_VER.sh | sh
         sudo usermod -aG docker $USERNAME
     fi
-    sudo apt-get install nfs-common -y
+    sudo apt-get install -y -qq --no-install-recommends nfs-common -y
     sudo mkdir /$DOCKERDATA_NFS
     sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport $AWS_EFS.efs.$AWS_REGION.amazonaws.com:/ /$DOCKERDATA_NFS
     if [[ "$IS_NODE" != false ]]; then

@@ -91,7 +91,7 @@ install_onap() {
 
   echo "install make - required for beijing+ - installed via yum groupinstall Development Tools in RHEL"
   # ubuntu specific
-  sudo apt-get install make -y
+  sudo apt-get install -y -qq --no-install-recommends make -y
 
   sudo docker run -d --restart=unless-stopped -p $PORT:8080 --name rancher_server rancher/server:v$RANCHER_VERSION
   sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/v$KUBECTL_VERSION/bin/linux/amd64/kubectl
