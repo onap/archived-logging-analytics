@@ -22,7 +22,8 @@ if sys.version_info[0] >= 3:
 import pytest
 import yaml
 
-from onaplogging.logWatchDog import FileEventHandlers, _yaml2Dict, _yamlConfig
+from onaplogging.logWatchDog import FileEventHandlers, _yamlConfig
+from onaplogging.utils.tools import yaml_to_dict, _yaml2Dict
 
 
 TestEvent = namedtuple("TestEvent", ["src_path"])

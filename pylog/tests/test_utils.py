@@ -16,30 +16,30 @@ if sys.version_info[0] < 3:
 if sys.version_info[0] >= 3:
     from unittest.mock import patch, MagicMock
 
-from onaplogging.utils import is_above_python_2_7, is_above_python_3_2
+from onaplogging.utils.system import is_above_python_2_7, is_above_python_3_2
 
 
 class TestUtils(unittest.TestCase):
 
     def test_is_above_python_3_2(self):
-        with patch("onaplogging.utils.sys.version_info", (3, 4, 7)):
+        with patch("onaplogging.utils.system.sys.version_info", (3, 4, 7)):
             assert is_above_python_3_2() is True
 
-        with patch("onaplogging.utils.sys.version_info", (2, 7, 5)):
+        with patch("onaplogging.utils.system.sys.version_info", (2, 7, 5)):
             assert is_above_python_3_2() is False
 
-        with patch("onaplogging.utils.sys.version_info", (3, 2, 0, "final", 0)):
+        with patch("onaplogging.utils.system.sys.version_info", (3, 2, 0, "final", 0)):
             assert is_above_python_3_2() is True
 
     def test_is_above_python_2_7(self):
-        with patch("onaplogging.utils.sys.version_info", (3, 4, 7)):
+        with patch("onaplogging.utils.system.sys.version_info", (3, 4, 7)):
             assert is_above_python_2_7() is True
 
-        with patch("onaplogging.utils.sys.version_info", (2, 7, 5)):
+        with patch("onaplogging.utils.system.sys.version_info", (2, 7, 5)):
             assert is_above_python_2_7() is True
 
-        with patch("onaplogging.utils.sys.version_info", (2, 5, 6)):
+        with patch("onaplogging.utils.system.sys.version_info", (2, 5, 6)):
             assert is_above_python_2_7() is False
 
-        with patch("onaplogging.utils.sys.version_info", (2, 7, 0, "final", 0)):
+        with patch("onaplogging.utils.system.sys.version_info", (2, 7, 0, "final", 0)):
             assert is_above_python_2_7() is True

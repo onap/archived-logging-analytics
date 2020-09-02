@@ -16,32 +16,32 @@ if sys.version_info[0] < 3:
 if sys.version_info[0] >= 3:
     from unittest.mock import patch
 
-from onaplogging.monkey import patch_all, patch_loggingMDC, patch_loggingYaml
+from onaplogging.monkey import patch_all, patch_logging_yaml, patch_logging_mdc
 
 
 class TestMonkey(unittest.TestCase):
 
     def test_patch_all(self):
-        with patch("onaplogging.monkey.patch_loggingMDC") as mock_mdc:
-            with patch("onaplogging.monkey.patch_loggingYaml") as mock_yaml:
+        with patch("onaplogging.monkey.patch_logging_mdc") as mock_mdc:
+            with patch("onaplogging.monkey.patch_logging_yaml") as mock_yaml:
                 patch_all()
                 mock_mdc.assert_called_once()
                 mock_yaml.assert_called_once()
 
-        with patch("onaplogging.monkey.patch_loggingMDC") as mock_mdc:
-            with patch("onaplogging.monkey.patch_loggingYaml") as mock_yaml:
+        with patch("onaplogging.monkey.patch_logging_mdc") as mock_mdc:
+            with patch("onaplogging.monkey.patch_logging_yaml") as mock_yaml:
                 patch_all(mdc=False)
                 mock_mdc.assert_not_called()
                 mock_yaml.assert_called_once()
 
-        with patch("onaplogging.monkey.patch_loggingMDC") as mock_mdc:
-            with patch("onaplogging.monkey.patch_loggingYaml") as mock_yaml:
+        with patch("onaplogging.monkey.patch_logging_mdc") as mock_mdc:
+            with patch("onaplogging.monkey.patch_logging_yaml") as mock_yaml:
                 patch_all(yaml=False)
                 mock_mdc.assert_called_once()
                 mock_yaml.assert_not_called()
 
-        with patch("onaplogging.monkey.patch_loggingMDC") as mock_mdc:
-            with patch("onaplogging.monkey.patch_loggingYaml") as mock_yaml:
+        with patch("onaplogging.monkey.patch_logging_mdc") as mock_mdc:
+            with patch("onaplogging.monkey.patch_logging_yaml") as mock_yaml:
                 patch_all(mdc=False, yaml=False)
                 mock_mdc.assert_not_called()
                 mock_yaml.assert_not_called()

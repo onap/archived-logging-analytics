@@ -27,7 +27,7 @@ from onaplogging.colorFormatter import (
     FMT_STR,
     RESET,
 )
-from onaplogging.utils import is_above_python_3_2
+from onaplogging.utils.system import is_above_python_3_2
 
 
 class TestColorFormatter(unittest.TestCase):

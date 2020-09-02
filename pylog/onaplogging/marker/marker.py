@@ -14,10 +14,30 @@
 
 import abc
 
+from typing import Iterable, List, Optional, Union, Iterator
+from deprecated import deprecated
+from warnings import warn
+from logging import LogRecord
+
 MARKER_TAG = "marker"
 
 
 class Marker(object):
+    """Abstract class for defining the marker structure.
+
+    TODO:
+        after deprecated child methods are removed, rename them here.
+    Extends:
+        object
+    Method list:
+        getName
+        addChild
+        addChilds
+        removeChild
+        contains
+    Raises:
+        NotImplementedError
+    """
 
     __metaclass__ = abc.ABCMeta
 
@@ -51,24 +71,172 @@ class Marker(object):
 
 
 class BaseMarker(Marker):
+    """Basic marker class.
 
-    def __init__(self, name):
+    It is a marker with base functionalities that add sub-level markers and
+    check  if another marker  exists as the parent itself  or as its  child.
+
+    Extends:
+        Marker
+    Properties:
+        name            : The name of the marker.
+        children (list) : The list of all children (sub-level) markers.
+    Arguments:
+        name (str)      : The name of the marker.
+    Methods:
+        getName         : Returns the name of the marker.
+        addChild        : Adds a sub-level marker.
+        addChilds       : Adds a list of sub-level markers.
+        removeChild     : Removes a specified sub-level marker.
+        contains        : Checks if a sub-level marker exists.
+    """
+
+    @property
+    def name(self):
+        # type: () -> str
+        """Name of the parent marker."""
+        return self.__name
+
+    @property
+    def children(self):
+        # type: () -> List[Marker]
+        """Child markers of one parent marker."""
+        return self.__childs
+
+    @name.setter
+    def name(self, value):
+        # type: (str) -> None
+        self.__name = value
+
+    @children.setter
+    def children(self, value):
+        # type: (List[Marker]) -> None
+        self.__childs = value
+
+    def __init__(self, name):  # type: (str)
+        """
+        Raises:
+            TypeError   : If the `name` parameter  is  not  a string.
+            ValueError  : If the `name` parameter is an empty string.
+        """
+
         super(BaseMarker, self).__init__()
+
         if not isinstance(name, str):
             raise TypeError("not str type")
+
         if name == "":
             raise ValueError("empty value")
+
+        warn("Attribute `__childs` is replaced by the property `children`."
+            "Use children instead.", DeprecationWarning)
+
         self.__name = name
         self.__childs = []
 
-    def getName(self):
-        return self.__name
+    def add_child(self, marker):
+        # type: (Marker) -> None
+        """Append a marker to child markers.
+
+        Use this method to describe a different level of logs. For example,
+        error  log  would use the  ERROR marker.  However it's  possible to
+        create a,  for instance,  TYPE_ERROR  to mark  type related events.
+        In this case TYPE_ERROR will be a child of parent ERROR.
+
+        Args:
+            marker      : marker describing a different log level.
+        Raises:
+            TypeError   : if the marker object has different type.
+        """
+
+        if not isinstance(marker, Marker):
+            raise TypeError("Bad marker type.                     \
+                             Can only add markers of type Marker. \
+                             Type %s was passed." % type(marker))
+
+        if self == marker:
+            return
+
+        if marker not in self.children:
+            self.children.append(marker)
+
+    def add_children(self, markers):
+        # type: (Iterable[List]) -> None
+        """ Append a list of markers to child markers.
+
+        Args:
+            markers     : An iterable object, containing markers.
+        Raises:
+            Exception   : If  `marker` parameter is not iterable.
+        """
+
+        try:
+            iter(markers)
+        except Exception as e:
+            raise e
+
+        for marker in markers:
+            self.children.append(marker)
+
+    def remove_child(self, marker):
+        # type: (Marker) -> None
+        """Use this method to remove a marker from the children list.
+
+        Args:
+            marker   : A child marker object.
+        Raises:
+            TypeError: if the marker object has different type.
+        """
+
+        if not isinstance(marker, Marker):
+            raise TypeError("Bad marker type.                     \
+                             Can only add markers of type Marker. \
+                             Type %s was passed." % type(marker))
+
+        if marker in self.children:
+            self.children.remove(marker)
+
+    def contains(self, item=None):
+        # type: (Optional[Union[Marker, str]]) -> bool
+        """
+        Use it to check if a marker exists as a parent itself or its chidren.
+
+        Args:
+            item    : A child marker object. Defaults to None.
+        Returns:
+            bool    : True if the marker exists.
+        """
+
+        warn("`item` argument will be replaced with `marker`. "
+             "Default value None will be removed.",
+              DeprecationWarning)
+        marker = item
+
+        if isinstance(marker, Marker):
+            if marker == self:
+                return True
+            return len(list(filter(
+                lambda x: x == marker, self.children))) > 0
+
+        elif isinstance(marker, str):
+            if marker == self.name:
+                return True
+
+            return len(list(filter(
+                lambda x: x.name == marker, self.children))) > 0
+
+        return False
 
     def __iter__(self):
+        # type: () -> Iterator[List[Marker]]
         return iter(self.__childs)
 
-    def __eq__(self, other):
+    def __hash__(self):
+        # type (): -> int
+        return hash(self.__name)
 
+    def __eq__(self, other):
+        # type: (Marker) -> bool
         if not isinstance(other, Marker):
             return False
         if id(self) == id(other):
@@ -76,67 +244,62 @@ class BaseMarker(Marker):
 
         return self.__name == other.getName()
 
-    def __hash__(self):
-        return hash(self.__name)
+    @deprecated(reason="Will be removed. Call the `name` property instead.")
+    def getName(self):
+        """Class attribute getter."""
+        return self.name
 
-    def contains(self, item=None):
-
-        if isinstance(item, Marker):
-            if item == self:
-                return True
-            return len(list(filter(
-                lambda x: x == item, self.__childs))) > 0
-
-        elif isinstance(item, str):
-            if item == self.__name:
-                return True
-
-            return len(list(filter(
-                lambda x: x.__name == item, self.__childs))) > 0
-
-        return False
-
-    def addChild(self, item):
-        if not isinstance(item, Marker):
-            raise TypeError("can only add  (not %s) marker type"
-                            % type(item))
-        if self == item:
-            return
-        if item not in self.__childs:
-            self.__childs.append(item)
-
+    @deprecated(reason="Will be removed. Call add_children(markers) instead.")
     def addChilds(self, childs):
-        try:
-            iter(childs)
-        except Exception as e:
-            raise e
+        """Add a list of sub-level markers. See add_children(markers)"""
+        self.add_children(childs)
 
-        for item in childs:
-            self.addChild(item)
+    @deprecated(reason="Will be removed. Call add_child(marker) instead.")
+    def addChild(self, item):
+        """Add a sub-level marker. See add_child(marker)"""
+        self.add_child(item)
 
+    @deprecated(reason="Will be removed. Call remove_child(marker) instead.")
     def removeChild(self, item):
-        if not isinstance(item, Marker):
-            raise TypeError("can only add  (not %s) marker type"
-                            % type(item))
-        if item in self.__childs:
-            self.__childs.remove(item)
+        """Remove a sub-level marker. See remove_child(marker)"""
+        self.remove_child(item)
 
 
+@deprecated(reason="Will be removed. "
+    "Call match_marker(record, marker_to_match) instead.")
 def matchMarkerHelp(record, markerToMatch):
+    """See match_marker(record, marker_to_match)."""
+    return match_markers(record, markerToMatch)
 
-    marker = getattr(record, MARKER_TAG, None)
 
-    if marker is None or markerToMatch is None:
+def match_markers(record, marker_to_match):
+    # type: (LogRecord, Union[Marker, List]) -> bool
+    """
+    Use this method to match a marker (or a list of markers) with a LogRecord
+    record.
+
+    Args:
+        record          : a record that may contain a marker.
+        markerToMatch   : a marker or a list of markers.
+    Raises:
+        Exception       : if match check went wrong.
+    Returns:
+        bool            : whether the check can be done or the marker is found.
+    """
+    record_marker = getattr(record, MARKER_TAG, None)
+
+    if record_marker is None or \
+       marker_to_match is None:
         return False
 
-    if not isinstance(marker, Marker):
+    if not isinstance(record_marker, Marker):
         return False
 
     try:
-        if isinstance(markerToMatch, list):
+        if isinstance(marker_to_match, list):
             return len(list(filter(
-                lambda x: marker.contains(x), markerToMatch))) > 0
+                lambda x: record_marker.contains(x), marker_to_match))) > 0
 
-        return marker.contains(markerToMatch)
+        return record_marker.contains(marker_to_match)
     except Exception as e:
         raise e

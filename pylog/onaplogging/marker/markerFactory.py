@@ -14,12 +14,32 @@
 
 import abc
 import threading
+
+from deprecated import deprecated
+from warnings import warn
+from typing import Dict, Optional
+
+from .marker import Marker
 from .marker import BaseMarker
 
 lock = threading.RLock()
 
 
 class IMarkerFactory(object):
+    """Abstract marker factory for defining structure.
+
+    TODO:
+        after deprecated child methods are removed, rename them here.
+    Extends:
+        object
+    Method list:
+        getMarker
+        deleteMarker
+        exist
+    Raises:
+        NotImplementedError
+    """
+
     __metaclass__ = abc.ABCMeta
 
     @abc.abstractmethod
@@ -36,39 +56,111 @@ class IMarkerFactory(object):
 
 
 class MarkerFactory(IMarkerFactory):
+    """A factory class maganing every marker.
+
+    It is designed to check the existance, create and remove single markers.
+    This class follows a singleton pattern - only one instance can be created.
+
+    Extends:
+        IMarkerFactory
+    Properties:
+        marker_map      : a map of existing markers.
+    Attributes:
+        _instance       : a marker factory instance.
+    Methods:
+        getMarker       : creates a new marker or returns an available one.
+        deleteMarker    : removes a specific marker.
+        exist           : checks if a specific marker exists.
+    """
 
     _instance = None
     _marker_map = {}
 
-    def __new__(cls, *args, **kwargs):
+    @property
+    def marker_map(self):
+        # type: () -> Dict
+        if not hasattr(self, '_marker_map'):
+            self._marker_map = {}
+        return self._marker_map
 
-        if cls._instance is None:
-            cls._instance = super(MarkerFactory, cls).__new__(cls)
+    def get_marker(self, name=None):
+        # type: (Optional[str]) -> Marker
+        """
+        Use it to get any marker by its name. If it doesn't exist - it
+        will  create a new  marker that  will be added to the factory.
+        Blocks the thread while executing.
 
-        return cls._instance
+        Args:
+            name        : A marker name. Defaults to None.
+        Raises:
+            ValueError  : If `name` is None.
+        Returns:
+            Marker      : A found or just newly created marker.
+        """
 
-    def getMarker(self, marker_name=None):
-        if marker_name is None:
-            raise ValueError("not empty")
+        if name is None:
+            raise ValueError("Marker name is None. Must have a str value.")
 
         lock.acquire()
-        marker = self._marker_map.get(marker_name, None)
+
+        marker = self.marker_map.get(name, None)
+
         if marker is None:
-            marker = BaseMarker(name=marker_name)
-            self._marker_map[marker_name] = marker
+            marker = BaseMarker(name)
+            self.marker_map[name] = marker
+
         lock.release()
 
         return marker
 
-    def deleteMarker(self, marker_name=None):
+    def delete_marker(self, name=None):
+        # type: (Optional[str]) -> bool
+        """
+        Args:
+            name: A marker name. Defaults to None.
+        Returns:
+            bool: The status of deletion.
+        """
+
         lock.acquire()
-        if self.exist(marker_name):
-            del self._marker_map[marker_name]
+        exists = self.exists(name)
+        if exists:
+            del self.marker_map[name]
             return True
         lock.release()
+
         return False
 
-    def exist(self, marker_name=None):
+    def exists(self, name=None):
+        # type: (Optional[str]) -> bool
+        """
+        Checks whether the search for a marker returns None and returns the
+        status of the operation.
 
-        return self._marker_map.get(
-            marker_name, None) is not None
+        Args:
+            name: marker name. Defaults to None.
+        Returns:
+            bool: status of whether the marker was found.
+        """
+        marker = self.marker_map.get(name, None)
+        return marker is not None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(MarkerFactory, cls).__new__(cls)
+
+        warn("_marker_map attribute will be replaced by marker_map property.",
+              DeprecationWarning)
+        return cls._instance
+
+    @deprecated(reason="Will be removed. Call exists(name) instead.")
+    def exist(self, marker_name=None):
+        return self.exists(marker_name)
+
+    @deprecated(reason="Will be removed. Call get_marker(name) instead.")
+    def getMarker(self, marker_name=None):
+        return self.get_marker(marker_name)
+
+    @deprecated(reason="Will be removed. Call delete_marker(name) instead.")
+    def deleteMarker(self, marker_name=None):
+        return self.delete_marker(marker_name)

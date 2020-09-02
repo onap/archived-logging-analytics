@@ -12,17 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .mdcContext import patch_loggingMDC
-from .logWatchDog import patch_loggingYaml
+from typing import Optional
+
+from .mdcContext import patch_logging_mdc
+from .logWatchDog import patch_logging_yaml
 
 
 __all__ = ["patch_all"]
 
 
 def patch_all(mdc=True, yaml=True):
+    # type: ( Optional[bool], Optional[bool] ) -> None
+    """
+    Patches both MDC contextual information and YAML configuration file to the
+    logger by default. To exclude any or both set `mdc` and/or `yaml`
+    parameters to False.
+
+    Args:
+        mdc (bool, optional): Defaults to True.
+        yaml (bool, optional): Defaults to True.
+    """
 
     if mdc is True:
-        patch_loggingMDC()
+        patch_logging_mdc()
 
     if yaml is True:
-        patch_loggingYaml()
+        patch_logging_yaml()

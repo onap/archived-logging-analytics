@@ -30,16 +30,16 @@ class TestMarkerFormatter(unittest.TestCase):
     def test_marker_formatter_init(self):
         marker_formatter = MarkerFormatter()
         self.assertEqual(marker_formatter.style, "%")
-        self.assertEqual(marker_formatter._marker_tag, "%(marker)s")
+        self.assertEqual(marker_formatter.marker_tag, "%(marker)s")
 
         if sys.version_info[0] >= 3:
             marker_formatter = MarkerFormatter(style="{")
             self.assertEqual(marker_formatter.style, "{")
-            self.assertEqual(marker_formatter._marker_tag, "{marker}")
+            self.assertEqual(marker_formatter.marker_tag, "{marker}")
 
             marker_formatter = MarkerFormatter(style="$")
             self.assertEqual(marker_formatter.style, "$")
-            self.assertEqual(marker_formatter._marker_tag, "${marker}")
+            self.assertEqual(marker_formatter.marker_tag, "${marker}")
 
             with pytest.raises(ValueError):
                 MarkerFormatter(style="*")
@@ -50,18 +50,18 @@ class TestMarkerFormatter(unittest.TestCase):
         with patch("onaplogging.markerFormatter.BaseColorFormatter.format") as mock_format:
             marker_formatter = MarkerFormatter()
             self.assertEqual(marker_formatter._fmt, "%(message)s")
-            self.assertEqual(marker_formatter._marker_tag, "%(marker)s")
+            self.assertEqual(marker_formatter.marker_tag, "%(marker)s")
             marker_formatter.format(record)
             mock_format.assert_called_once()
             self.assertEqual(marker_formatter._fmt, "%(message)s")
-            self.assertEqual(marker_formatter._marker_tag, "%(marker)s")
+            self.assertEqual(marker_formatter.marker_tag, "%(marker)s")
 
         with patch("onaplogging.markerFormatter.BaseColorFormatter.format") as mock_format:
             marker_formatter = MarkerFormatter(fmt="%(message)s %(marker)s")
             self.assertEqual(marker_formatter._fmt, "%(message)s %(marker)s")
-            self.assertEqual(marker_formatter._marker_tag, "%(marker)s")
+            self.assertEqual(marker_formatter.marker_tag, "%(marker)s")
             marker_formatter.format(record)
             mock_format.assert_called_once()
             self.assertEqual(marker_formatter._fmt, "%(message)s %(marker)s")
-            self.assertEqual(marker_formatter._marker_tag, "%(marker)s")
-            self.assertEqual(marker_formatter._tmpFmt, "%(message)s %(marker)s")
+            self.assertEqual(marker_formatter.marker_tag, "%(marker)s")
+            self.assertEqual(marker_formatter.temp_fmt, "%(message)s %(marker)s")

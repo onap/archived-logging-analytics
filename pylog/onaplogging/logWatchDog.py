@@ -13,69 +13,131 @@
 # limitations under the License.
 
 import os
-import yaml
 import traceback
+
 from logging import config
+from typing import Dict, Optional, Any
+from deprecated import deprecated
+from warnings import warn
+
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+from watchdog.events import FileSystemEventHandler, FileSystemEvent
+
+from onaplogging.utils.tools import yaml_to_dict
 
 
-__all__ = ['patch_loggingYaml']
-
-
-def _yaml2Dict(filename):
-
-    with open(filename, 'rt') as f:
-        return yaml.load(f.read())
+__all__ = ['patch_loggingYaml']  # rename after the deprecated name changed
 
 
 class FileEventHandlers(FileSystemEventHandler):
+    """Handler of the events in the file system.
 
-    def __init__(self, filepath):
+    Use it to keep and eye on files in the file system.
+
+    Extends:
+        watchdog.events.FileSystemEventHandler
+    Properties:
+        filepath        : The path to the file to be monitored.
+        current_config  : Defaults to None.
+    Args:
+        filepath        : The path to the file to be monitored.
+    """
+
+    @property
+    def filepath(self):
+        # type: () -> str
+        return self._filepath
+
+    @property
+    def current_config(self):
+        # type: () -> str
+        return self.currentConfig  # deprecated, replace with _current_config
+
+    @filepath.setter
+    def filepath(self, value):
+        # type: (str) -> str
+        self._filepath = value
+
+    @current_config.setter
+    def current_config(self, value):
+        # type: (Dict) -> Dict
+        self.currentConfig = value
+
+    def __init__(self, filepath):  # type: (str)
+        warn("Attribute currentConfig will be replaced with property"
+               "current_config. Use current_config instead.")
 
         FileSystemEventHandler.__init__(self)
+
         self.filepath = filepath
-        self.currentConfig = None
+        self.current_config = None
 
     def on_modified(self, event):
+        # type: (FileSystemEvent) -> None
+        """Configuration file actualizer.
+
+        When an event occurs in the file system  the hadnler's filepath
+        is taken to update the configuration file. If the actualization
+        of  the  config file  fails it  will  keep the old  config file.
+
+        Args:
+            event       : Represents an event on the file system.
+        Raises:
+            Exception   : If the actualization of the config file fails.
+        """
         try:
             if event.src_path == self.filepath:
-                newConfig = _yaml2Dict(self.filepath)
-                print("reload logging configure file %s" % event.src_path)
-                config.dictConfig(newConfig)
-                self.currentConfig = newConfig
+
+                new_config = yaml_to_dict(self.filepath)
+                print("Reloading logging configuration file %s "
+                        % event.src_path)
+
+                config.dictConfig(new_config)
+                self.current_config = new_config
 
         except Exception:
             traceback.print_exc()
             print("Reuse the old configuration to avoid this"
                   "exception terminate program")
-            if self.currentConfig:
-                config.dictConfig(self.currentConfig)
+
+            if self.current_config:
+                config.dictConfig(self.current_config)
 
 
 def _yamlConfig(filepath=None, watchDog=None):
+    # type: (Optional[str], Optional[Any]) -> None
+    """YAML configuration file loader.
 
-    """
-    load logging configureation from yaml file and monitor file status
+    Use it to monitor a file status in a directory.  The watchdog can monitor
+    a YAML file status looking for modifications. If the watchdog is provided
+    start  observing  the  directory. The new configuration  file is saved as
+    current for the later reuse.
 
-    :param filepath: logging yaml configure file absolute path
-    :param watchDog: monitor yaml file identifier status
-    :return:
+    Args:
+        filepath    : The path to the file to be monitored.   Defaults to None.
+        watchDog    : Monitors a YAML file identifier status. Defaults to None.
+
+    Raises:
+        OSError     : If the requested file in the filepath is not a file.
+        Exception   : If watchdog observer setup  or YAML coversion fails.
     """
-    if os.path.isfile(filepath) is False:
-        raise OSError("wrong file")
+
+    is_file = os.path.isfile(filepath)
+
+    if is_file is False:
+        raise OSError("%s is not a file" % (filepath))
 
     dirpath = os.path.dirname(filepath)
     event_handler = None
 
     try:
-        dictConfig = _yaml2Dict(filepath)
-        #  The watchdog could monitor yaml file status,if be modified
-        #  will send a notify  then we could reload logging configuration
+        dictConfig = yaml_to_dict(filepath)
+        # Dev note: Will send a notify then we could reload logging config
         if watchDog:
             observer = Observer()
             event_handler = FileEventHandlers(filepath)
-            observer.schedule(event_handler=event_handler, path=dirpath,
+            observer.schedule(event_handler=event_handler,
+                              path=dirpath,
                               recursive=False)
             observer.setDaemon(True)
             observer.start()
@@ -83,14 +145,23 @@ def _yamlConfig(filepath=None, watchDog=None):
         config.dictConfig(dictConfig)
 
         if event_handler:
-            # here we keep the correct configuration for reusing
             event_handler.currentConfig = dictConfig
 
     except Exception:
         traceback.print_exc()
 
 
-def patch_loggingYaml():
-    # The patch to add yam config forlogginf and runtime
-    # reload logging when modify yaml file
+def patch_logging_yaml():
+    # type: () -> None
+    """YAML configuration patch.
+
+    Adds the YAML configuration file loader
+    to logging.config module during runtime.
+    """
     config.yamlConfig = _yamlConfig
+
+
+@deprecated(reason="Will be removed. Call patch_logging_yaml() instead.")
+def patch_loggingYaml():
+    """See patch_logging_yaml()"""
+    patch_logging_yaml()
