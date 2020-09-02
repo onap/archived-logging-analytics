@@ -24,12 +24,33 @@ __all__ = ['patch_loggingYaml']
 
 
 def _yaml2Dict(filename):
+    """YAML to Python dict converter.
 
+    Args:
+        filename (str): The filepath of a YAML file.
+
+    Returns:
+        dict: Python dictionary object.
+    """
     with open(filename, 'rt') as f:
         return yaml.load(f.read())
 
 
 class FileEventHandlers(FileSystemEventHandler):
+    """Handler of the events in the file system.
+
+    Use it to keep and eye on files in the file system.
+
+    Extends:
+        watchdog.events.FileSystemEventHandler
+
+    Attributes:
+        filepath (str): the path to the file to be monitored.
+        currentConfig (dict): Defaults to None.
+
+    Args:
+        filepath (str): the path to the file to be monitored.
+    """
 
     def __init__(self, filepath):
 
@@ -38,13 +59,24 @@ class FileEventHandlers(FileSystemEventHandler):
         self.currentConfig = None
 
     def on_modified(self, event):
+        """Config file actualizer
+
+        When an event occurs in the file system the hadnler's filepath
+        is taken to update the configuration file. If the actualization
+        of the config file fails it will keep the old config file.
+
+        Args:
+            event (FileSystemEvent): Represents an event on the file system.
+
+        Raises:
+            Exception: if the actualization of a config file fails.
+        """
         try:
             if event.src_path == self.filepath:
                 newConfig = _yaml2Dict(self.filepath)
                 print("reload logging configure file %s" % event.src_path)
                 config.dictConfig(newConfig)
                 self.currentConfig = newConfig
-
         except Exception:
             traceback.print_exc()
             print("Reuse the old configuration to avoid this"
@@ -54,24 +86,33 @@ class FileEventHandlers(FileSystemEventHandler):
 
 
 def _yamlConfig(filepath=None, watchDog=None):
+    """YAML configuration file loader.
 
-    """
-    load logging configureation from yaml file and monitor file status
+    Use it to monitor a file status in a directory. The watchdog can monitor
+    a YAML file status looking for modifications. If the watchdog is provided
+    start observing the directory. The new configuration file is saved as
+    current for the later reuse.
 
-    :param filepath: logging yaml configure file absolute path
-    :param watchDog: monitor yaml file identifier status
-    :return:
+    Args:
+        filepath (str, optional): The path to the file to be monitored.
+                                     Defaults to None.
+        watchDog ([type]], optional): Monitors a YAML file identifier status.
+                                     Defaults to None.
+
+    Raises:
+        OSError: if the requested file in the filepath is not a file.
+        Exception: if watchdog observer setup or YAML coversion fails.
     """
     if os.path.isfile(filepath) is False:
-        raise OSError("wrong file")
+        raise OSError("%s is not a file" % (filepath))
 
     dirpath = os.path.dirname(filepath)
     event_handler = None
 
     try:
         dictConfig = _yaml2Dict(filepath)
-        #  The watchdog could monitor yaml file status,if be modified
-        #  will send a notify  then we could reload logging configuration
+        # Dev note: Will send a notify then we could reload logging
+        # configuration
         if watchDog:
             observer = Observer()
             event_handler = FileEventHandlers(filepath)
@@ -83,7 +124,6 @@ def _yamlConfig(filepath=None, watchDog=None):
         config.dictConfig(dictConfig)
 
         if event_handler:
-            # here we keep the correct configuration for reusing
             event_handler.currentConfig = dictConfig
 
     except Exception:
@@ -91,6 +131,9 @@ def _yamlConfig(filepath=None, watchDog=None):
 
 
 def patch_loggingYaml():
-    # The patch to add yam config forlogginf and runtime
-    # reload logging when modify yaml file
+    """YAML configuration patch.
+
+    Adds the YAML configuration file loader
+    to logging.config module during runtime.
+    """
     config.yamlConfig = _yamlConfig

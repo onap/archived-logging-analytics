@@ -18,6 +18,17 @@ from .marker import matchMarkerHelp
 
 
 class MarkerFilter(Filter):
+    """Marker filtering.
+
+    Extends:
+        logging.Filter
+
+    Attributes:
+        markerToMatch (Marker/list): a marker of list of markers.
+
+    Methods
+        filter: Filter records by the current filter marker(s).
+    """
 
     def __init__(self, name="", markers=None):
         if sys.version_info > (2, 7):
@@ -28,5 +39,12 @@ class MarkerFilter(Filter):
         self.markerToMatch = markers
 
     def filter(self, record):
-        # compare filter's markers with record's marker
+        """Filter by looking for a match.
+
+        Args:
+            record (LogEvent): A record to match with the filter(s).
+
+        Returns:
+            bool: Whether the record matched with the filter(s)
+        """
         return matchMarkerHelp(record, self.markerToMatch)

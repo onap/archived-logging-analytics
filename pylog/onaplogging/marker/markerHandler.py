@@ -18,6 +18,28 @@ from .marker import matchMarkerHelp
 
 
 class MarkerNotifyHandler(SMTPHandler):
+    """Handler for email notification.
+
+    Wraps logging.handler.SMTPHandler and extends it by sending only such
+    notifications which contain certain markers.
+
+    Extends:
+        SMTPHandler
+
+    Attributes:
+        markers (Marker/list): A marker or a list of markers.
+
+    Args:
+        mailhost (tuple): A (host, port) tuple.
+        fromaddr (str): The sender of the email notification.
+        toaddrs (list/str): Email notification recepient(s).
+        subject (str): Email subject.
+        credentials (tuple): A (username, password) tuple.
+        secure (tuple, optional): For example (TLS). It is used when the
+                                  credentials are supplied.
+        timout (float, optional): Default is 5.0 seconds.
+        markers (Marker/list, optional): A marker or a list of markers.
+    """
 
     def __init__(self, mailhost, fromaddr, toaddrs, subject,
                  credentials=None, secure=None, timeout=5.0, markers=None):
@@ -38,6 +60,17 @@ class MarkerNotifyHandler(SMTPHandler):
         self.markers = markers
 
     def handle(self, record):
+        """Email notification handler.
+
+        Matches the record with the specific markers set for email
+        notifications. Sends an email notification if that marker(s) matched.
+
+        Args:
+            record (LogEvent): A record that might contain a marker.
+
+        Returns:
+            bool: Whether a record was passed for emission (to be sent).
+        """
 
         if self.markers is None:
             return False

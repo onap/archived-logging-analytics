@@ -20,6 +20,15 @@ __all__ = ["patch_all"]
 
 
 def patch_all(mdc=True, yaml=True):
+    """
+    Patches both MDC contextual information and YAML configuration file to the
+    logger by default. To exclude any or both set `mdc` and/or `yaml`
+    parameters to False.
+
+    Args:
+        mdc (bool, optional): Defaults to True.
+        yaml (bool, optional): Defaults to True.
+    """
 
     if mdc is True:
         patch_loggingMDC()

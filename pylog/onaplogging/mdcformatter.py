@@ -18,21 +18,25 @@ from .utils import is_above_python_2_7, is_above_python_3_2
 
 
 class MDCFormatter(MarkerFormatter):
-    """
-    A custom MDC formatter to prepare Mapped Diagnostic Context
-    to enrich log message.
+    """A custom MDC formatter.
+
+    Prepares Mapped Diagnostic Context to enrich log message. If `fmt` is not
+    supplied, the `style` is used.
+
+    Extends:
+        MarkerFormatter.
+
+    Attributes:
+        fmt (str): Built-in format string containing standard Python %-style
+                            mapping keys in human-readable format.
+        mdcFmt (str): MDC format with '{}'-style mapping keys.
+        datefmt (str): Date format.
+        colorfmt (str): colored output with an ANSI terminal escape code.
+        style (str): style mapping keys in Python 3.x.
     """
 
     def __init__(self, fmt=None, mdcfmt=None,
                  datefmt=None, colorfmt=None, style="%"):
-        """
-        :param fmt: build-in format string contains standard
-               Python %-style mapping keys
-        :param mdcFmt: mdc format with '{}'-style mapping keys
-        :param datefmt: Date format to use
-        :param colorfmt: colored output with ANSI escape code on terminal
-        :param style: style mapping keys in python3
-        """
         if is_above_python_3_2():
             super(MDCFormatter, self).__init__(fmt=fmt,
                                                datefmt=datefmt,
@@ -46,6 +50,7 @@ class MDCFormatter(MarkerFormatter):
             MarkerFormatter.__init__(self, fmt, datefmt, colorfmt)
 
         self._mdc_tag = "%(mdc)s"
+
         if self.style == "{":
             self._mdc_tag = "{mdc}"
         elif self.style == "$":
@@ -57,30 +62,36 @@ class MDCFormatter(MarkerFormatter):
             self._mdcFmt = '{reqeustID}'
 
     def _mdcfmtKey(self):
-        """
-         maximum barce match algorithm to find the mdc key
-        :return: key in brace  and key not in brace,such as ({key}, key)
+        """Maximum (balanced) parantehses matching algorithm for MDC keys.
+
+        Extracts and strips keys and words from a MDC format string. Use this
+        method to find the MDC key.
+
+        Returns:
+            list: list of keys.
+            map object: keys with and without brace, such as ({key}, key).
         """
 
         left = '{'
         right = '}'
         target = self._mdcFmt
-        st = []
+        stack = []
+
         keys = []
         for index, v in enumerate(target):
             if v == left:
-                st.append(index)
+                stack.append(index)
             elif v == right:
 
-                if len(st) == 0:
+                if len(stack) == 0:
                     continue
 
-                elif len(st) == 1:
-                    start = st.pop()
+                elif len(stack) == 1:
+                    start = stack.pop()
                     end = index
                     keys.append(target[start:end + 1])
-                elif len(st) > 0:
-                    st.pop()
+                elif len(stack) > 0:
+                    stack.pop()
 
         keys = list(filter(lambda x: x[1:-1].strip('\n \t  ') != "", keys))
         words = None
@@ -90,25 +101,30 @@ class MDCFormatter(MarkerFormatter):
         return keys, words
 
     def _replaceStr(self, keys):
-
+        """
+            Removes the first and last characters from the kemdcFmtkeys and
+            assigns the not stripped key.
+        """
         fmt = self._mdcFmt
-        for i in keys:
-            fmt = fmt.replace(i, i[1:-1] + "=" + i)
-
+        for key in keys:
+            fmt = fmt.replace(key, key[1:-1] + "=" + key)
         return fmt
 
     def format(self, record):
         """
-        Find mdcs in log record extra field, if key form mdcFmt dosen't
-        contains mdcs, the values will be empty.
-        :param record: the logging record instance
-        :return:  string
-        for example:
-            the mdcs dict in logging record is
-            {'key1':'value1','key2':'value2'}
-            the mdcFmt is" '{key1} {key3}'
-            the output of mdc message: 'key1=value1 key3='
+        Find MDCs in a log record's extra field. If the key from mdcFmt
+        doesn't contain MDC, the values will be empty.
 
+        For example:
+        The MDC dict in a logging record is {'key1':'value1','key2':'value2'}.
+        The mdcFmt is '{key1} {key3}'.
+        The output of MDC message is 'key1=value1 key3='.
+
+        Args:
+            record (LogEvent): an instance of a logged event.
+
+        Returns:
+            str: "colored" text (formatted text).
         """
         mdcIndex = self._fmt.find(self._mdc_tag)
         if mdcIndex == -1:
@@ -151,6 +167,7 @@ class MDCFormatter(MarkerFormatter):
                 return MarkerFormatter.format(self, record)
 
         except KeyError as e:
+            # Are prints instead of raises necessary?
             print("The mdc key %s format is wrong" % str(e))
         except Exception:
             raise

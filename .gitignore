@@ -18,6 +18,7 @@ build/
 .tox/
 __pycache__/
 *.pyc
+.pytest_cache/
 
 npm-debug.log
 node_modules/
@@ -25,3 +26,4 @@ node_install/
 test_output/
 test-output/
 dist/
+venv/

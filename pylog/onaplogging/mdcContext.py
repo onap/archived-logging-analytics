@@ -30,37 +30,44 @@ _replace_func_name = ['info', 'critical', 'fatal', 'debug',
 
 
 class MDCContext(threading.local):
-    """
-    A Thread local instance to storage mdc values
+    """A Thread local instance that stores MDC values.
+
+    Is initializ with an empty dictionary. Manages that
+    dictionary to created Mapped Diagnostic Context.
+
+    Extends:
+        threading.local
+
+    Attributes:
+        _localDict (dict): a placeholder for MDC keys and values.
     """
     def __init__(self):
-
         super(MDCContext, self).__init__()
         self._localDict = {}
 
     def get(self, key):
-
+        """Retrieve a value by key."""
         return self._localDict.get(key, None)
 
     def put(self, key, value):
-
+        """Insert or update a value by key."""
         self._localDict[key] = value
 
     def remove(self, key):
-
+        """Remove a value by key, if exists."""
         if key in self._localDict:
             del self._localDict[key]
 
     def clear(self):
-
+        """Empty the MDC dictionary."""
         self._localDict.clear()
 
     def result(self):
-
+        """Getter for the MDC dictionary."""
         return self._localDict
 
     def isEmpty(self):
-
+        """Checks whether the dictionary is empty or exists."""
         return self._localDict == {} or self._localDict is None
 
 
@@ -68,6 +75,12 @@ MDC = MDCContext()
 
 
 def fetchkeys(func):
+    """MDC decorator.
+
+    Fetchs contextual information from a logging call.
+    Wraps by adding MDC to the `extra` field. Executes
+    the call with the updated contextual information.
+    """
 
     @functools.wraps(func)
     def replace(*args, **kwargs):
@@ -78,9 +91,17 @@ def fetchkeys(func):
 
 def _getmdcs(extra=None):
     """
-    Put mdc dict in logging record extra filed with key 'mdc'
-    :param extra: dict
-    :return: mdc dict
+    Puts an MDC dict in the `extra` field with key 'mdc'. This provides
+    the contextual information with MDC.
+
+    Args:
+        extra (dict, optional): Contextual information. Defaults to None.
+
+    Raises:
+        KeyError: a key from extra is attempted to be overwritten.
+
+    Returns:
+        dict: contextual information named `extra` with MDC.
     """
     if MDC.isEmpty():
         return extra
@@ -89,7 +110,6 @@ def _getmdcs(extra=None):
 
     if extra is not None:
         for key in extra:
-            #  make sure extra key dosen't override mdckey
             if key in mdc or key == 'mdc':
                 raise KeyError("Attempt to overwrite %r in MDC" % key)
     else:
@@ -103,49 +123,58 @@ def _getmdcs(extra=None):
 
 @fetchkeys
 def info(self, msg, *args, **kwargs):
-
+    """If INFO enabled, deletage an info call with MDC."""
     if self.isEnabledFor(logging.INFO):
         self._log(logging.INFO, msg, args, **kwargs)
 
 
 @fetchkeys
 def debug(self, msg, *args, **kwargs):
+    """If DEBUG enabled, deletage a debug call with MDC."""
     if self.isEnabledFor(logging.DEBUG):
         self._log(logging.DEBUG, msg, args, **kwargs)
 
 
 @fetchkeys
 def warning(self, msg, *args, **kwargs):
+    """If WARNING enabled, deletage a warning call with MDC."""
     if self.isEnabledFor(logging.WARNING):
         self._log(logging.WARNING, msg, args, **kwargs)
 
 
 @fetchkeys
 def exception(self, msg, *args, **kwargs):
-
+    """Deletage an exception call and set exc_info code to 1."""
     kwargs['exc_info'] = 1
     self.error(msg, *args, **kwargs)
 
 
 @fetchkeys
 def critical(self, msg, *args, **kwargs):
-
+    """If CRITICAL enabled, deletage a critical call with MDC."""
     if self.isEnabledFor(logging.CRITICAL):
         self._log(logging.CRITICAL, msg, args, **kwargs)
 
 
 @fetchkeys
 def error(self, msg, *args, **kwargs):
+    """If ERROR enabled, deletage an error call with MDC."""
     if self.isEnabledFor(logging.ERROR):
         self._log(logging.ERROR, msg, args, **kwargs)
 
 
 @fetchkeys
 def log(self, level, msg, *args, **kwargs):
+    """
+    If a specific logging level enabled and the code is represented
+    as an integer value, delegate the call to the underlying logger.
 
+    Raises:
+        TypeError: if the logging level code is not an integer.
+    """
     if not isinstance(level, int):
         if logging.raiseExceptions:
-            raise TypeError("level must be an integer")
+            raise TypeError("logging level code must be an integer")
         else:
             return
 
@@ -154,7 +183,6 @@ def log(self, level, msg, *args, **kwargs):
 
 
 def handle(self, record):
-
     cmarker = getattr(self, MARKER_TAG, None)
 
     if isinstance(cmarker, Marker):
@@ -165,7 +193,6 @@ def handle(self, record):
 
 
 def findCaller(self, stack_info=False):
-
     f = logging.currentframe()
     if f is not None:
         f = f.f_back
@@ -197,8 +224,9 @@ def findCaller(self, stack_info=False):
 
 
 def patch_loggingMDC():
-    """
-    The patch to add MDC ability in logging Record instance at runtime
+    """MDC patch.
+
+    Sets MDC in a logging record instance at runtime.
     """
     localModule = sys.modules[__name__]
     for attr in dir(logging.Logger):

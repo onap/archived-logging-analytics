@@ -20,6 +20,21 @@ from .colorFormatter import BaseColorFormatter
 
 
 class MarkerFormatter(BaseColorFormatter):
+    """Formats coloring styles based on a marker.
+
+    If `fmt` is not supplied, the `style` is used.
+
+    Extends:
+        BaseColorFormatter
+
+    Args:
+        fmt (str, optional): human-readable format. Defaults to None.
+        datefmt (str, optional): ISO8601-like (or RFC 3339-like) format.
+                                    Defaults to None.
+        colorfmt (dict, optional): Color schemas for logging levels.
+                                    Defaults to None.
+        style (str, optional): '%', '{' or '$' formatting. Defaults to '%'.
+    """
 
     def __init__(self, fmt=None, datefmt=None, colorfmt=None, style='%'):
 
@@ -32,9 +47,9 @@ class MarkerFormatter(BaseColorFormatter):
         else:
             BaseColorFormatter.__init__(self, fmt, datefmt, colorfmt)
 
-        self._marker_tag = "%(marker)s"
-
-        if self.style == "{":
+        if self.style == "%":
+            self._marker_tag = "%(marker)s"
+        elif self.style == "{":
             self._marker_tag = "{marker}"
         elif self.style == "$":
             self._marker_tag = "${marker}"
@@ -42,7 +57,17 @@ class MarkerFormatter(BaseColorFormatter):
         self._tmpFmt = self._fmt
 
     def format(self, record):
+        """Marker formatter.
 
+        Use it to apply the marker from a LogEvent record
+        to the formatter string - `fmt`.
+
+        Args:
+            record (LogEvent): an instance of a logged event.
+
+        Returns:
+            str: "colored" text (formatted text).
+        """
         try:
             if self._fmt.find(self._marker_tag) != -1 \
                     and hasattr(record, MARKER_TAG):
