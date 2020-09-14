@@ -25,6 +25,7 @@ import java.net.UnknownHostException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.UUID;
@@ -42,11 +43,13 @@ public class MDCSetup {
     private static final String INSTANCE_UUID = UUID.randomUUID().toString();
     protected static final String serverIpAddressOverride = "SERVER_IP_ADDRESS_OVERRIDE";
     protected static final String serverFqdnOverride = "SERVER_FQDN_OVERRIDE";
+    protected static final String INSTANT_PRECISION_OVERRIDE = "INSTANT_PRECISION_OVERRIDE";
     protected static final String checkHeaderLogPattern = "Checking {} header to determine the value of {}";
     protected String serverFqdn;
     protected String serverIpAddress;
     protected String[] prioritizedIdHeadersNames;
     protected String[] prioritizedPartnerHeadersNames;
+    protected DateTimeFormatter iso8601Formatter;
 
     public MDCSetup() {
         this.prioritizedIdHeadersNames =
@@ -55,6 +58,23 @@ public class MDCSetup {
         this.prioritizedPartnerHeadersNames =
                 new String[] {HttpHeaders.AUTHORIZATION, ONAPLogConstants.Headers.PARTNER_NAME, HttpHeaders.USER_AGENT};
         initServerFqdnandIp();
+        this.iso8601Formatter = createFormatter();
+    }
+
+    protected String getCurrentTimeStamp() {
+        return ZonedDateTime.now(ZoneOffset.UTC).format(iso8601Formatter);
+    }
+
+    protected DateTimeFormatter createFormatter() {
+        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
+        try {
+            Integer instantPrecision = Integer.valueOf(System.getProperty(INSTANT_PRECISION_OVERRIDE, "3"));
+            builder.appendInstant(instantPrecision);
+        } catch (NumberFormatException nfe) {
+            logger.warn("instant precision could not be read and thus won't be set, the default will be used instead."
+                    + nfe.getMessage());
+        }
+        return builder.toFormatter();
     }
 
     public void setInstanceID() {
@@ -102,8 +122,7 @@ public class MDCSetup {
     }
 
     public void setEntryTimeStamp() {
-        MDC.put(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP,
-                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
+        MDC.put(ONAPLogConstants.MDCs.ENTRY_TIMESTAMP, getCurrentTimeStamp());
     }
 
     public String getRequestId(SimpleMap headers) {
@@ -152,8 +171,7 @@ public class MDCSetup {
     }
 
     public void setLogTimestamp() {
-        MDC.put(ONAPLogConstants.MDCs.LOG_TIMESTAMP,
-                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
+        MDC.put(ONAPLogConstants.MDCs.LOG_TIMESTAMP, getCurrentTimeStamp());
     }
 
     public void setElapsedTime() {
