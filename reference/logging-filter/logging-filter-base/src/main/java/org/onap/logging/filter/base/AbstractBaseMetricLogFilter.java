@@ -72,8 +72,7 @@ public abstract class AbstractBaseMetricLogFilter<Request, Response> extends MDC
     }
 
     protected void setupMDC(Request request) {
-        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP,
-                ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT));
+        MDC.put(ONAPLogConstants.MDCs.INVOKE_TIMESTAMP, getCurrentTimeStamp());
         MDC.put(ONAPLogConstants.MDCs.TARGET_SERVICE_NAME, getTargetServiceName(request));
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, ONAPLogConstants.ResponseStatus.INPROGRESS.toString());
 

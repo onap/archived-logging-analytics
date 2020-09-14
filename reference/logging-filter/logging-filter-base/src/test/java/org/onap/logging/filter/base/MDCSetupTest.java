@@ -24,6 +24,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
+
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.HttpHeaders;
@@ -313,6 +316,16 @@ public class MDCSetupTest extends MDCSetup {
         System.setProperty(serverFqdnOverride, nodeName);
         MDCSetup m = new MDCSetup();
         assertEquals(nodeName, m.serverFqdn);
+    }
+
+    @Test
+    public void testPrecision() {
+        System.setProperty(MDCSetup.INSTANT_PRECISION_OVERRIDE, "3");
+        ZonedDateTime zdt = ZonedDateTime.now(ZoneOffset.UTC);
+        zdt = zdt.withNano(333666999);
+        MDCSetup m = new MDCSetup();
+        String currentTimestamp = m.getCurrentTimeStamp();
+        assertEquals(24, currentTimestamp.length());
     }
 
 }
