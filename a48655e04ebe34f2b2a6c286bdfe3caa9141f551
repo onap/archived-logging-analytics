@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad397c1e_31fc38e9",
+        "filename": "reference/logging-filter/logging-filter-base/src/main/java/org/onap/logging/filter/base/MDCSetup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6099
+      },
+      "writtenOn": "2020-09-14T20:16:12Z",
+      "side": 1,
+      "message": "fix typo by changing variable name to iso8601Formatter",
+      "revId": "a48655e04ebe34f2b2a6c286bdfe3caa9141f551",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
