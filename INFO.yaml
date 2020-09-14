@@ -61,6 +61,16 @@ committers:
       company: 'ATT'
       id: 'bp896r'
       timezone: 'America/New York'
+    - name: 'Kapil Singal'
+      email: 'ks220y@att.com'
+      company: 'ATT'
+      id: 'ks220y'
+      timezone: 'America/New York'
+    - name: 'Elena Kuleshov'
+      email: 'ek1439@att.com'
+      company: 'ATT'
+      id: 'ek1439'
+      timezone: 'America/New York'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -97,3 +107,9 @@ tsc:
         - type: 'Addition'
           name: Brittany Plummer
           link: 'https://lists.onap.org/g/onap-tsc/message/6691'
+        - type: 'Addition'
+          name: Kapil Singal
+          link: 'https://lists.onap.org/g/onap-tsc/message/6964'
+        - type: 'Addition'
+          name: Elena Kuleshov
+          link: 'https://lists.onap.org/g/onap-tsc/message/6964'
