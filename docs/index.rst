@@ -8,3 +8,4 @@ Logging Documentation Repository
 
   Logging_Enhancements_Project/logging_enhancements_project.rst
   Logging_User_Guide/logging_user_guide.rst
+  ONAP_Log_Analytics/onap_log_analytics.rst
