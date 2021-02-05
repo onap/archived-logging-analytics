@@ -21,7 +21,10 @@
 package org.onap.logging.filter.base;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import java.io.IOException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -82,5 +85,14 @@ public class AuditLogContainerFilterTest {
         int responseCode = auditLogContainerFilter.getResponseCode(containerResponse);
 
         assertEquals(200, responseCode);
+    }
+
+    @Test
+    public void omitLoggingOnNotFoundStatusTest() throws IOException {
+        when(containerResponse.getStatus()).thenReturn(404);
+
+        auditLogContainerFilter.filter(containerRequest, containerResponse);
+        verify(auditLogContainerFilter, times(0)).post(containerResponse);
+
     }
 }
