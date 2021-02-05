@@ -29,6 +29,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.ext.Providers;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
@@ -59,7 +60,10 @@ public class AuditLogContainerFilter extends AbstractAuditLogFilter<ContainerReq
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
             throws IOException {
-        post(responseContext);
+        
+        if (responseContext.getStatus() != Response.Status.NOT_FOUND.getStatusCode()) {
+            post(responseContext);
+        }
     }
 
     @Override

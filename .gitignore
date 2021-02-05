@@ -13,6 +13,8 @@ build/
 .project
 .classpath
 .settings
+**/.checkstyle
+**/.sts4-cache/
 
 # Python
 .tox/
