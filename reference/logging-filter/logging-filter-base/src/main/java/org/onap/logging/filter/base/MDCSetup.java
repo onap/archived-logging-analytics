@@ -241,7 +241,18 @@ public class MDCSetup {
     }
 
     public void setErrorDesc(int statusCode) {
-        MDC.put(ONAPLogConstants.MDCs.ERROR_DESC, Response.Status.fromStatusCode(statusCode).toString());
+        Response.Status responseStatus = Response.Status.fromStatusCode(statusCode);
+        String errorDescription;
+        if (responseStatus != null) {
+            errorDescription = responseStatus.toString();
+        } else {
+            CustomResponseStatus customResponseStatus = CustomResponseStatus.fromStatusCode(statusCode);
+            if (customResponseStatus == null) {
+                throw new IllegalArgumentException("Unknown code " + statusCode + " for status response.");
+            }
+            errorDescription = customResponseStatus.toString();
+        }
+        MDC.put(ONAPLogConstants.MDCs.ERROR_DESC, errorDescription);
     }
 
     public String getProperty(String property) {
