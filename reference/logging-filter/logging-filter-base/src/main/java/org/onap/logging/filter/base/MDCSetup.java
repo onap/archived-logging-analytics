@@ -211,7 +211,7 @@ public class MDCSetup {
         } else {
             statusCode = ONAPLogConstants.ResponseStatus.ERROR.toString();
             setErrorCode(code);
-            setErrorDesc(code);
+            setErrorDescription(code);
         }
         MDC.put(ONAPLogConstants.MDCs.RESPONSE_STATUS_CODE, statusCode);
     }
@@ -233,15 +233,27 @@ public class MDCSetup {
     }
 
     public void setResponseDescription(int statusCode) {
-        MDC.put(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION, Response.Status.fromStatusCode(statusCode).toString());
+        MDC.put(ONAPLogConstants.MDCs.RESPONSE_DESCRIPTION, extractDescription(statusCode));
+    }
+
+    private String extractDescription(int statusCode) {
+        Response.Status responseStatus = Response.Status.fromStatusCode(statusCode);
+        if (responseStatus != null) {
+            return responseStatus.toString();
+        }
+        CustomResponseStatus customResponseStatus = CustomResponseStatus.fromStatusCode(statusCode);
+        if (customResponseStatus != null) {
+            return customResponseStatus.toString();
+        }
+        return String.format("Unknown description for response code %d.", statusCode);
     }
 
     public void setErrorCode(int statusCode) {
         MDC.put(ONAPLogConstants.MDCs.ERROR_CODE, String.valueOf(statusCode));
     }
 
-    public void setErrorDesc(int statusCode) {
-        MDC.put(ONAPLogConstants.MDCs.ERROR_DESC, Response.Status.fromStatusCode(statusCode).toString());
+    public void setErrorDescription(int statusCode) {
+        MDC.put(ONAPLogConstants.MDCs.ERROR_DESC, extractDescription(statusCode));
     }
 
     public String getProperty(String property) {
