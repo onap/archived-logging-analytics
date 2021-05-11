@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b729da5_74dd81ea",
+        "filename": "reference/logging-filter/logging-filter-base/src/main/java/org/onap/logging/filter/base/MDCSetup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2021-05-11T17:00:40Z",
+      "side": 1,
+      "message": "Why throw IllegalArgumentException instead of returning Constants.DefaultValues.UNKNOWN?",
+      "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
