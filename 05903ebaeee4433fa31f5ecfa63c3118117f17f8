@@ -34,6 +34,24 @@
       "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0746b7c_bcf0c7cd",
+        "filename": "reference/logging-filter/logging-filter-base/src/main/java/org/onap/logging/filter/base/MDCSetup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1219
+      },
+      "writtenOn": "2021-05-11T21:08:05Z",
+      "side": 1,
+      "message": "When this is actually running in production and IllegalArgumentException is thrown there will be no log record in the metric log correct? It is now gone forever?\n\nIf someone checks the logs and they see description set to UNKNOWN they should be able to back track and realize some additional mapping code might be needed. Maybe we should call it UNMAPPED instead of UNKNOWN.\n\nI think it is better to not lose log records.",
+      "parentUuid": "2d47cd2b_0bd6ee44",
+      "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
