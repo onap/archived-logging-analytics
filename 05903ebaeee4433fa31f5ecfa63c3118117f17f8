@@ -16,6 +16,24 @@
       "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d47cd2b_0bd6ee44",
+        "filename": "reference/logging-filter/logging-filter-base/src/main/java/org/onap/logging/filter/base/MDCSetup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 6679
+      },
+      "writtenOn": "2021-05-11T17:47:23Z",
+      "side": 1,
+      "message": "if you throw the exception you are enforced to add the fix for any unknown code hit, if we use UNKNOWN, then the unknown code can go unnoticed and no one adding those status code to be handled correctly.\nI like more to enforce to implement the correct solution to consumer, but if you consider that UNKNOWN is the way to go, I can do it. Just leave another message with the approach you want",
+      "parentUuid": "5b729da5_74dd81ea",
+      "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
