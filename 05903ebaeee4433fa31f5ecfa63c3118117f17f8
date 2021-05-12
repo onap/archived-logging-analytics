@@ -52,6 +52,24 @@
       "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdbe4898_4355c56e",
+        "filename": "reference/logging-filter/logging-filter-base/src/main/java/org/onap/logging/filter/base/MDCSetup.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 6679
+      },
+      "writtenOn": "2021-05-12T07:50:26Z",
+      "side": 1,
+      "message": "I understand your point, but people do not tend to provide fix unless they see error or are forced to.\nIf the exception is thrown it will follow the same process follow for this fix caused by the NPE, being logged by the exception catch, and yes, metric logs will loose this information in case of IAE.\nAt any rate, I will provide the change as requested.",
+      "parentUuid": "b0746b7c_bcf0c7cd",
+      "revId": "05903ebaeee4433fa31f5ecfa63c3118117f17f8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
