@@ -1,0 +1,7 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Submitted-by: Jessica Wagantall <jwagantall@linuxfoundation.org>
+Submitted-at: Thu, 16 Sep 2021 22:15:41 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/logging-analytics/+/120991
+Project: logging-analytics
+Branch: refs/heads/master
